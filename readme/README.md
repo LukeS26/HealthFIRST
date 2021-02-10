@@ -29,3 +29,7 @@ Things that need to be saved in user profiles
 - Bio (Optional)
 - Permissions (moderator)
 - Badges
+
+Comment System
+	[Post,[Comment,[Comment],[Comment]],[Comment]]
+	Ask about likes/dislikes

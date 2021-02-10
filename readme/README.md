@@ -19,3 +19,13 @@ App:
 
 	Calender:
 		Visualize tasks
+
+Things that need to be saved in user profiles
+- Username
+- Password
+- First/Last name
+- Email
+- Profile pictures
+- Bio (Optional)
+- Permissions (moderator)
+- Badges

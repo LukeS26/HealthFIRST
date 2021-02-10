@@ -35,3 +35,6 @@ How specific do we want the profiles to be?
 	- Age?
 	- Country/State?
 	(These could be optional)
+Comment System
+	[Post,[Comment,[Comment],[Comment]],[Comment]]
+	Ask about likes/dislikes

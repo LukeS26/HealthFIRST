@@ -1,0 +1,14 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+}
+
+application {
+    mainClass = 'LukeS26.github.io.Driver'
+}

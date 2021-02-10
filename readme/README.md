@@ -29,3 +29,9 @@ Things that need to be saved in user profiles
 - Bio (Optional)
 - Permissions (moderator)
 - Badges
+
+Questions:
+How specific do we want the profiles to be?
+	- Age?
+	- Country/State?
+	(These could be optional)

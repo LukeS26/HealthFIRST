@@ -1,0 +1,25 @@
+.coolForm{
+    text-align: center;
+}
+.coolForm div{
+    margin: auto;
+}
+.coolForm input {
+    border: none;
+    border-bottom: 2px solid lightgray;
+    width: 250px;
+}
+.coolForm input:focus{
+    outline: none;
+}
+.line {
+    height: 2px;
+    width: 0px;
+    background-color: blue;
+    position: relative;
+    top: -2px;
+    transition: width 0.5s ease-in-out;
+}
+.coolForm input:focus ~ .line {
+    width: 254px;
+}

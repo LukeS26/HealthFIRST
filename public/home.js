@@ -23,5 +23,5 @@ function formatReplies(replyArr) {
 }
 
 function load(reply) {
-	console.log(reply + "  " + num);
+	console.log(reply + "  " + (num / 2));
 }

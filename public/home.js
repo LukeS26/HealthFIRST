@@ -8,11 +8,12 @@ let testArr = [["A0",
 		["C0"]],
 	["B1"]]];
 
-function formatReplies(replyArr) {
+function formatReplies(replyArr, num) {
+	num++;
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
 			//if(!Array.isArray(replyArr[i])) {
-				load(replyArr[i]);
+				load(replyArr[i], num);
 			//}
 			formatReplies(replyArr[i]);
 		}
@@ -20,5 +21,5 @@ function formatReplies(replyArr) {
 }
 
 function load(reply) {
-	console.log(reply);
+	console.log(reply + "  " + num);
 }

@@ -9,6 +9,7 @@ let testArr = [["A0",
 	["B1"]]];
 
 let num = -2;
+let display = "";
 
 function formatReplies(replyArr) {
 	num++;
@@ -27,5 +28,8 @@ function load(reply) {
 	for(let i = 0; i < num; i++) {
 		reply = "    " + reply;
 	}
-	console.log(reply);
+	display += (reply + "<br>");
 }
+
+formatReplies(testArr);
+console.log(display);

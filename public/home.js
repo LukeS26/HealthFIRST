@@ -18,6 +18,7 @@ function formatReplies(replyArr) {
 				load(replyArr[i]);
 			//}
 			formatReplies(replyArr[i]);
+			num--;
 		}
 	}
 }

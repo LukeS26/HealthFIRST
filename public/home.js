@@ -15,7 +15,7 @@ function formatReplies(replyArr) {
 	num++;
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
-			if(!Array.isArray(replyArr[i])) {
+			if (!Array.isArray(replyArr[i])) {
 				load(replyArr[i]);
 			}
 			formatReplies(replyArr[i]);
@@ -25,7 +25,7 @@ function formatReplies(replyArr) {
 }
 
 function load(reply) {
-	for(let i = 0; i < num; i++) {
+	for (let i = 0; i < num; i++) {
 		reply = "    " + reply;
 	}
 	display += (reply + "<br>");
@@ -33,3 +33,15 @@ function load(reply) {
 
 formatReplies(testArr);
 console.log(display);
+
+
+function getPosts(url) {
+	fetch(url)
+		.then((resp) => resp.json)
+		.then(function (data) {
+			let posts = data.results;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+}

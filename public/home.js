@@ -14,9 +14,9 @@ function formatReplies(replyArr) {
 	num++;
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
-			//if(!Array.isArray(replyArr[i])) {
+			if(!Array.isArray(replyArr[i])) {
 				load(replyArr[i]);
-			//}
+			}
 			formatReplies(replyArr[i]);
 			num--;
 		}

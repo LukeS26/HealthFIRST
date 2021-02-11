@@ -8,6 +8,8 @@ let testArr = [["A0",
 		["C0"]],
 	["B1"]]];
 
+let num = 0;
+
 function formatReplies(replyArr, num) {
 	num++;
 	if (Array.isArray(replyArr)) {

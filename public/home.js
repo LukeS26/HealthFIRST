@@ -28,7 +28,7 @@ function load(reply) {
 	for (let i = 0; i < num; i++) {
 		reply = "    " + reply;
 	}
-	display += (reply + "<br>");
+	display += (reply + "\n");
 }
 
 formatReplies(testArr);
@@ -45,3 +45,11 @@ function getPosts(url) {
 			console.log(error);
 		});
 }
+
+/*
+var request = new Request(url, {
+    method: 'POST',
+    body: data,
+    headers: new Headers()
+});
+*/

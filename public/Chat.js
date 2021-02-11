@@ -3,3 +3,5 @@ function Chat(chatTitle, chatBody, replies) {
 	this.body = chatBody;
 	this.replies = replies;
 }
+
+function Profile()

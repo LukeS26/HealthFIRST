@@ -30,6 +30,7 @@ public class HttpServer {
     public void start() {
         // insertTestProfile(); // Used for testing
 
+        // TODO: Implement a way of getting every comment/reply to a post/comment
         //#region Comments
         app.post("/api/comments", ctx -> {
             System.out.println("POST request to comment from " + ctx.ip());
@@ -56,9 +57,8 @@ public class HttpServer {
                 ctx.status(HttpStatus.OK_200);
 
             } else {
-                // TODO: You should provide error information here instead of an empty string
+                // You could provide an error body here
                 ctx.status(HttpStatus.NOT_FOUND_404);
-                ctx.result("{ \"\" }");
             }
         });
         //#endregion
@@ -96,9 +96,8 @@ public class HttpServer {
                 ctx.status(HttpStatus.OK_200);
 
             } else {
-                // TODO: You should provide error information here instead of an empty string
+                // You could provide an error body here
                 ctx.status(HttpStatus.NOT_FOUND_404);
-                ctx.result("{ \"\" }");
             }
         });
         //#endregion
@@ -149,9 +148,8 @@ public class HttpServer {
                 ctx.status(HttpStatus.OK_200);
 
             } else {
-                // TODO: You should provide error information here instead of an empty string
+                // You could provide an error body here
                 ctx.status(HttpStatus.NOT_FOUND_404);
-                ctx.result("{ \"\" }");
             }
         });
         //#endregion

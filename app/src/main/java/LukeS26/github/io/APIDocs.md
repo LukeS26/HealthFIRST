@@ -58,8 +58,7 @@ Response:
 {
     "author": "JohnSmith72",
     "title": "Example Title",
-    "body": "Example body text",
-    "comments": [["A0", ["B0", ["C0"], ["C1"]], ["B1"]], ["A1", ["B0", ["C0"]], ["B1"]]]
+    "body": "Example body text"
 }
 ```
 

@@ -31,3 +31,33 @@ Response:
     "badge_ids": [1, 5, 7]
 }
 ```
+Response on error:
+```json
+{
+    ""
+}
+```
+
+## Creating a post: `POST /api/posts`
+Request body:
+```json
+{
+    "author": "JohnSmith72", // This will be changed later when authorization is implemented
+    "title": "Example Title",
+    "body": "Example body text"
+}
+```
+No response returned.
+
+## Getting a post: `GET /api/posts/{POST_ID}`
+No request body.
+
+Response:
+```json
+{
+    "author": "JohnSmith72",
+    "title": "Example Title",
+    "body": "Example body text",
+    "comments": [["A0", ["B0", ["C0"], ["C1"]], ["B1"]], ["A1", ["B0", ["C0"]], ["B1"]]]
+}
+```

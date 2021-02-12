@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Login</title>
+        <title>Register</title>
         <link href="style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <form class="coolForm">
-            <h1><u>Login</u></h1><br>
+            <h1><u>Register</u></h1><br>
             <div>
                 <input name="username" placeholder="Username" type="username" required="true" autofocus autocomplete="off" maxlength="50">
                 <div class="line"></div><br><br>
@@ -17,8 +17,19 @@
                 <input name="password" placeholder="Password" type="password" required="true" maxlength="50">
                 <div class="line"></div><br><br>
             </div>
-            <button>Register</button>
+            <div>
+                <input name="firstName" placeholder="First Name" required="true" maxlength="50">
+                <div class="line"></div><br><br>
+            </div>
+            <div>
+                <input name="lastName" placeholder="Last Name" required="true" maxlength="50">
+                <div class="line"></div><br><br>
+            </div>
+            <div>
+                <input name="email" placeholder="Email" type="email" required="true" maxlength="50">
+                <div class="line"></div><br><br>
+            </div>
+            <button>Login</button>
         </form>
-        <script src="login.js"></script>
     </body>
 </html>

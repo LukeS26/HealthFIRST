@@ -23,6 +23,21 @@
 .coolForm input:focus ~ .line {
     width: 254px;
 }
+.coolFormCheckBox {
+    white-space: none;
+}
+.coolFormCheckBox > * {
+    display: inline-block;
+    margin-left: -10%;
+}
+.coolFormCheckBox div {
+    margin-left: -8%;
+}
+
+.formLink {
+    text-align: center;
+    color: gray;
+}
 
 #chatPlace {
     position: absolute;

@@ -15,7 +15,7 @@ Request body:
 
 No response returned.
 
-## Getting account information: `GET /api/profile/{USERNAME}`
+### Getting account information: `GET /api/profile/{USERNAME}`
 No request body.
 
 Response:
@@ -38,7 +38,8 @@ Response on error:
 }
 ```
 
-## Creating a post: `POST /api/posts`
+## Post Endpoints
+### Creating a post: `POST /api/posts`
 Request body:
 ```json
 {
@@ -49,7 +50,7 @@ Request body:
 ```
 No response returned.
 
-## Getting a post: `GET /api/posts/{POST_ID}`
+### Getting a post: `GET /api/posts/{POST_ID}`
 No request body.
 
 Response:
@@ -59,5 +60,29 @@ Response:
     "title": "Example Title",
     "body": "Example body text",
     "comments": [["A0", ["B0", ["C0"], ["C1"]], ["B1"]], ["A1", ["B0", ["C0"]], ["B1"]]]
+}
+```
+
+## Comment Endpoints
+### Creating a comment: `POST /api/comments`
+Request body:
+```json
+{
+    "parent_id": {"$oid": "1234567890"},
+    "author": "JohnSmith72", // This will be changed later when authorization is implemented
+    "body": "Example body text"
+}
+```
+No response returned.
+
+### Getting a comment: `GET /api/comments/{COMMENT_ID}`
+No request body.
+
+Response:
+```json
+{
+    "parent_id": {"$oid": "1234567890"},
+    "author": "JohnSmith72",
+    "body": "Example body text"
 }
 ```

@@ -15,7 +15,7 @@ Request body:
 
 No response returned.
 
-## Test Getting account information: `GET /api/profile/{USERNAME}`
+## Getting account information: `GET /api/profile/{USERNAME}`
 No request body.
 
 Response:

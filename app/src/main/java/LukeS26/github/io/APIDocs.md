@@ -68,7 +68,7 @@ Response:
 Request body:
 ```json
 {
-    "parent_id": {"$oid": "1234567890"},
+    "parent_id": {"$oid": "1234567890"}, // This ID will be the post ID if commenting on a post, or the comment ID if replying to a commnet
     "author": "JohnSmith72", // This will be changed later when authorization is implemented
     "body": "Example body text"
 }

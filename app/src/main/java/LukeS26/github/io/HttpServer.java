@@ -3,6 +3,8 @@ package LukeS26.github.io;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.client.FindIterable;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.eclipse.jetty.http.HttpStatus;
@@ -14,6 +16,9 @@ import LukeS26.github.io.dataschema.Profile;
 import io.javalin.Javalin;
 
 public class HttpServer {
+    // TODO: There is ZERO error handling. Everything is assumed to be sent
+    // correctly and for the requested information to be available in the database.
+    // You should handle errors
     private MongoManager mongoManager;
     private Javalin app;
 
@@ -30,14 +35,25 @@ public class HttpServer {
     public void start() {
         // insertTestProfile(); // Used for testing
 
-        // TODO: Implement a way of getting every comment/reply to a post/comment
-        //#region Comments
+        // #region Replies
+        app.get("/api/replies/*", ctx -> {
+            System.out.println("GET request for reply " + ctx.splat(0) + " from " + ctx.ip());
+
+            FindIterable<Document> commentList = mongoManager.getReplies(ctx.splat(0));
+            Document replyDoc = new Document("replies", commentList);
+            ctx.result(replyDoc.toJson());
+            ctx.status(HttpStatus.OK_200);
+        });
+        // #endregion
+
+        // #region Comments
         app.post("/api/comments", ctx -> {
             System.out.println("POST request to comment from " + ctx.ip());
             Document doc = Document.parse(ctx.body());
             Comment comment = new Comment();
-            
-            // only accept ObjectId objects instead of strings to stay consistent, because I am sending it through GETs in the same format
+
+            // only accept ObjectId objects instead of strings to stay consistent, because I
+            // am sending it through GETs in the same format
             comment.parentId = new ObjectId(doc.get("parent_id").toString());
             comment.author = (String) doc.get("author");
             comment.body = (String) doc.get("body");
@@ -61,9 +77,9 @@ public class HttpServer {
                 ctx.status(HttpStatus.NOT_FOUND_404);
             }
         });
-        //#endregion
+        // #endregion
 
-        //#region Posts
+        // #region Posts
         app.post("/api/posts", ctx -> {
             System.out.println("POST request to post from " + ctx.ip());
             Document doc = Document.parse(ctx.body());
@@ -100,9 +116,9 @@ public class HttpServer {
                 ctx.status(HttpStatus.NOT_FOUND_404);
             }
         });
-        //#endregion
+        // #endregion
 
-        //#region Profiles/Accounts
+        // #region Profiles/Accounts
 
         // User sends hashed password, salt is added to the end and then rehashed in
         // backend
@@ -152,7 +168,7 @@ public class HttpServer {
                 ctx.status(HttpStatus.NOT_FOUND_404);
             }
         });
-        //#endregion
+        // #endregion
     }
 
     public void testLogin(String username, String password) {

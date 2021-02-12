@@ -1,6 +1,7 @@
 package LukeS26.github.io;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -39,6 +40,12 @@ public class MongoManager {
         }
 
         return null;
+    }
+
+    public FindIterable<Document> getReplies(String parentID) {
+        MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
+        FindIterable<Document> docList = commentCollection.find(Filters.eq("parent_id", new ObjectId(parentID)));
+        return docList;
     }
     //#endregion
 

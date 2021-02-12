@@ -32,8 +32,8 @@ Things that need to be saved in user profiles
 
 Questions:
 How specific do we want the profiles to be?
-	- Age?
-	- Country/State?
+	- Age? - Jake said yes
+	- Country/State? - Jake said yes if we have time
 	(These could be optional)
 Comment System
 	[Post,[Comment,[Comment],[Comment]],[Comment]]

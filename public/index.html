@@ -3,13 +3,25 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Temp</title>
+    <title>Inovation Challege Thing</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-	  <h1> TEMP </h1>
-    <a href='profile.html'> Profile </a>
+	  <header>
+      <div id="profileHeader" onclick="toggleOptions()">
+        <img src="defaultPic.png" height="50px" width="50px">
+        <h2 id="usernameOutput"></h2>
+      </div>
+      <div id="profileHeaderStuff">
+        <div>
+          <a href="profile.html">Profile</a><br><br>
+          <a>Options</a><br><br>
+          <a>Logout</a><br><br>
+        </div>
+      </div>
+  </header>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="header.js"></script>
     <script src="home.js"></script>
   </body>
 </html>

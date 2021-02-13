@@ -16,7 +16,7 @@ function formatReplies(replyArr) {
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
 			if (!Array.isArray(replyArr[i])) {
-				load(replyArr[i]);
+				load(replyArr[i], num);
 			}
 			formatReplies(replyArr[i]);
 			num--;
@@ -24,8 +24,8 @@ function formatReplies(replyArr) {
 	}
 }
 
-function load(reply) {
-	for (let i = 0; i < num; i++) {
+function load(reply, number) {
+	for (let i = 0; i < number; i++) {
 		reply = "    " + reply;
 	}
 	display += (reply + "\n");

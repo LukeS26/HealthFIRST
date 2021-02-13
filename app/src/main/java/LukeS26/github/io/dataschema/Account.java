@@ -7,7 +7,7 @@ import org.bson.Document;
 /**
  * Used for interaction with MongoDB
  */
-public class Profile extends DataSchema {
+public class Account extends DataSchema {
     // TODO: These shouldn't be public, write getters/setters
     public String username;
     public String email;
@@ -23,13 +23,13 @@ public class Profile extends DataSchema {
     public List<Integer> badgeIDs; // Can be null/empty
 
     /**
-     * Convert the profile object to a org.bson.Document
+     * Convert the Account object to a org.bson.Document
      * 
      * @param includePassword whether to include the password salt/hash in the
-     *                        profile (true when sending the profile to the
-     *                        frontend, false when working when profiles in the
+     *                        account (true when sending the account to the
+     *                        frontend, false when working when account in the
      *                        backend)
-     * @return profile formatted into a Document
+     * @return account formatted into a Document
      */
     public Document toDoc(boolean includePassword) {
         Document userDoc = new Document("username", username).append("first_name", firstName)
@@ -46,9 +46,9 @@ public class Profile extends DataSchema {
     }
 
     /**
-     * Converts profile to doc, assuming you want to show password
+     * Converts account to doc, assuming you want to show password
      * 
-     * @return profile formatted into a Document
+     * @return account formatted into a Document
      */
     @Override
     public Document toDoc() {
@@ -61,25 +61,25 @@ public class Profile extends DataSchema {
     }
 
     /**
-     * Parse a document into a profile
+     * Parse a document into a account
      * 
      * @param doc doc to parse
-     * @return parsed Profile object
+     * @return parsed account object
      */
     @SuppressWarnings("unchecked")
-    public static Profile fromDoc(Document doc) {
-        Profile p = new Profile();
-        p.username = (String) doc.get("username");
-        p.email = (String) doc.get("email");
-        p.passwordHash = (String) doc.get("password_hash");
-        p.firstName = (String) doc.get("first_name");
-        p.lastName = (String) doc.get("last_name");
-        p.profilePictureLink = (String) doc.get("profile_picture_link");
-        p.permissionID = (int) doc.get("permission_id");
-        p.badgeIDs = (List<Integer>) doc.get("badge_ids");
+    public static Account fromDoc(Document doc) {
+        Account a = new Account();
+        a.username = (String) doc.get("username");
+        a.email = (String) doc.get("email");
+        a.passwordHash = (String) doc.get("password_hash");
+        a.firstName = (String) doc.get("first_name");
+        a.lastName = (String) doc.get("last_name");
+        a.profilePictureLink = (String) doc.get("profile_picture_link");
+        a.permissionID = (int) doc.get("permission_id");
+        a.badgeIDs = (List<Integer>) doc.get("badge_ids");
         // "Unchecked cast" problem when casting to List
         // https://stackoverflow.com/questions/1490134/java-type-safety-unchecked-cast
 
-        return p;
+        return a;
     }
 }

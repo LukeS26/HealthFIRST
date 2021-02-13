@@ -5,6 +5,8 @@ public class Driver {
         HttpServer server = new HttpServer();
 
         server.start();
+
+        
         //System.out.println(server.mongoManager.getAllComments("6026d329da97123844466de5").toJson());
     }
     

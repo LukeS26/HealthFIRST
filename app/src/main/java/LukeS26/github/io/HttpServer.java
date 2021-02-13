@@ -12,7 +12,8 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
-import LukeS26.github.io.dataschema.Profile;
+import LukeS26.github.io.dataschema.Account;
+import LukeS26.github.io.dataschema.Token;
 import io.javalin.Javalin;
 
 public class HttpServer {
@@ -33,7 +34,46 @@ public class HttpServer {
     }
 
     public void start() {
-        // insertTestProfile(); // Used for testing
+        // insertTestAccount(); // Used for testing
+
+        // #region Authentication
+        app.post("/api/account/login", ctx -> {
+            System.out.println("POST request for login from " + ctx.ip());
+
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!doc.containsKey("username") || !doc.containsKey("password") || !doc.containsKey("expire")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Account loginAccount = mongoManager.getAccount((String) doc.get("username"));
+            System.out.println("Found account");
+
+            if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
+                System.out.println("Correct password");
+                Token token = new Token((String) doc.get("username"), (boolean) doc.get("expire"));
+                System.out.println("Writing token");
+                mongoManager.writeToken(token);
+    
+                String tokenJson = token.toDoc().toJson();
+    
+                ctx.result(tokenJson);
+                ctx.status(HttpStatus.CREATED_201);
+
+            } else {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+            }
+
+        });
+        // #endregion
 
         // #region Replies
         app.get("/api/replies/*", ctx -> {
@@ -54,6 +94,7 @@ public class HttpServer {
         // #region Comments
         app.post("/api/comments", ctx -> {
             System.out.println("POST request to comment from " + ctx.ip());
+
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
@@ -62,21 +103,28 @@ public class HttpServer {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
-            Comment comment = new Comment();
 
-            if (!doc.containsKey("parent_id") || !doc.containsKey("author") || !doc.containsKey("body")) {
+            if (!ctx.headerMap().containsKey("Authorization") ||!doc.containsKey("parent_id") || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
 
-            // only accept ObjectId objects instead of strings to stay consistent, because I
-            // am sending it through GETs in the same format
-            comment.parentId = new ObjectId(doc.get("parent_id").toString());
-            comment.author = (String) doc.get("author");
-            comment.body = (String) doc.get("body");
+            Token token = mongoManager.findToken(ctx.header("Authorization"));
+            if (token != null) {
+                Comment comment = new Comment();
+                // only accept ObjectId objects instead of strings to stay consistent, because I
+                // am sending it through GETs in the same format
+                comment.parentId = new ObjectId(doc.get("parent_id").toString());
+                comment.author = token.username;
+                comment.body = (String) doc.get("body");
+    
+                mongoManager.writeComment(comment);
+                ctx.status(HttpStatus.CREATED_201);
 
-            mongoManager.writeComment(comment);
-            ctx.status(HttpStatus.CREATED_201);
+            } else {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+            }
+
         });
 
         app.get("/api/comments/*", ctx -> {
@@ -107,13 +155,12 @@ public class HttpServer {
                 return;
             }
 
-            Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
-
             if (!doc.containsKey("author") || !doc.containsKey("title") || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
 
+            Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
             /*
              * TODO: As of right now, anyone can make a post as anyone else by just editing
              * the request body. To fix this, check that the person submitting the request
@@ -147,7 +194,7 @@ public class HttpServer {
         });
         // #endregion
 
-        // #region Profiles/Accounts
+        // #region Accounts
 
         // User sends hashed password, salt is added to the end and then rehashed in
         // backend
@@ -161,7 +208,6 @@ public class HttpServer {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
-            Profile userProfile = new Profile();
 
             if (!doc.containsKey("username") || !doc.containsKey("first_name") || !doc.containsKey("last_name")
                     || !doc.containsKey("email") || !doc.containsKey("password_hash")) {
@@ -169,39 +215,40 @@ public class HttpServer {
                 return;
             }
 
+            Account userAccount = new Account();
             /*
-             * Can't use Profile.fromDoc here because this won't contain a bio, profile
+             * Can't use userAccount.fromDoc here because this won't contain a bio, userAccount
              * link, permission id, etc.
              */
-            userProfile.username = (String) doc.get("username");
-            userProfile.firstName = (String) doc.get("first_name");
-            userProfile.lastName = (String) doc.get("last_name");
-            userProfile.email = (String) doc.get("email");
-            userProfile.bio = null;
-            userProfile.profilePictureLink = null;
+            userAccount.username = (String) doc.get("username");
+            userAccount.firstName = (String) doc.get("first_name");
+            userAccount.lastName = (String) doc.get("last_name");
+            userAccount.email = (String) doc.get("email");
+            userAccount.bio = null;
+            userAccount.profilePictureLink = null;
 
             String receivedHash = (String) doc.get("password_hash");
 
             String salt = BCrypt.gensalt(Settings.BCRYPT_LOG_ROUNDS);
             String finalPasswordHash = BCrypt.hashpw(receivedHash, salt);
 
-            userProfile.passwordHash = finalPasswordHash;
-            userProfile.permissionID = 0;
-            userProfile.badgeIDs = new ArrayList<Integer>();
+            userAccount.passwordHash = finalPasswordHash;
+            userAccount.permissionID = 0;
+            userAccount.badgeIDs = new ArrayList<Integer>();
 
-            mongoManager.writeProfile(userProfile);
+            mongoManager.writeAccount(userAccount);
 
             ctx.status(HttpStatus.CREATED_201);
         });
 
-        app.get("/api/profile/*", ctx -> {
-            System.out.println("GET request for profile " + ctx.splat(0) + " from " + ctx.ip());
-            Profile userProfile = mongoManager.getProfile(ctx.splat(0));
-            if (userProfile != null) {
-                Document userProfileDoc = userProfile.toDoc(false);
-                String profileJson = userProfileDoc.toJson();
+        app.get("/api/account/*", ctx -> {
+            System.out.println("GET request for account " + ctx.splat(0) + " from " + ctx.ip());
+            Account userAccount = mongoManager.getAccount(ctx.splat(0));
+            if (userAccount != null) {
+                Document userAccountDoc = userAccount.toDoc(false);
+                String accountJson = userAccountDoc.toJson();
 
-                ctx.result(profileJson);
+                ctx.result(accountJson);
                 ctx.status(HttpStatus.OK_200);
 
             } else {
@@ -212,9 +259,14 @@ public class HttpServer {
         // #endregion
     }
 
+    public boolean verifyToken(String token) {
+        
+        return false;
+    }
+
     public void testLogin(String username, String password) {
-        Profile profile = mongoManager.getProfile(username);
-        if (BCrypt.checkpw(password, profile.passwordHash)) {
+        Account account = mongoManager.getAccount(username);
+        if (BCrypt.checkpw(password, account.passwordHash)) {
             System.out.println("Password is a match");
 
         } else {
@@ -223,25 +275,25 @@ public class HttpServer {
     }
 
     /**
-     * Generates and adds a profile to the database containing test information
+     * Generates and adds a acount to the database containing test information
      */
-    private void insertTestProfile() {
+    private void insertTestAccount() {
         List<Integer> badgeIDs = new ArrayList<>();
         badgeIDs.add(1);
         badgeIDs.add(5);
         badgeIDs.add(7);
 
-        Profile p = new Profile();
-        p.username = "JohnSmith72";
-        p.passwordHash = "hash12345";
-        p.firstName = "John";
-        p.lastName = "Smith";
-        p.email = "johnsmith@gmail.com";
-        p.profilePictureLink = "https://LINK_TO_IMAGE/IMAGE_NAME.png";
-        p.bio = "Example biography, this can be an empty string";
-        p.permissionID = Utils.Permissions.USER.ordinal(); // Ordinal is index in enum
-        p.badgeIDs = badgeIDs;
+        Account a = new Account();
+        a.username = "JohnSmith72";
+        a.passwordHash = "hash12345";
+        a.firstName = "John";
+        a.lastName = "Smith";
+        a.email = "johnsmith@gmail.com";
+        a.profilePictureLink = "https://LINK_TO_IMAGE/IMAGE_NAME.png";
+        a.bio = "Example biography, this can be an empty string";
+        a.permissionID = Utils.Permissions.USER.ordinal(); // Ordinal is index in enum
+        a.badgeIDs = badgeIDs;
 
-        mongoManager.writeProfile(p);
+        mongoManager.writeAccount(a);
     }
 }

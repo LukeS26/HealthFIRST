@@ -39,6 +39,11 @@
     color: gray;
 }
 
+.error {
+    color: red;
+    display: none;
+}
+
 #chatPlace {
     position: absolute;
     bottom: 0%;

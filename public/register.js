@@ -39,16 +39,17 @@ function checkForm() {
     }
 
     if (filled && pass && age) {
-        var request = new Request("http://157.230.233.218:8080/api/account/signup", {
-            method: 'POST',
-            body: {"username": username,
-                    "first_name": firstName,
-                    "last_name": lastName,
-                    "email": email,
-                    "password_hash": stringToHash(password)},
-            headers: new Headers()
-        });
-        
+    let data = {"username": username,
+                "first_name": firstName,
+                "last_name": lastName,
+                "email": email,
+                "password_hash": stringToHash(password)};
+    fetch("http://157.230.233.218/api/account/signup", {
+        method: "POST",
+        body: JSON.stringify(data)
+    }).then(res => {
+        console.log("Request complete!");
+    })        
     }
 }
 

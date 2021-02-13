@@ -1,7 +1,7 @@
 package LukeS26.github.io;
 
 public class Settings {
-   public static final String MONGO_URI = "localhost";
+   public static final String MONGO_URI = "127.0.0.1";
    public static final int MONGO_PORT = 27017;
 
    public static final String MONGO_DATABASE_NAME = "InnovationApp";

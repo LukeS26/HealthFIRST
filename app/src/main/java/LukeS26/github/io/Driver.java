@@ -6,11 +6,8 @@ public class Driver {
 
         server.start();
 
-        
         //System.out.println(server.mongoManager.getAllComments("6026d329da97123844466de5").toJson());
     }
-    
-    // server.testLogin("JohnSmith72", "testhash12345");
     
     // Create account
     // curl -d "{'username': 'JohnSmith72', 'first_name': 'John', 'last_name': 'Smith', 'email': 'johnsmith@gmail.com', 'password_hash': 'testhash12345'}" 127.0.0.1/api/account/signup

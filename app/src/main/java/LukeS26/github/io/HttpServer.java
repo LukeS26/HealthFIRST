@@ -259,21 +259,6 @@ public class HttpServer {
         // #endregion
     }
 
-    public boolean verifyToken(String token) {
-        
-        return false;
-    }
-
-    public void testLogin(String username, String password) {
-        Account account = mongoManager.getAccount(username);
-        if (BCrypt.checkpw(password, account.passwordHash)) {
-            System.out.println("Password is a match");
-
-        } else {
-            System.out.println("Password is not a match");
-        }
-    }
-
     /**
      * Generates and adds a acount to the database containing test information
      */

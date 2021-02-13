@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -24,7 +25,7 @@ public class MongoManager {
     private MongoDatabase db;
 
     public MongoManager() {
-        mongo = new MongoClient(Settings.MONGO_URI, Settings.MONGO_PORT);
+        mongo = new MongoClient(new MongoClientURI(Settings.MONGO_URI));
         db = mongo.getDatabase(Settings.MONGO_DATABASE_NAME);
     }
 

@@ -1,8 +1,10 @@
 package LukeS26.github.io;
 
 public class Settings {
-   public static final String MONGO_URI = "127.0.0.1";
    public static final int MONGO_PORT = 27017;
+   public static final String MONGO_ADMIN_USERNAME = "admin";
+   public static final String MONGO_ADMIN_PASSWORD = "Demonator9Robotics";
+   public static final String MONGO_URI = "mongodb://" + MONGO_ADMIN_USERNAME + ":" + MONGO_ADMIN_PASSWORD + "@157.230.233.218:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
 
    public static final String MONGO_DATABASE_NAME = "InnovationApp";
    public static final String ACCOUNTS_COLLECTION_NAME = "Accounts";

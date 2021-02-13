@@ -205,8 +205,10 @@ public class HttpServer {
             if (!doc.containsKey("username") || !doc.containsKey("first_name") || !doc.containsKey("last_name")
                     || !doc.containsKey("email") || !doc.containsKey("password_hash")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                System.out.println("Missing a field.");
                 return;
             }
+            System.out.println("Passed tests");
 
             Account userAccount = new Account();
             /*

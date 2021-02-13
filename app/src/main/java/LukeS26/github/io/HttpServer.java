@@ -40,6 +40,11 @@ public class HttpServer {
             System.out.println("GET request for reply " + ctx.splat(0) + " from " + ctx.ip());
 
             FindIterable<Document> commentList = mongoManager.getReplies(ctx.splat(0));
+            if (commentList == null) {
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
             Document replyDoc = new Document("replies", commentList);
             ctx.result(replyDoc.toJson());
             ctx.status(HttpStatus.OK_200);
@@ -49,8 +54,20 @@ public class HttpServer {
         // #region Comments
         app.post("/api/comments", ctx -> {
             System.out.println("POST request to comment from " + ctx.ip());
-            Document doc = Document.parse(ctx.body());
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
             Comment comment = new Comment();
+
+            if (!doc.containsKey("parent_id") || !doc.containsKey("author") || !doc.containsKey("body")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
 
             // only accept ObjectId objects instead of strings to stay consistent, because I
             // am sending it through GETs in the same format
@@ -73,7 +90,6 @@ public class HttpServer {
                 ctx.status(HttpStatus.OK_200);
 
             } else {
-                // You could provide an error body here
                 ctx.status(HttpStatus.NOT_FOUND_404);
             }
         });
@@ -82,8 +98,21 @@ public class HttpServer {
         // #region Posts
         app.post("/api/posts", ctx -> {
             System.out.println("POST request to post from " + ctx.ip());
-            Document doc = Document.parse(ctx.body());
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
             Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
+
+            if (!doc.containsKey("author") || !doc.containsKey("title") || !doc.containsKey("body")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
 
             /*
              * TODO: As of right now, anyone can make a post as anyone else by just editing
@@ -124,9 +153,21 @@ public class HttpServer {
         // backend
         app.post("/api/account/signup", ctx -> {
             System.out.println("POST request to sign up from " + ctx.ip());
-            System.out.println(ctx.body());
-            Document doc = Document.parse(ctx.body());
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
             Profile userProfile = new Profile();
+
+            if (!doc.containsKey("username") || !doc.containsKey("first_name") || !doc.containsKey("last_name")
+                    || !doc.containsKey("email") || !doc.containsKey("password_hash")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
 
             /*
              * Can't use Profile.fromDoc here because this won't contain a bio, profile
@@ -175,6 +216,7 @@ public class HttpServer {
         Profile profile = mongoManager.getProfile(username);
         if (BCrypt.checkpw(password, profile.passwordHash)) {
             System.out.println("Password is a match");
+
         } else {
             System.out.println("Password is not a match");
         }

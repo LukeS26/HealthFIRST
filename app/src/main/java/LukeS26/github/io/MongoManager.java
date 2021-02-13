@@ -62,19 +62,21 @@ public class MongoManager {
     }
 
     public void writeComment(Comment comment) {
-        System.out.println("Writing comment...");
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         Document commentDoc = comment.toDoc();
         commentCollection.insertOne(commentDoc);
     }
 
     public Comment getComment(String commentID) {
-        System.out.println("Getting comment ID: " + commentID);
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
-        Document commentDoc = commentCollection.find(Filters.eq("_id", new ObjectId(commentID))).first();
+        try {
+            Document commentDoc = commentCollection.find(Filters.eq("_id", new ObjectId(commentID))).first();
+            if (commentDoc != null) {
+                return Comment.fromDoc(commentDoc);
+            }
 
-        if (commentDoc != null) {
-            return Comment.fromDoc(commentDoc);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
         }
 
         return null;
@@ -82,26 +84,37 @@ public class MongoManager {
 
     public FindIterable<Document> getReplies(String parentID) {
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
-        FindIterable<Document> docList = commentCollection.find(Filters.eq("parent_id", new ObjectId(parentID)));
-        return docList;
+        try {
+            FindIterable<Document> docList = commentCollection.find(Filters.eq("parent_id", new ObjectId(parentID)));
+            if (docList.cursor().hasNext()) {
+                return docList;
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        return null;
     }
     // #endregion
 
     // #region Posts
     public void writePost(Post post) {
-        System.out.println("Writing post...");
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         Document postDoc = post.toDoc();
         postCollection.insertOne(postDoc);
     }
 
     public Post getPost(String postID) {
-        System.out.println("Getting post ID: " + postID);
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
-        Document postDoc = postCollection.find(Filters.eq("_id", new ObjectId(postID))).first();
+        try {
+            Document postDoc = postCollection.find(Filters.eq("_id", new ObjectId(postID))).first();
+            if (postDoc != null) {
+                return Post.fromDoc(postDoc);
+            }
 
-        if (postDoc != null) {
-            return Post.fromDoc(postDoc);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
         }
 
         return null;
@@ -129,8 +142,17 @@ public class MongoManager {
      */
     public Profile getProfile(String username) {
         MongoCollection<Document> profileCollection = db.getCollection(Settings.PROFILE_COLLECTION_NAME);
-        Document profileDoc = profileCollection.find(Filters.eq("username", username)).first();
-        return (profileDoc != null ? Profile.fromDoc(profileDoc) : null);
+        try {
+            Document profileDoc = profileCollection.find(Filters.eq("username", username)).first();
+            if (profileDoc != null) {
+                return Profile.fromDoc(profileDoc);
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+        
+        return null;
     }
     // #endregion
 }

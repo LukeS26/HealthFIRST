@@ -38,5 +38,4 @@ public class Driver {
      * PATCH /api/account/{USERNAME}
      * Update an account (bio, pfp, etc.)
      */
-     
 }

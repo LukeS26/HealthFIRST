@@ -1,8 +1,12 @@
 package LukeS26.github.io;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
@@ -22,7 +26,41 @@ public class MongoManager {
         db = mongo.getDatabase(Settings.MONGO_DATABASE_NAME);
     }
 
-    //#region Comments
+    // #region Comments
+
+    /**
+     * Get all comments and replies to comments for the given post
+     * 
+     * @param postID
+     * @return 
+     */
+    public Document getAllComments(String postID) {
+        MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
+        FindIterable<Document> postComments = commentsCollection.find(Filters.eq("parent_id", new ObjectId(postID)));
+        
+        List<Document> allComments = new ArrayList<>();
+        List<Document> toProcess = new ArrayList<>();
+        for (Document doc : postComments) {
+            toProcess.add(doc);
+            allComments.add(doc);
+        }
+
+        while (toProcess.size() > 0) {
+            Document curDoc = toProcess.get(toProcess.size() - 1);
+            toProcess.remove(toProcess.size() - 1);
+            FindIterable<Document> children = commentsCollection.find(Filters.eq("parent_id", (ObjectId) curDoc.get("_id")));
+            MongoCursor<Document> childrenCursor = children.cursor();
+            while (childrenCursor.hasNext()) {
+                Document child = childrenCursor.next();
+                allComments.add(child);
+                toProcess.add(child);
+            }
+        }
+
+        Document returnDoc = new Document("comments", allComments);
+        return returnDoc;
+    }
+
     public void writeComment(Comment comment) {
         System.out.println("Writing comment...");
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
@@ -47,9 +85,9 @@ public class MongoManager {
         FindIterable<Document> docList = commentCollection.find(Filters.eq("parent_id", new ObjectId(parentID)));
         return docList;
     }
-    //#endregion
+    // #endregion
 
-    //#region Posts
+    // #region Posts
     public void writePost(Post post) {
         System.out.println("Writing post...");
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
@@ -68,9 +106,9 @@ public class MongoManager {
 
         return null;
     }
-    //#endregion
+    // #endregion
 
-    //#region Profiles
+    // #region Profiles
     /**
      * Write a profile to the database without checking for duplicates
      * 
@@ -94,5 +132,5 @@ public class MongoManager {
         Document profileDoc = profileCollection.find(Filters.eq("username", username)).first();
         return (profileDoc != null ? Profile.fromDoc(profileDoc) : null);
     }
-    //#endregion
+    // #endregion
 }

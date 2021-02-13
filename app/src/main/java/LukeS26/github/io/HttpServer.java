@@ -19,7 +19,7 @@ public class HttpServer {
     // TODO: There is ZERO error handling. Everything is assumed to be sent
     // correctly and for the requested information to be available in the database.
     // You should handle errors
-    private MongoManager mongoManager;
+    public MongoManager mongoManager;
     private Javalin app;
 
     public HttpServer() {

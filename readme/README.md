@@ -9,6 +9,10 @@ Mental Health:
 
 Droplet ip: http://157.230.233.218/
 
+Commands: 
+ - mv -vf ./public/* /var/www/html/
+ - 
+
 App:
 	Unites people
 	?Schedule and respond to meetings

@@ -161,13 +161,6 @@ public class HttpServer {
             }
 
             Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
-            /*
-             * TODO: As of right now, anyone can make a post as anyone else by just editing
-             * the request body. To fix this, check that the person submitting the request
-             * is actually the author Instead of doing post.author = (String)
-             * doc.get("author"), you should find the author's username by the authorization
-             * token used in the request or whatever form of authorization we use
-             */
             post.author = (String) doc.get("author");
             post.title = (String) doc.get("title");
             post.body = (String) doc.get("body");

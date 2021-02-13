@@ -1,5 +1,5 @@
 # API Docs
-
+# CURRENTLY OUTDATED
 ## Account Endpoints
 ### Creating an account: `POST /api/account/signup`
 Request body:

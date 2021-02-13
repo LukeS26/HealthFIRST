@@ -29,4 +29,13 @@ public class Driver {
     
     // Get replies
     // curl 127.0.0.1/api/replies/6026a7d425910c7e75ee00d3
+
+    /**
+     * TODO: New endpoints below
+     * DELETE /api/account/token
+     * Remove a token from the database (invalidates it, this should be done when logging out)
+     * 
+     * PATCH /api/account/{USERNAME}
+     * Update an account (bio, pfp, etc.)
+     */
 }

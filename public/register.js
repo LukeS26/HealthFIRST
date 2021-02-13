@@ -48,6 +48,7 @@ function checkForm() {
                     "password_hash": stringToHash(password)},
             headers: new Headers()
         });
+        
     }
 }
 

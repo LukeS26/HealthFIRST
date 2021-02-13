@@ -39,10 +39,29 @@ function checkForm() {
     }
 
     if (filled && pass && age) {
-        sendInfo();
+        var request = new Request("http://157.230.233.218:8080/api/account/signup", {
+            method: 'POST',
+            body: {"username": username,
+                    "first_name": firstName,
+                    "last_name": lastName,
+                    "email": email,
+                    "password_hash": stringToHash(password)},
+            headers: new Headers()
+        });
     }
 }
 
-function sendInfo() {
-    
-}
+function stringToHash(string) { 
+                  
+    var hash = 0; 
+      
+    if (string.length == 0) return hash; 
+      
+    for (i = 0; i < string.length; i++) { 
+        char = string.charCodeAt(i); 
+        hash = ((hash << 5) - hash) + char; 
+        hash = hash & hash; 
+    } 
+      
+    return hash; 
+} 

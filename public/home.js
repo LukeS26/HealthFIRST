@@ -62,6 +62,10 @@ function displayPost(post) {
 	body.id = "body";
 	user.id = "author";
 
+	title.classList = ["title"];
+	body.classList = ["body"];
+	user.classList = ["author"];
+
 	let titleText = document.createElement("h1");
 	titleText.innerHTML = post.title;
 	title.appendChild(titleText);

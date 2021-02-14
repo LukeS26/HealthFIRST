@@ -39,12 +39,14 @@ function getPosts(url) {
 	let posts = "";
 	fetch(url)
 		.then(res => res.json())
-		.then(json => posts = (json))
+		.then( function(json) {
+			return json;
+		})
 		.catch (function (error) {
 		console.log(error);
-	});
 
-	return posts;
+		return null;
+	});
 }
 
 function displayPost(post) {

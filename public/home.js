@@ -38,21 +38,43 @@ console.log(display);
 function getPosts(url) {
 	let posts = "";
 	fetch(url)
-		.then((res) => res.json)
-		.then(function (data) {
-			posts = res;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
+		.then(res => res.json())
+		.then(json => console.log(json))
+		.catch (function (error) {
+		console.log(error);
+	});
 
-		console.log(posts);
+	console.log(posts);
+}
+
+function displayPost(post) {
+	let container = document.createElement("div"); 
+	let title = document.createElement("div");
+	let body = document.createElement("div");
+	let user = document.createElement("div");
+	container.appendChild(title);
+	container.appendChild(body);
+	title.appendChild(user);
+
+	let titleText = document.createElement("h1");
+	titleText.innerHTML = post.title;
+	title.appendChild(titleText);
+
+	let username = document.createElement("h3");
+	username.innerHTML = post.author;
+	user.appendChild(username);
+
+	let bodyText = document.createElement("p");
+	bodyText.innerHTML = post.body;
+	body.appendChild(bodyText); 
+
+	document.getElementById("posts").appendChild(container);
 }
 
 /*
 var request = new Request(url, {
-    method: 'POST',
-    body: data,
-    headers: new Headers()
+	method: 'POST',
+	body: data,
+	headers: new Headers()
 });
 */

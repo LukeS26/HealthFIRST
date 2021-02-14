@@ -39,12 +39,12 @@ function getPosts(url) {
 	let posts = "";
 	fetch(url)
 		.then(res => res.json())
-		.then(json => console.log(json))
+		.then(json => posts = (json))
 		.catch (function (error) {
 		console.log(error);
-	});
 
-	return(posts);
+		return posts;
+	});
 }
 
 function displayPost(post) {

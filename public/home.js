@@ -38,9 +38,9 @@ console.log(display);
 function getPosts(url) {
 	let posts = "";
 	fetch(url)
-		.then((resp) => resp.json)
+		.then((res) => res.json)
 		.then(function (data) {
-			posts = resp;
+			posts = res;
 		})
 		.catch(function (error) {
 			console.log(error);

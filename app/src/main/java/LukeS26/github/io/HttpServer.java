@@ -1,5 +1,8 @@
 package LukeS26.github.io;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,9 @@ public class HttpServer {
         System.out.println("Initializing Javalin...");
         app = Javalin.create(config -> {
             config.requestLogger((ctx, ms) -> {
-                System.out.println("[LOG] " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
+                LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
+                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
             });
 
         }).start(Settings.HTTP_SERVER_PORT);

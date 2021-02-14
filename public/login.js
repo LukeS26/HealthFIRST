@@ -41,11 +41,11 @@ function checkUser() {
     .then(res => {
         console.log("Request complete!");
     })
-    .then((resp) => resp.json)
-    .then(function (data) {
-        let userData = data.results;
-        console.log(userData);
-    })
+	.then(res => res.json())
+	.then( function(json) {
+		console.log(json);
+		let userData = json;
+	})
     .catch(function (error) {
         console.log(error);
     });

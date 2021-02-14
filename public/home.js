@@ -36,11 +36,12 @@ console.log(display);
 
 
 function getPosts(url) {
+	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
 	let posts = "";
-	fetch(url)
+	fetch(fetchUrl)
 		.then(res => res.json())
 		.then( function(json) {
-			return json;
+			displayPost(json);
 		})
 		.catch (function (error) {
 		console.log(error);
@@ -56,13 +57,18 @@ function displayPost(post) {
 	let user = document.createElement("div");
 	container.appendChild(title);
 	container.appendChild(body);
-	title.appendChild(user);
+
+	title.id = "title";
+	body.id = "body";
+	user.id = "author";
 
 	let titleText = document.createElement("h1");
 	titleText.innerHTML = post.title;
 	title.appendChild(titleText);
 
-	let username = document.createElement("h3");
+	title.appendChild(user);
+
+	let username = document.createElement("h5");
 	username.innerHTML = post.author;
 	user.appendChild(username);
 
@@ -80,3 +86,5 @@ var request = new Request(url, {
 	headers: new Headers()
 });
 */
+
+getPosts("602878639903f175355bd339");

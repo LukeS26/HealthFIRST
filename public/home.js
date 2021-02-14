@@ -40,17 +40,13 @@ function getPosts(url) {
 	fetch(url)
 		.then(res => res.json())
 		.then( function(json) {
-			posts = json;
-			console.log(json);
-			console.log(posts);
+			displayPost(json);
 		})
 		.catch (function (error) {
 		console.log(error);
 
 		return null;
 	});
-
-	return posts;
 }
 
 function displayPost(post) {

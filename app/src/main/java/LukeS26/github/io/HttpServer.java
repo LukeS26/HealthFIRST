@@ -63,6 +63,13 @@ public class HttpServer {
             }
 
             Account loginAccount = mongoManager.getAccount((String) doc.get("username"));
+
+            // Fix logging into accounts that don't exist
+            if (loginAccount == null) {
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
             System.out.println("Found account");
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {

@@ -1,6 +1,7 @@
 package LukeS26.github.io;
 
 public class Settings {
+   public static final String WEBSITE_URL = "157.230.233.218";
    public static final int MONGO_PORT = 27017;
    public static final String MONGO_ADMIN_USERNAME = "admin";
    public static final String MONGO_ADMIN_PASSWORD = "Demonator9Robotics";

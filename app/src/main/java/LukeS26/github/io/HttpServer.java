@@ -173,6 +173,10 @@ public class HttpServer {
         app.get("/api/posts/*", ctx -> {
             System.out.println("GET request for post " + ctx.splat(0) + " from " + ctx.ip());
 
+            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
+                ctx.res.setHeader("Access-Control-Allow-Origin", "*");
+            }
+
             Post post = mongoManager.getPost(ctx.splat(0));
             if (post != null) {
                 String postJson = post.toDoc().toJson();
@@ -205,10 +209,8 @@ public class HttpServer {
             if (!doc.containsKey("username") || !doc.containsKey("first_name") || !doc.containsKey("last_name")
                     || !doc.containsKey("email") || !doc.containsKey("password_hash")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
-                System.out.println("Missing a field.");
                 return;
             }
-            System.out.println("Passed tests");
 
             Account userAccount = new Account();
             /*

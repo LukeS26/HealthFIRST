@@ -4,7 +4,6 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 public class Post extends DataSchema {
-    // TODO: These shouldn't be public, write getters/setters
     public ObjectId id;
     public String author;
     public String title;

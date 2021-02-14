@@ -8,7 +8,6 @@ import org.bson.Document;
  * Used for interaction with MongoDB
  */
 public class Account extends DataSchema {
-    // TODO: These shouldn't be public, write getters/setters
     public String username;
     public String email;
     public String passwordHash;

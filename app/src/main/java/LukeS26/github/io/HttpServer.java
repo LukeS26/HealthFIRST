@@ -17,9 +17,6 @@ import LukeS26.github.io.dataschema.Token;
 import io.javalin.Javalin;
 
 public class HttpServer {
-    // TODO: There is ZERO error handling. Everything is assumed to be sent
-    // correctly and for the requested information to be available in the database.
-    // You should handle errors
     public MongoManager mongoManager;
     private Javalin app;
 
@@ -29,7 +26,12 @@ public class HttpServer {
         System.out.println("Finished initializing MongoDB.");
 
         System.out.println("Initializing Javalin...");
-        app = Javalin.create().start(Settings.HTTP_SERVER_PORT);
+        app = Javalin.create(config -> {
+            config.requestLogger((ctx, ms) -> {
+                System.out.println("[LOG] " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+            });
+
+        }).start(Settings.HTTP_SERVER_PORT);
         System.out.println("Finished initializing Javalin.");
     }
 
@@ -38,8 +40,6 @@ public class HttpServer {
 
         // #region Authentication
         app.post("/api/account/login", ctx -> {
-            System.out.println("POST request for login from " + ctx.ip());
-
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
@@ -77,8 +77,6 @@ public class HttpServer {
 
         // #region Replies
         app.get("/api/replies/*", ctx -> {
-            System.out.println("GET request for reply " + ctx.splat(0) + " from " + ctx.ip());
-
             FindIterable<Document> commentList = mongoManager.getReplies(ctx.splat(0));
             if (commentList == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
@@ -93,8 +91,6 @@ public class HttpServer {
 
         // #region Comments
         app.post("/api/comments", ctx -> {
-            System.out.println("POST request to comment from " + ctx.ip());
-
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
@@ -128,8 +124,6 @@ public class HttpServer {
         });
 
         app.get("/api/comments/*", ctx -> {
-            System.out.println("GET request for comment " + ctx.splat(0) + " from " + ctx.ip());
-
             Comment comment = mongoManager.getComment(ctx.splat(0));
             if (comment != null) {
                 String commentJson = comment.toDoc().toJson();
@@ -145,7 +139,6 @@ public class HttpServer {
 
         // #region Posts
         app.post("/api/posts", ctx -> {
-            System.out.println("POST request to post from " + ctx.ip());
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
@@ -171,9 +164,8 @@ public class HttpServer {
         });
 
         app.get("/api/posts/*", ctx -> {
-            System.out.println("GET request for post " + ctx.splat(0) + " from " + ctx.ip());
-
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
+                // TODO: Probably a bad idea to accept requests from any origin
                 ctx.res.setHeader("Access-Control-Allow-Origin", "*");
             }
 
@@ -196,7 +188,6 @@ public class HttpServer {
         // User sends hashed password, salt is added to the end and then rehashed in
         // backend
         app.post("/api/account/signup", ctx -> {
-            System.out.println("POST request to sign up from " + ctx.ip());
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
@@ -239,7 +230,6 @@ public class HttpServer {
         });
 
         app.get("/api/account/*", ctx -> {
-            System.out.println("GET request for account " + ctx.splat(0) + " from " + ctx.ip());
             Account userAccount = mongoManager.getAccount(ctx.splat(0));
             if (userAccount != null) {
                 Document userAccountDoc = userAccount.toDoc(false);

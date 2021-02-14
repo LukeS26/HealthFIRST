@@ -58,13 +58,17 @@ function displayPost(post) {
 	container.appendChild(title);
 	container.appendChild(body);
 
+	title.id = "title";
+	body.id = "body";
+	user.id = "author";
+
 	let titleText = document.createElement("h1");
 	titleText.innerHTML = post.title;
 	title.appendChild(titleText);
 
 	title.appendChild(user);
 
-	let username = document.createElement("h3");
+	let username = document.createElement("h5");
 	username.innerHTML = post.author;
 	user.appendChild(username);
 

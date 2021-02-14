@@ -56,11 +56,12 @@ function displayPost(post) {
 	let user = document.createElement("div");
 	container.appendChild(title);
 	container.appendChild(body);
-	title.appendChild(user);
 
 	let titleText = document.createElement("h1");
 	titleText.innerHTML = post.title;
 	title.appendChild(titleText);
+
+	title.appendChild(user);
 
 	let username = document.createElement("h3");
 	username.innerHTML = post.author;

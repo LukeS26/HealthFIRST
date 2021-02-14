@@ -7,19 +7,20 @@
         <link href="style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <form class="coolForm">
-            <h1><u>Login</u></h1><br>
+        <div class="coolForm">
+            <h1><u>Login</u></h1>
+            <div id="notFilled" class="error">Please fill out all of the fields</div><br>
             <div>
-                <input name="username" placeholder="Username" type="username" required="true" autofocus maxlength="50">
+                <input id="username" placeholder="Username" type="username" required="true" autofocus maxlength="50">
                 <div class="line"></div><br><br>
             </div>
             <div>
-                <input name="password" placeholder="Password" type="password" required="true" maxlength="50">
+                <input id="password" placeholder="Password" type="password" required="true" maxlength="50">
                 <div class="line"></div><br><br>
             </div>
             <button>Login</button><br><br>
             <a href="register.html" class="formLink">Don't have an account? Click here to register</a>
-        </form>
+        </div>
         <script src="login.js"></script>
     </body>
 </html>

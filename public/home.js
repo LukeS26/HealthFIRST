@@ -36,8 +36,9 @@ console.log(display);
 
 
 function getPosts(url) {
+	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
 	let posts = "";
-	fetch(url)
+	fetch(fetchUrl)
 		.then(res => res.json())
 		.then( function(json) {
 			displayPost(json);
@@ -81,3 +82,5 @@ var request = new Request(url, {
 	headers: new Headers()
 });
 */
+
+getPosts("602878639903f175355bd339");

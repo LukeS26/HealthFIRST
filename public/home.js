@@ -40,7 +40,7 @@ function getPosts(url) {
 	fetch(url)
 		.then((resp) => resp.json)
 		.then(function (data) {
-			posts = data;
+			posts = resp;
 		})
 		.catch(function (error) {
 			console.log(error);

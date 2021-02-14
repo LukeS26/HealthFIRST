@@ -37,9 +37,11 @@ function checkUser() {
 	fetch("http://157.230.233.218:8080/api/account/login", {
 		method: "POST",
 		body: JSON.stringify(data),
+		headers: {
+			"Content-type": "application/json; charset=UTF-8"
+		},
 		mode: "cors",
 		headers: {
-			"Content-type": "application/json; charset=UTF-8",
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
 	})

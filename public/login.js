@@ -49,7 +49,7 @@ function checkUser() {
 			console.log("Request complete!");
 			console.log(res);
 		})
-		.then(response => response.json())
+		.then(response => response.json
 
 		// Displaying results to console 
 		.then(json => console.log(json))

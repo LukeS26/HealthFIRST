@@ -36,14 +36,17 @@ console.log(display);
 
 
 function getPosts(url) {
+	let posts = "";
 	fetch(url)
 		.then((resp) => resp.json)
 		.then(function (data) {
-			let posts = data.results;
+			posts = data;
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
+
+		console.log(posts);
 }
 
 /*

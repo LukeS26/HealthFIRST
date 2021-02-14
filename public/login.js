@@ -38,13 +38,9 @@ function checkUser() {
         method: "POST",
         body: JSON.stringify(data)
     })
-    .then(res => {
-        console.log("Request complete!");
-    })
-    .then((resp) => resp.json)
+    .then((resp) => resp.json())
     .then(function (data) {
-        let userData = data.results;
-        console.log(userData);
+        console.log(data.results);
     })
     .catch(function (error) {
         console.log(error);

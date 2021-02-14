@@ -44,7 +44,7 @@ function getPosts(url) {
 		console.log(error);
 	});
 
-	console.log(posts);
+	return(posts);
 }
 
 function displayPost(post) {

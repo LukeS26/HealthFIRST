@@ -47,7 +47,7 @@ public class HttpServer {
                 // TODO: Probably a bad idea to accept requests from any origin
                 ctx.res.setHeader("Access-Control-Allow-Origin", "*");
             }
-            
+
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
@@ -115,7 +115,7 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") ||!doc.containsKey("parent_id") || !doc.containsKey("body")) {
+            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("parent_id") || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
@@ -158,6 +158,7 @@ public class HttpServer {
         // #region Posts
         /**
          * Create a post
+         * Authorization complete
          */
         app.post("/api/posts", ctx -> {
             Document doc = null;
@@ -169,19 +170,25 @@ public class HttpServer {
                 return;
             }
 
-            if (!doc.containsKey("author") || !doc.containsKey("title") || !doc.containsKey("body")) {
+            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("author") || !doc.containsKey("title") || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
 
-            Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
-            post.author = (String) doc.get("author");
-            post.title = (String) doc.get("title");
-            post.body = (String) doc.get("body");
+            Token token = mongoManager.findToken(ctx.header("Authorization"));
+            if (token != null) {
+                Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
+                post.author = token.username;
+                post.title = (String) doc.get("title");
+                post.body = (String) doc.get("body");
+    
+                mongoManager.writePost(post);
+    
+                ctx.status(HttpStatus.CREATED_201);
 
-            mongoManager.writePost(post);
-
-            ctx.status(HttpStatus.CREATED_201);
+            } else {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+            }
         });
 
         /**

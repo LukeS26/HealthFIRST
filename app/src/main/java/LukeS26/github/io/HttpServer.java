@@ -39,7 +39,15 @@ public class HttpServer {
         // insertTestAccount(); // Used for testing
 
         // #region Authentication
+        /**
+         * Getting an account token + verifying username+pass
+         */
         app.post("/api/account/login", ctx -> {
+            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
+                // TODO: Probably a bad idea to accept requests from any origin
+                ctx.res.setHeader("Access-Control-Allow-Origin", "*");
+            }
+            
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
@@ -76,6 +84,9 @@ public class HttpServer {
         // #endregion
 
         // #region Replies
+        /**
+         * Get all comments and comments on comments for a post
+         */
         app.get("/api/replies/*", ctx -> {
             FindIterable<Document> commentList = mongoManager.getReplies(ctx.splat(0));
             if (commentList == null) {
@@ -90,6 +101,10 @@ public class HttpServer {
         // #endregion
 
         // #region Comments
+        /**
+         * Create a comment for the specified parent
+         * Authorization completed
+         */
         app.post("/api/comments", ctx -> {
             Document doc = null;
             try {
@@ -123,6 +138,9 @@ public class HttpServer {
 
         });
 
+        /**
+         * Get a specific comment
+         */
         app.get("/api/comments/*", ctx -> {
             Comment comment = mongoManager.getComment(ctx.splat(0));
             if (comment != null) {
@@ -138,6 +156,9 @@ public class HttpServer {
         // #endregion
 
         // #region Posts
+        /**
+         * Create a post
+         */
         app.post("/api/posts", ctx -> {
             Document doc = null;
             try {
@@ -163,6 +184,9 @@ public class HttpServer {
             ctx.status(HttpStatus.CREATED_201);
         });
 
+        /**
+         * Get a post
+         */
         app.get("/api/posts/*", ctx -> {
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
                 // TODO: Probably a bad idea to accept requests from any origin
@@ -185,8 +209,9 @@ public class HttpServer {
 
         // #region Accounts
 
-        // User sends hashed password, salt is added to the end and then rehashed in
-        // backend
+        /**
+         * Create a new account
+         */
         app.post("/api/account/signup", ctx -> {
             Document doc = null;
             try {
@@ -229,10 +254,13 @@ public class HttpServer {
             ctx.status(HttpStatus.CREATED_201);
         });
 
+        /**
+         * Get account information
+         */
         app.get("/api/account/*", ctx -> {
             Account userAccount = mongoManager.getAccount(ctx.splat(0));
             if (userAccount != null) {
-                Document userAccountDoc = userAccount.toDoc(false);
+                Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client, don't want to send pass
                 String accountJson = userAccountDoc.toJson();
 
                 ctx.result(accountJson);

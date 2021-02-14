@@ -42,9 +42,9 @@ function getPosts(url) {
 		.then(json => posts = (json))
 		.catch (function (error) {
 		console.log(error);
-
-		return posts;
 	});
+
+	return posts;
 }
 
 function displayPost(post) {

@@ -30,7 +30,7 @@ function checkUser() {
 	let hashedPassword = stringToHash(password);
 	let data = {
 		"username": username,
-		"password_hash": hashedPassword,
+		"password": hashedPassword,
 		"expire": keepLoggedIn
 	}
 

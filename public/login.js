@@ -2,51 +2,56 @@ let username, password, keepLoggedIn;
 let filled = false;
 
 function checkForm() {
-    username = document.getElementById("username").value;
-    password = document.getElementById("password").value;
-    keepLoggedIn = document.getElementById("keepLoggedIn").checked;
+	username = document.getElementById("username").value;
+	password = document.getElementById("password").value;
+	keepLoggedIn = document.getElementById("keepLoggedIn").checked;
 
-    if (username === "" || password === "") {
-        document.getElementById("notFilled").style.display = "block";
-        filled = false;
-    } else {
-        document.getElementById("notFilled").style.display = "none";
-        filled = true;
-    }
+	if (username === "" || password === "") {
+		document.getElementById("notFilled").style.display = "block";
+		filled = false;
+	} else {
+		document.getElementById("notFilled").style.display = "none";
+		filled = true;
+	}
 
-    if (filled) {
-        if (keepLoggedIn) {
+	if (filled) {
+		if (keepLoggedIn) {
 
-        }
-        checkUser();
-    }
+		}
+		checkUser();
+	}
 }
 
-function stringToHash(string) { 
-    return string; 
+function stringToHash(string) {
+	return string;
 }
 
 function checkUser() {
-    let hashedPassword = stringToHash(password);
-    let data = {
-        "username": username,
-        "password_hash": hashedPassword,
-        "expire": keepLoggedIn
-    }
+	let hashedPassword = stringToHash(password);
+	let data = {
+		"username": username,
+		"password_hash": hashedPassword,
+		"expire": keepLoggedIn
+	}
 
-    fetch("http://157.230.233.218:8080/api/account/login", {
-        method: "POST",
-        body: JSON.stringify(data)
-    })
-    .then(res => {
-        console.log("Request complete!");
-    })
-	.then(res => res.json())
-	.then( function(json) {
-		console.log(json);
-		let userData = json;
+	fetch("http://157.230.233.218:8080/api/account/login", {
+		method: "POST",
+		body: JSON.stringify(data),
+		headers: {
+			"Content-type": "application/json; charset=UTF-8",
+			'Origin': '157.230.233.218:8080/api/account/login'
+		},
+		mode: "cors"
 	})
-    .catch(function (error) {
-        console.log(error);
-    });
+		.then(res => {
+			console.log("Request complete!");
+			console.log(res);
+		})
+		.then(response => response.json())
+
+		// Displaying results to console 
+		.then(json => console.log(json))
+		.catch(function (error) {
+			console.log(error);
+		});
 }

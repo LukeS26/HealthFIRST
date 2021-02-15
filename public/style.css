@@ -113,3 +113,7 @@ header > *:hover {
     z-index: -2;
     position: fixed;
 }
+
+.post:hover {
+    cursor: pointer;
+}

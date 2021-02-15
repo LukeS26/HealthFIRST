@@ -37,11 +37,10 @@ console.log(display);
 
 function getPosts(url) {
 	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
-	let posts = "";
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then( function(json) {
-			displayPost(json);
+			displayPost(json, url);
 		})
 		.catch (function (error) {
 		console.log(error);
@@ -50,7 +49,7 @@ function getPosts(url) {
 	});
 }
 
-function displayPost(post) {
+function displayPost(post, id) {
 	let container = document.createElement("div"); 
 	let title = document.createElement("div");
 	let body = document.createElement("div");
@@ -62,6 +61,7 @@ function displayPost(post) {
 	body.id = "body";
 	user.id = "author";
 
+	container.classList = ["post"];
 	title.classList = ["title"];
 	body.classList = ["body"];
 	user.classList = ["author"];
@@ -81,6 +81,8 @@ function displayPost(post) {
 	body.appendChild(bodyText); 
 
 	document.getElementById("posts").appendChild(container);
+
+	container.onclick = loadPost(id);
 }
 
 /*
@@ -92,3 +94,7 @@ var request = new Request(url, {
 */
 
 getPosts("602878639903f175355bd339");
+
+function loadPost(id) {
+	window.location.assign(window.location.href + "post.html/?id=" + id);
+}

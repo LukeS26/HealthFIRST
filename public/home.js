@@ -82,7 +82,7 @@ function displayPost(post, id) {
 
 	document.getElementById("posts").appendChild(container);
 
-	container.onclick = loadPost(id);
+	container.onclick = "loadPost(id)";
 }
 
 /*

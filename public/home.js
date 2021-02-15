@@ -61,7 +61,7 @@ function displayPost(post, id) {
 	body.id = "body";
 	user.id = "author";
 
-	container.classList = ["post"];
+	container.style = "cursor: pointer;";
 	title.classList = ["title"];
 	body.classList = ["body"];
 	user.classList = ["author"];

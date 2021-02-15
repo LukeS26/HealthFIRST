@@ -1,5 +1,8 @@
 package LukeS26.github.io;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,9 @@ public class HttpServer {
         System.out.println("Initializing Javalin...");
         app = Javalin.create(config -> {
             config.requestLogger((ctx, ms) -> {
-                System.out.println("[LOG] " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
+                LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
+                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
             });
 
         }).start(Settings.HTTP_SERVER_PORT);
@@ -45,7 +50,7 @@ public class HttpServer {
         app.post("/api/account/login", ctx -> {
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
                 // TODO: Probably a bad idea to accept requests from any origin
-                ctx.res.setHeader("Access-Control-Allow-Origin", "*");
+                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
 
             Document doc = null;
@@ -204,7 +209,7 @@ public class HttpServer {
         app.get("/api/posts/*", ctx -> {
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
                 // TODO: Probably a bad idea to accept requests from any origin
-                ctx.res.setHeader("Access-Control-Allow-Origin", "*");
+                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
 
             Post post = mongoManager.getPost(ctx.splat(0));

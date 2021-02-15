@@ -96,5 +96,5 @@ var request = new Request(url, {
 getPosts("602878639903f175355bd339");
 
 function loadPost(id) {
-	window.location.assign(window.location.href + "post.html/?id=" + id);
+	window.location.assign(window.location.href + "post.html?id=" + id);
 }

@@ -114,6 +114,6 @@ header > *:hover {
     position: fixed;
 }
 
-.post:hover {
+.post {
     cursor: pointer;
 }

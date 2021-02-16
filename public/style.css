@@ -111,5 +111,5 @@ header > *:hover {
 
 .posts {
     z-index: -2;
-    position: fixed;
+    position: inherit;
 }

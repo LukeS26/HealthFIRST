@@ -1,46 +1,56 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <title>Register</title>
-        <link href="style.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-        <div class="coolForm">
-            <h1><u>Register</u></h1>
-            <div id="notFilled" class="error">Please fill out all of the fields</div><br>
-            <div>
-                <input id="username" placeholder="Username" type="username" required="true" autofocus maxlength="50">
-                <div class="line"></div><br><div id="notMatch" class="error">Passwords don't match</div><br>
-            </div>
-            <div>
-                <input id="password" placeholder="Password" type="password" required="true" maxlength="50">
-                <div class="line"></div><br><br>
-            </div>
-            <div>
-                <input id="repassword" placeholder="Re-enter Password" type="password" required="true" maxlength="50">
-                <div class="line"></div><br><br>
-            </div>
-            <div>
-                <input id="firstName" placeholder="First Name" required="true" maxlength="50">
-                <div class="line"></div><br><br>
-            </div>
-            <div>
-                <input id="lastName" placeholder="Last Name" required="true" maxlength="50">
-                <div class="line"></div><br><br>
-            </div>
-            <div>
-                <input id="email" placeholder="Email" type="email" required="true" maxlength="50">
-                <div class="line"></div><br><div id="check13Box" class="error">This box must be clicked</div><br>
-            </div>
-            <div class="coolFormCheckBox">
-                <input id="check13" type="checkbox">
-                <div>Are you over the age of 13?</div>
-            </div><br><br>
-            <button onclick="checkForm()">Register</button><br><br>
-            <a href="login.html" class="formLink">Already have an account? Click here to login</a>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Register</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+</head>
+
+<body>
+    <div class="coolForm">
+        <h1><u>Register</u></h1>
+        <div id="notFilled" class="error">Please fill out all of the fields</div><br>
+        <div>
+            <input id="username" placeholder="Username" type="username" required="true" autofocus maxlength="50">
+            <div class="line"></div><br>
+            <div id="notMatch" class="error">Passwords don't match</div><br>
         </div>
-        <script src="register.js"></script>
-    </body>
+        <div>
+            <input id="password" placeholder="Password" type="password" required="true" maxlength="50">
+            <div class="line"></div><br><br>
+        </div>
+        <div>
+            <input id="repassword" placeholder="Re-enter Password" type="password" required="true" maxlength="50">
+            <div class="line"></div><br><br>
+        </div>
+        <div>
+            <input id="firstName" placeholder="First Name" required="true" maxlength="50">
+            <div class="line"></div><br><br>
+        </div>
+        <div>
+            <input id="lastName" placeholder="Last Name" required="true" maxlength="50">
+            <div class="line"></div><br><br>
+        </div>
+        <div>
+            <input id="email" placeholder="Email" type="email" required="true" maxlength="50">
+            <div class="line"></div><br>
+            <div id="check13Box" class="error">This box must be clicked</div><br>
+        </div>
+        <div class="coolFormCheckBox">
+            <input id="check13" type="checkbox">
+            <div>Are you over the age of 13?</div>
+        </div><br><br>
+        <button onclick="checkForm()">Register</button><br><br>
+        <a href="login.html" class="formLink">Already have an account? Click here to login</a>
+    </div>
+    <script src="register.js"></script>
+</body>
+
 </html>

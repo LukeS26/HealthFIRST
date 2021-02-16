@@ -30,3 +30,41 @@ function displayPost(vals) {
 	document.getElementById("author").innerHTML = vals.author;
 	document.getElementById("body").innerHTML = vals.body;
 }
+
+//api/replies/{id}
+
+let testArr = [["A0",
+	["B0",
+		["C0"], ["C1"]],
+	["B1"]],
+
+["A1",
+	["B0",
+		["C0"]],
+	["B1"]]];
+
+let num = -2;
+let display = "";
+
+function formatReplies(replyArr) {
+	num++;
+	if (Array.isArray(replyArr)) {
+		for (let i = 0; i < replyArr.length; i++) {
+			if (!Array.isArray(replyArr[i])) {
+				load(replyArr[i], num);
+			}
+			formatReplies(replyArr[i]);
+			num--;
+		}
+	}
+}
+
+function load(reply, number) {
+	for (let i = 0; i < number; i++) {
+		reply = "    " + reply;
+	}
+	display += (reply + "\n");
+}
+
+formatReplies(testArr);
+console.log(display);

@@ -45,13 +45,18 @@ function checkUser() {
 		headers: {
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
-	}).then(res => res.json())
-	.then(json => {
-		token = json.token;
-		document.cookie = `token=${token}`;
+	}).then(res => {
+		res.json()
+		.then(json => {
+			token = json.token;
+			document.cookie = `token=${token}`;
+		})
+		res.status()
+		.then(status => {
+			console.log(status);
+		})
 	})
 	.catch(err => {
-		console.log(res.status);
 		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")
 	});
 

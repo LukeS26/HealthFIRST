@@ -51,7 +51,7 @@ function formatReplies(replyArr) {
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
 			if (!Array.isArray(replyArr[i])) {
-				load(replyArr[i], num);
+				load(replyArr[i], num, i);
 			}
 			formatReplies(replyArr[i]);
 			num--;
@@ -59,9 +59,9 @@ function formatReplies(replyArr) {
 	}
 }
 
-function load(reply, number) {
+function load(reply, number, id) {
 	for (let i = 0; i < number; i++) {
-		reply = "    " + reply;
+		reply = "    " + reply + " " + id + " " + number;
 	}
 	display += (reply + "\n");
 }

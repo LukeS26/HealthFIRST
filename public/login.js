@@ -47,12 +47,9 @@ function checkUser() {
 	})
 		.then(res => {
 			console.log("Request complete!");
-			console.log(res);
+			console.log(res.json());
 		})
-		.then(response => response.json())
-
 		// Displaying results to console 
-		.then(json => console.log(json))
 		.catch(function (error) {
 			console.log(error);
 		});

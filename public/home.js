@@ -22,15 +22,14 @@ function displayPost(post, id) {
 	container.className = "postContainer";
 	container.id = "post" + postCount;
 
-	html += `<h1 class='postTitle'>${post.title}</h1>`;
+	html += `<div id="postOpen" onclick="loadPost(${id})"> <h1 class='postTitle'>${post.title}</h1>`;
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
-	html += `<p class='postBody'>${post.body}</p>`;
+	html += `<p class='postBody'>${post.body}</p> </div>`;
 	html += `<div class='commentOpener' onclick='toggleCommenter(\"post${postCount}\")'><img src='Arrow.png' width='20px' height='10px'> Comment</div>`;
 	html += `<div class='commentCreator' contenteditable>`;
 
 	container.innerHTML += html;
 
-	container.onclick = function () { loadPost(id) };
 
 	document.getElementById("posts").appendChild(container);
 	postCount++;

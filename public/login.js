@@ -44,9 +44,7 @@ function checkUser() {
 		headers: {
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
-	}).then(function(response) {
-		return response.json();
-	}).then(function(data) {
-		console.log(data);
-	})
+	}).then(res => res.json())
+	.then(json => console.log(json))
+	.catch(err => console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!"));
 }

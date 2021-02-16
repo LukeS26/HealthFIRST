@@ -51,8 +51,9 @@ function checkUser() {
 		document.cookie = `token=${token}`;
 	})
 	.catch(err => {
-			console.log(err);
-		});
+		console.log(res.status);
+		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")
+	});
 
 
 }

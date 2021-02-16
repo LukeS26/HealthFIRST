@@ -46,12 +46,12 @@ function checkUser() {
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
 	}).then(res => {
-		res.json()
-		.then(json => {
-			token = json.token;
-			document.cookie = `token=${token}`;
-		})
 		console.log(res.status);
+		res.json()
+	})
+	.then(json => {
+		token = json.token;
+		document.cookie = `token=${token}`;
 	})
 	.catch(err => {
 		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")

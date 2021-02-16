@@ -49,7 +49,6 @@ public class HttpServer {
          */
         app.post("/api/account/login", ctx -> {
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                // TODO: Probably a bad idea to accept requests from any origin
                 ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
 
@@ -208,7 +207,6 @@ public class HttpServer {
          */
         app.get("/api/posts/*", ctx -> {
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                // TODO: Probably a bad idea to accept requests from any origin
                 ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
 

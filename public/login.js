@@ -26,7 +26,7 @@ function stringToHash(string) {
 	return string;
 }
 
-async function checkUser() {
+function checkUser() {
 	let hashedPassword = stringToHash(password);
 	let data = {
 		"username": username,
@@ -47,8 +47,8 @@ async function checkUser() {
 	})
 		.then(res => {
 			console.log("Request complete!");
-			let hi = await res.json();
-			console.log(hi);
+			let hi = await res;
+			console.log(hi.json());
 		})
 		// Displaying results to console 
 		.catch(function (error) {

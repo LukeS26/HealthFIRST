@@ -46,7 +46,9 @@ function checkUser() {
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
 	}).then(res => res.json())
-	.then(json => token = json)
+	.then(json => {
+		token = json.token;
+	})
 	.catch(err => console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!"));
 
 	console.log(token);

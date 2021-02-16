@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Innovation Challenge Thing</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="manifest" href="favicon/site.webmanifest">
+</head>
+
+<body>
+	<header>
+		<div id="profileHeader" class="profileHeader" onclick="toggleOptions()">
+			<img src="defaultPic.png" height="50px" width="50px">
+			<h2 id="usernameOutput"></h2>
+		</div>
+		<div id="profileHeaderStuff">
+			<div>
+				<a href="profile.html">Profile</a><br><br>
+				<a>Options</a><br><br>
+				<a>Logout</a><br><br>
+			</div>
+		</div>
+	</header>
+
+	<br><br><br>
+	<div style="z-index: -2; position: fixed;">
+		<h1 id="title" class="postTitle"></h1>
+		<h3 id="author" class="postAuthor"></h3>
+		<p id="body" class="postBody"></p>
+	</div>
+
+	<div id="comments" class="commentField"></div>
+	<script src="header.js"></script>
+	<script src="post.js"></script>
+</body>
+
+</html>

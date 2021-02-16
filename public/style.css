@@ -144,3 +144,8 @@ header {
 header > *:hover {
     cursor: pointer;
 }
+
+.posts {
+    z-index: -2;
+    position: absolute;
+}

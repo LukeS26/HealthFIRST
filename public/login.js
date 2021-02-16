@@ -26,7 +26,7 @@ function stringToHash(string) {
 	return string;
 }
 
-async function checkUser() {
+function checkUser() {
 	let hashedPassword = stringToHash(password);
 	let data = {
 		"username": username,
@@ -44,14 +44,9 @@ async function checkUser() {
 		headers: {
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
+	}).then(function(response) {
+		return response.json();
+	}).then(function(data) {
+		console.log(data);
 	})
-		.then(res => {
-			console.log("Request complete!");
-			let hi = await res;
-			console.log(hi.json());
-		})
-		// Displaying results to console 
-		.catch(function (error) {
-			console.log(error);
-		});
 }

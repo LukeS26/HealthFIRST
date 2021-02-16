@@ -26,7 +26,7 @@ function stringToHash(string) {
 	return string;
 }
 
-function checkUser() {
+async function checkUser() {
 	let hashedPassword = stringToHash(password);
 	let data = {
 		"username": username,

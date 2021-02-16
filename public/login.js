@@ -47,7 +47,7 @@ function checkUser() {
 		}
 	}).then(res => {
 		console.log(res.status);
-		res.json()
+		return res.json();
 	})
 	.then(json => {
 		token = json.token;

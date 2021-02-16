@@ -46,7 +46,15 @@ function checkUser() {
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
 	}).then(res => {
-		console.log(res.status);
+		let code = res.status;
+		if (code === 403) {
+			document.getElementById("usernameNotFound").style.display = "block";
+		} else if (code === 404) {
+			document.getElementById("passwordIncorrect").style.display = "block";
+		} else {
+			document.getElementById("usernameNotFound").style.display = "none";
+			document.getElementById("passwordIncorrect").style.display = "none";
+		}
 		return res.json();
 	})
 	.then(json => {

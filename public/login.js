@@ -47,7 +47,7 @@ function checkUser() {
 	})
 		.then(res => {
 			console.log("Request complete!");
-			console.log(res.json());
+			console.log(await res.json());
 		})
 		// Displaying results to console 
 		.catch(function (error) {

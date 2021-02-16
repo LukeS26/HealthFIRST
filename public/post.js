@@ -26,7 +26,7 @@ function getPost(url) {
 getPost(id);
 
 function displayPost(vals) {
-	document.getElementById("title") = vals.title;
-	document.getElementById("author") = vals.author;
-	document.getElementById("body") = vals.body;
+	document.getElementById("title").innerHTML = vals.title;
+	document.getElementById("author").innerHTML = vals.author;
+	document.getElementById("body").innerHTML = vals.body;
 }

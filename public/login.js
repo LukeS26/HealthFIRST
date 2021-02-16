@@ -1,5 +1,6 @@
 let username, password, keepLoggedIn;
 let filled = false;
+let token;
 
 function checkForm() {
 	username = document.getElementById("username").value;
@@ -45,6 +46,8 @@ function checkUser() {
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
 	}).then(res => res.json())
-	.then(json => console.log(json))
+	.then(json => token = json)
 	.catch(err => console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!"));
+
+	console.log(token);
 }

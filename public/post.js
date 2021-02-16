@@ -51,7 +51,7 @@ function formatReplies(replyArr) {
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
 			if (!Array.isArray(replyArr[i])) {
-				load(replyArr[i], num, i);
+				load(replyArr[i], num);
 			}
 			formatReplies(replyArr[i]);
 			num--;
@@ -59,11 +59,16 @@ function formatReplies(replyArr) {
 	}
 }
 
-function load(reply, number, id) {
-	for (let i = 0; i < number; i++) {
-		reply = "    " + reply + " " + id + " " + number;
+function load(reply, number) {
+	let comment = document.createElement("div");
+	
+
+
+	if(number > 0) {
+		//find number - 1, and be that elements child
+	} else {
+		//be on outside edge
 	}
-	display += (reply + "\n");
 }
 
 formatReplies(testArr);

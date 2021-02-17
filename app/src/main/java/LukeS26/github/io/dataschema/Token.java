@@ -42,7 +42,6 @@ public class Token extends DataSchema {
         }
 
         String salt = BCrypt.gensalt(Settings.BCRYPT_LOG_ROUNDS);
-
         this.tokenStr = BCrypt.hashpw(UUID.randomUUID().toString(), salt);
 
         System.out.println("Token: " + tokenStr + " expiration: " + (expiration != null ? this.expiration.toString() : "null"));

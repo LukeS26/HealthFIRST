@@ -33,7 +33,8 @@ public class HttpServer {
             config.requestLogger((ctx, ms) -> {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
                 LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
-                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl()
+                        + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
             });
 
         }).start(Settings.HTTP_SERVER_PORT);
@@ -78,14 +79,38 @@ public class HttpServer {
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
                 System.out.println("Correct password");
-                Token token = new Token((String) doc.get("username"), (boolean) doc.get("expire"));
-                System.out.println("Writing token");
-                mongoManager.writeToken(token);
-    
-                String tokenJson = token.toDoc().toJson();
-    
-                ctx.result(tokenJson);
-                ctx.status(HttpStatus.CREATED_201);
+
+                // If the token should expiring, create a new token expiring in an hour
+                if ((boolean) doc.get("expire")) {
+                    Token token = new Token((String) doc.get("username"), true);
+                    System.out.println("Writing token");
+                    mongoManager.writeToken(token);
+                    String tokenJson = token.toDoc().toJson();
+
+                    ctx.result(tokenJson);
+                    ctx.status(HttpStatus.CREATED_201);
+
+                    // Else, try to find an existing immortal token, and return it if it exists and
+                    // create a new one if it doesn't
+                } else {
+                    Document tokenDoc = mongoManager.findImmortalTokenDoc((String) doc.get("username"));
+                    if (tokenDoc != null) {
+                        tokenDoc.remove("_id");
+                        String tokenJson = tokenDoc.toJson();
+
+                        ctx.result(tokenJson);
+                        ctx.status(HttpStatus.OK_200);
+
+                    } else {
+                        Token token = new Token((String) doc.get("username"), false);
+                        System.out.println("Writing token");
+                        mongoManager.writeToken(token);
+                        String tokenJson = token.toDoc().toJson();
+
+                        ctx.result(tokenJson);
+                        ctx.status(HttpStatus.CREATED_201);
+                    }
+                }
 
             } else {
                 ctx.status(HttpStatus.FORBIDDEN_403);
@@ -113,8 +138,7 @@ public class HttpServer {
 
         // #region Comments
         /**
-         * Create a comment for the specified parent
-         * Authorization completed
+         * Create a comment for the specified parent Authorization completed
          */
         app.post("/api/comments", ctx -> {
             Document doc = null;
@@ -126,7 +150,8 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("parent_id") || !doc.containsKey("body")) {
+            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("parent_id")
+                    || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
@@ -139,7 +164,7 @@ public class HttpServer {
                 comment.parentId = new ObjectId(doc.get("parent_id").toString());
                 comment.author = token.username;
                 comment.body = (String) doc.get("body");
-    
+
                 mongoManager.writeComment(comment);
                 ctx.status(HttpStatus.CREATED_201);
 
@@ -168,8 +193,7 @@ public class HttpServer {
 
         // #region Posts
         /**
-         * Create a post
-         * Authorization complete
+         * Create a post Authorization complete
          */
         app.post("/api/posts", ctx -> {
             Document doc = null;
@@ -181,7 +205,8 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("author") || !doc.containsKey("title") || !doc.containsKey("body")) {
+            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("author") || !doc.containsKey("title")
+                    || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
@@ -192,9 +217,9 @@ public class HttpServer {
                 post.author = token.username;
                 post.title = (String) doc.get("title");
                 post.body = (String) doc.get("body");
-    
+
                 mongoManager.writePost(post);
-    
+
                 ctx.status(HttpStatus.CREATED_201);
 
             } else {
@@ -247,8 +272,8 @@ public class HttpServer {
 
             Account userAccount = new Account();
             /*
-             * Can't use userAccount.fromDoc here because this won't contain a bio, userAccount
-             * link, permission id, etc.
+             * Can't use userAccount.fromDoc here because this won't contain a bio,
+             * userAccount link, permission id, etc.
              */
             userAccount.username = (String) doc.get("username");
             userAccount.firstName = (String) doc.get("first_name");
@@ -277,7 +302,8 @@ public class HttpServer {
         app.get("/api/account/*", ctx -> {
             Account userAccount = mongoManager.getAccount(ctx.splat(0));
             if (userAccount != null) {
-                Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client, don't want to send pass
+                Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
+                                                                    // don't want to send pass
                 String accountJson = userAccountDoc.toJson();
 
                 ctx.result(accountJson);

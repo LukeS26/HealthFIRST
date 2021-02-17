@@ -41,7 +41,10 @@ let testArr = [["A0",
 ["A1",
 	["B0",
 		["C0"]],
-	["B1"]]];
+	["B1",
+		["C0",	["D0"]], ["C1"]]
+	]
+];
 
 let num = -2;
 let display = "";
@@ -51,7 +54,7 @@ function formatReplies(replyArr) {
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
 			if (!Array.isArray(replyArr[i])) {
-				load(replyArr[i], num, i);
+				load(replyArr[i], num);
 			}
 			formatReplies(replyArr[i]);
 			num--;
@@ -59,11 +62,19 @@ function formatReplies(replyArr) {
 	}
 }
 
-function load(reply, number, id) {
-	for (let i = 0; i < number; i++) {
-		reply = "    " + reply + " " + id + " " + number;
+function load(reply, number) {
+	let comment = `<div name="${number}" style="transform: translateX(${30 * number}px)" > <h4> ${reply} </h4> </div> `
+	
+	let shell = document.getElementById("comments");
+
+	if(number > 0) {
+		//find number - 1, and be that elements child
+		let parentComment = document.getElementsByName(number - 1);
+		parentComment[parentComment.length - 1].innerHTML += comment;
+	} else {
+		//be on outside edge
+		shell.innerHTML += comment;
 	}
-	display += (reply + "\n");
 }
 
 formatReplies(testArr);

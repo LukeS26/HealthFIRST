@@ -41,7 +41,10 @@ let testArr = [["A0",
 ["A1",
 	["B0",
 		["C0"]],
-	["B1"]]];
+	["B1",
+		["C0",	["D0"]], ["C1"]]
+	]
+];
 
 let num = -2;
 let display = "";
@@ -60,7 +63,7 @@ function formatReplies(replyArr) {
 }
 
 function load(reply, number) {
-	let comment = `<div name="${number}" style="transform: translateX(${30 * number})" > <h4> ${reply} </h4> </div> `
+	let comment = `<div name="${number}" style="transform: translateX(${30 * number}px)" > <h4> ${reply} </h4> </div> `
 	
 	let shell = document.getElementById("comments");
 

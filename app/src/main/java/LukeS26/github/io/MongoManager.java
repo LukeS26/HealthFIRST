@@ -1,5 +1,8 @@
 package LukeS26.github.io;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,11 +40,12 @@ public class MongoManager {
     }
 
     /**
-     * Find a token in the database based on the hashed token
-     * (Used in requests where token is used in the authorization header)
+     * Find a token in the database based on the hashed token (Used in requests
+     * where token is used in the authorization header)
      * 
      * @param token hashed token
-     * @return document with token if found, null if not found (expired tokens are deleted)
+     * @return document with token if found, null if not found (expired tokens are
+     *         deleted)
      */
     public Token findToken(String token) {
         cleanTokens();
@@ -50,11 +54,6 @@ public class MongoManager {
             FindIterable<Document> tokenDocs = tokenCollection.find();
             for (Document tokenDoc : tokenDocs) {
                 if (token.equals((String) tokenDoc.get("token"))) {
-                    if (tokenDoc.get("expiration_date") != null && ((Date) tokenDoc.get("expiration_date")).before(new Date())) {
-                        deleteToken((ObjectId) tokenDoc.get("_id"));
-                        continue;
-                    }
-
                     return Token.fromDoc(tokenDoc);
                 }
             }
@@ -100,9 +99,14 @@ public class MongoManager {
         FindIterable<Document> tokenDocs = tokenCollection.find();
 
         for (Document doc : tokenDocs) {
-            Object expiration = doc.get("expiration_date");
-            if (expiration != null) {
-                if (((Date) expiration).before(new Date())) {
+            String expirationString = (String) doc.get("expiration_date");
+            if (expirationString != null) {
+                DateTimeFormatter dtf = DateTimeFormatter.RFC_1123_DATE_TIME;
+                LocalDateTime parsedExpiration = LocalDateTime.parse(expirationString, dtf);
+
+                LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
+
+                if (parsedExpiration.isBefore(now)) {
                     System.out.println("Deleting expired token for user: " + (String) doc.get("username"));
                     tokenCollection.deleteOne(Filters.eq("_id", (ObjectId) doc.get("_id")));
                 }

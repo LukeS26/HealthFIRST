@@ -56,12 +56,14 @@ function checkUser() {
 		} else {
 			document.getElementById("usernameNotFound").style.display = "none";
 			document.getElementById("passwordIncorrect").style.display = "none";
+			return res.json();
 		}
-		return res.json();
 	})
 	.then(json => {
 		token = json.token;
-		document.cookie = `token=${token}`;
+		document.cookie = `token=${token}; expires`;
+		document.cookie = `username=${username}`;
+		location.href("index.html");
 	})
 	.catch(err => {
 		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")

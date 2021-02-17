@@ -1,5 +1,8 @@
 package LukeS26.github.io.dataschema;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -12,7 +15,7 @@ import LukeS26.github.io.Settings;
 public class Token extends DataSchema {
     public String tokenStr;
     public String username;
-    public Date expiration;
+    public String expiration;
 
     /**
      * Generate a blank token (for working with tokens from database)
@@ -23,16 +26,17 @@ public class Token extends DataSchema {
 
     public Token(String username, boolean expire) {
         this.username = username;
-        if (expire) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(new Date());
-            cal.add(Calendar.HOUR, 1);
-            Date newDate = cal.getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
 
-            this.expiration = newDate;
+        DateTimeFormatter dtf = DateTimeFormatter.RFC_1123_DATE_TIME;
+        if (expire) {
+            LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC")).plusHours(1);
+            expiration = dtf.format(now);
 
         } else {
-            expiration = null;
+            LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC")).plusYears(100);
+            expiration = dtf.format(now);
         }
 
         String salt = BCrypt.gensalt(Settings.BCRYPT_LOG_ROUNDS);
@@ -53,7 +57,7 @@ public class Token extends DataSchema {
         Token t = new Token();
         t.tokenStr = (String) doc.get("token");
         t.username = (String) doc.get("username");
-        t.expiration = (Date) doc.get("expiration_date");
+        t.expiration = (String) doc.get("expiration_date");
 
         return t;
     }

@@ -1,11 +1,31 @@
-let username = "Username";
+let username;
 let usernameOutput = document.getElementById("usernameOutput");
 let profileHeaderStuff = document.getElementById("profileHeaderStuff");
 let optionsOpen = false;
 
+if (getCookie("username") === null) {
+	username = "Username";
+} else {
+	username = getCookie("username");
+}
+
 usernameOutput.innerHTML = username;
 document.getElementById("profileHeader").style.width = (username.length * 1.5 - (username.length * 2)) + "em";
 document.getElementById("profileHeaderStuff").style.width = document.getElementById("profileHeader").offsetWidth - 4 + "px";
+
+function getCookie(name) {
+	let cookieArr = document.cookie.split(";");
+
+	for (let i = 0; i < cookieArr.length; i++) {
+		let cookiePair = cookieArr[i].split("=");
+
+		if (name === cookiePair[0].trim()) {
+			return cookiePair[1];
+		}
+	}
+
+	return null;
+}
 
 function toggleOptions() {
 	if (optionsOpen) {

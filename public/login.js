@@ -1,5 +1,6 @@
 let username, password, keepLoggedIn;
 let filled = false;
+let token;
 
 function checkForm() {
 	username = document.getElementById("username").value;
@@ -44,16 +45,27 @@ function checkUser() {
 		headers: {
 			'Origin': '157.230.233.218:8080/api/account/login'
 		}
+	}).then(res => {
+		let code = res.status;
+		if (code === 404) {
+			document.getElementById("usernameNotFound").style.display = "block";
+			document.getElementById("passwordIncorrect").style.display = "none";
+		} else if (code === 403) {
+			document.getElementById("passwordIncorrect").style.display = "block";
+			document.getElementById("usernameNotFound").style.display = "none";
+		} else {
+			document.getElementById("usernameNotFound").style.display = "none";
+			document.getElementById("passwordIncorrect").style.display = "none";
+		}
+		return res.json();
 	})
-		.then(res => {
-			console.log("Request complete!");
-			console.log(res);
-		})
-		.then(response => response.json())
+	.then(json => {
+		token = json.token;
+		document.cookie = `token=${token}`;
+	})
+	.catch(err => {
+		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")
+	});
 
-		// Displaying results to console 
-		.then(json => console.log(json))
-		.catch(function (error) {
-			console.log(error);
-		});
+
 }

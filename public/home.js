@@ -1,51 +1,59 @@
+let postCount = 0;
+let open = [];
+
 function getPosts(url) {
 	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
-		.then( function(json) {
+		.then(function (json) {
 			displayPost(json, url);
 		})
-		.catch (function (error) {
-		console.log(error);
+		.catch(function (error) {
+			console.log(error);
 
-		return null;
-	});
+			return null;
+		});
 }
 
 function displayPost(post, id) {
-	let container = document.createElement("div"); 
-	let title = document.createElement("div");
-	let body = document.createElement("div");
-	let user = document.createElement("div");
-	container.appendChild(title);
-	container.appendChild(body);
 
-	title.id = "title";
-	body.id = "body";
-	user.id = "author";
+	let html = "";
+	let container = document.createElement("div");
+	container.className = "postContainer";
+	container.id = "post" + postCount;
 
-	container.style = "cursor: pointer;";
-	title.classList = ["title"];
-	body.classList = ["body"];
-	user.classList = ["author"];
+	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>${post.title}</h1>`;
+	html += `<h5 class='postAuthor'>${post.author}</h5>`;
+	html += `<p class='postBody'>${post.body}</p> </div>`;
+	html += `<div class='commentOpener' onclick='toggleCommenter(\"post${postCount}\")'><img src='Arrow.png' width='20px' height='10px'> Comment</div>`;
+	html += `<div class='commentCreator' contenteditable>`;
 
-	let titleText = document.createElement("h1");
-	titleText.innerHTML = post.title;
-	title.appendChild(titleText);
+	container.innerHTML += html;
 
-	title.appendChild(user);
-
-	let username = document.createElement("h5");
-	username.innerHTML = post.author;
-	user.appendChild(username);
-
-	let bodyText = document.createElement("p");
-	bodyText.innerHTML = post.body;
-	body.appendChild(bodyText); 
 
 	document.getElementById("posts").appendChild(container);
+	postCount++;
+}
 
-	container.onclick = function() { loadPost(id) };
+function loadPost(id) {
+	window.location.assign(window.location.href + "post.html?id=" + id);
+}
+
+function toggleCommenter(id) {
+	let div = document.getElementById(id).childNodes;
+	let img = div[1].childNodes;
+	img = img[0];
+
+	if (open[id]) {
+		img.style.transform = "rotate(0deg)";
+		div[4].style.display = "none";
+		open[id] = false;
+	} else {
+		img.style.transform = "rotate(-180deg)";
+		div[4].style.display = "block";
+		div[4].focus();
+		open[id] = true;
+	}
 }
 
 /*
@@ -57,7 +65,3 @@ var request = new Request(url, {
 */
 
 getPosts("602878639903f175355bd339");
-
-function loadPost(id) {
-	window.location.assign(window.location.href + "post.html?id=" + id);
-}

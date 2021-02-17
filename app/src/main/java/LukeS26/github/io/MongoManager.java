@@ -1,7 +1,7 @@
 package LukeS26.github.io;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,9 +101,9 @@ public class MongoManager {
             String expirationString = (String) doc.get("expiration_date");
             if (expirationString != null) {
                 DateTimeFormatter dtf = DateTimeFormatter.RFC_1123_DATE_TIME;
-                LocalDateTime parsedExpiration = LocalDateTime.parse(expirationString, dtf);
+                ZonedDateTime parsedExpiration = ZonedDateTime.parse(expirationString, dtf);
 
-                LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
+                ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
 
                 if (parsedExpiration.isBefore(now)) {
                     System.out.println("Deleting expired token for user: " + (String) doc.get("username"));

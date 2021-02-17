@@ -1,7 +1,7 @@
 package LukeS26.github.io.dataschema;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,12 +31,14 @@ public class Token extends DataSchema {
 
         DateTimeFormatter dtf = DateTimeFormatter.RFC_1123_DATE_TIME;
         if (expire) {
-            LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC")).plusHours(1);
-            expiration = dtf.format(now);
+            ZonedDateTime expirationDate = ZonedDateTime.now(ZoneId.of("UTC")).plusHours(1);
+            expiration = dtf.format(expirationDate);
+            System.out.println("Expiration: " + expiration);
 
         } else {
-            LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC")).plusYears(100);
-            expiration = dtf.format(now);
+            ZonedDateTime expirationDate = ZonedDateTime.now(ZoneId.of("UTC")).plusYears(100);
+            expiration = dtf.format(expirationDate);
+            System.out.println("Expiration: " + expiration);
         }
 
         String salt = BCrypt.gensalt(Settings.BCRYPT_LOG_ROUNDS);

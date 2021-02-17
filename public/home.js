@@ -22,7 +22,7 @@ function displayPost(post, id) {
 	container.className = "postContainer";
 	container.id = "post" + postCount;
 
-	html += `<div id="postOpen" onclick="loadPost(${id})"> <h1 class='postTitle'>${post.title}</h1>`;
+	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>${post.title}</h1>`;
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
 	html += `<p class='postBody'>${post.body}</p> </div>`;
 	html += `<div class='commentOpener' onclick='toggleCommenter(\"post${postCount}\")'><img src='Arrow.png' width='20px' height='10px'> Comment</div>`;
@@ -41,7 +41,7 @@ function loadPost(id) {
 
 function toggleCommenter(id) {
 	let div = document.getElementById(id).childNodes;
-	let img = div[3].childNodes;
+	let img = div[1].childNodes;
 	img = img[0];
 
 	if (open[id]) {

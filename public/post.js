@@ -60,14 +60,15 @@ function formatReplies(replyArr) {
 }
 
 function load(reply, number) {
-	let comment = document.createElement("div");
+	let comment = `<div name="${number}"> <h4> ${reply} </h4> </div> `
 	
-
+	let shell = document.getElementById("comments");
 
 	if(number > 0) {
 		//find number - 1, and be that elements child
 	} else {
 		//be on outside edge
+		shell.innerHTML += comment;
 	}
 }
 

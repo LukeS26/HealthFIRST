@@ -95,6 +95,7 @@ public class HttpServer {
                 } else {
                     Document tokenDoc = mongoManager.findImmortalTokenDoc((String) doc.get("username"));
                     if (tokenDoc != null) {
+                        tokenDoc.remove("_id");
                         String tokenJson = tokenDoc.toJson();
 
                         ctx.result(tokenJson);

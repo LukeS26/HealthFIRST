@@ -64,6 +64,7 @@ function checkUser() {
 		document.cookie = `token=${token}; expires`;
 		document.cookie = `username=${username}`;
 		window.location.href = "index.html";
+		sessionStorage.setItem("username", username);
 	})
 	.catch(err => {
 		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")

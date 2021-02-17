@@ -1,7 +1,13 @@
-let username = "Username";
+let username;
 let usernameOutput = document.getElementById("usernameOutput");
 let profileHeaderStuff = document.getElementById("profileHeaderStuff");
 let optionsOpen = false;
+
+if (sessionStorage.getItem("username") === null) {
+	username = "Username";
+} else {
+	username = sessionStorage.getItem("username");
+}
 
 usernameOutput.innerHTML = username;
 document.getElementById("profileHeader").style.width = (username.length * 1.5 - (username.length * 2)) + "em";

@@ -57,7 +57,7 @@ public class Token extends DataSchema {
         Token t = new Token();
         t.tokenStr = (String) doc.get("token");
         t.username = (String) doc.get("username");
-        t.expiration = (Date) doc.get("expiration_date");
+        t.expiration = (String) doc.get("expiration_date");
 
         return t;
     }

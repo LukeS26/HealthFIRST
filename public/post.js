@@ -60,7 +60,7 @@ function formatReplies(replyArr) {
 }
 
 function load(reply, number) {
-	let comment = `<div name="${number}" > <h4> ${reply} </h4> </div> `
+	let comment = `<div name="${number}" style="transform: translateX(${30 * number})" > <h4> ${reply} </h4> </div> `
 	
 	let shell = document.getElementById("comments");
 

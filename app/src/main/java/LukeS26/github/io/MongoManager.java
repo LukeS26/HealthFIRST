@@ -1,8 +1,5 @@
 package LukeS26.github.io;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +40,9 @@ public class MongoManager {
      * where token is used in the authorization header)
      * 
      * @param token hashed token
-     * @return document with token if found, null if not found (expired tokens are
-     *         deleted)
+     * @return document with token if found, null if not found
      */
-    public Token findToken(String token) {
-        cleanTokens();
+    public Token findTokenFromString(String token) {
         MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
         try {
             FindIterable<Document> tokenDocs = tokenCollection.find();
@@ -64,24 +59,14 @@ public class MongoManager {
         return null;
     }
 
-    public Document findImmortalTokenDoc(String username) {
-        DateTimeFormatter dtf = DateTimeFormatter.RFC_1123_DATE_TIME;
-
-        cleanTokens();
-
+    public Document findTokenDocFromUsername(String username) {
         MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
         try {
             FindIterable<Document> tokenDocs = tokenCollection.find();
 
             for (Document tokenDoc : tokenDocs) {
                 if (username.equals((String) tokenDoc.get("username"))) {
-                    ZonedDateTime parsedExpiration = ZonedDateTime.parse((String) tokenDoc.get("expiration_date"), dtf);
-                    ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
-                    // Because the token expires in 1 hour, check if the token is still valid in 2
-                    // hours
-                    if (parsedExpiration.minusHours(2).isAfter(now)) {
-                        return tokenDoc;
-                    }
+                    return tokenDoc;
                 }
             }
 
@@ -92,8 +77,7 @@ public class MongoManager {
         return null;
     }
 
-    public Token getToken(String username) {
-        cleanTokens();
+    public Token findTokenFromUsername(String username) {
         MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
         try {
             Document tokenDoc = tokenCollection.find(Filters.eq("username", username)).first();
@@ -108,38 +92,6 @@ public class MongoManager {
         return null;
     }
 
-    /**
-     * Remove a token from the database
-     * 
-     * @param id ObjectId of token to remove
-     */
-    public void deleteToken(ObjectId id) {
-        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
-        tokenCollection.findOneAndDelete(Filters.eq("_id", id));
-    }
-
-    /**
-     * Removes expired tokens
-     */
-    public void cleanTokens() {
-        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
-        FindIterable<Document> tokenDocs = tokenCollection.find();
-
-        for (Document doc : tokenDocs) {
-            String expirationString = (String) doc.get("expiration_date");
-            if (expirationString != null) {
-                DateTimeFormatter dtf = DateTimeFormatter.RFC_1123_DATE_TIME;
-                ZonedDateTime parsedExpiration = ZonedDateTime.parse(expirationString, dtf);
-
-                ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
-
-                if (parsedExpiration.isBefore(now)) {
-                    System.out.println("Deleting expired token for user: " + (String) doc.get("username"));
-                    tokenCollection.deleteOne(Filters.eq("_id", (ObjectId) doc.get("_id")));
-                }
-            }
-        }
-    }
     // #endregion
 
     // #region Comments

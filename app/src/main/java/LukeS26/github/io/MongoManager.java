@@ -66,18 +66,19 @@ public class MongoManager {
 
     public Document findImmortalTokenDoc(String username) {
         DateTimeFormatter dtf = DateTimeFormatter.RFC_1123_DATE_TIME;
-        
+
         cleanTokens();
-        
+
         MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
         try {
             FindIterable<Document> tokenDocs = tokenCollection.find();
-            
-            for (Document tokenDoc : tokenDocs) {                
+
+            for (Document tokenDoc : tokenDocs) {
                 if (username.equals((String) tokenDoc.get("username"))) {
                     ZonedDateTime parsedExpiration = ZonedDateTime.parse((String) tokenDoc.get("expiration_date"), dtf);
                     ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
-                    // Because the token expires in 1 hour, check if the token is still valid in 2 hours
+                    // Because the token expires in 1 hour, check if the token is still valid in 2
+                    // hours
                     if (parsedExpiration.minusHours(2).isAfter(now)) {
                         return tokenDoc;
                     }

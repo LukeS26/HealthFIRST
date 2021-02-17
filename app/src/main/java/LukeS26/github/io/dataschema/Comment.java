@@ -9,7 +9,8 @@ public class Comment extends DataSchema {
      * replying to
      */
     public ObjectId id;
-    public ObjectId parentId; // This will be the post ID if it is a comment on a post, and a comment ID if a reply on a comment
+    public ObjectId parentId; // This will be the post ID if it is a comment on a post, and a comment ID if a
+                              // reply on a comment
     public String author;
     public String body;
 

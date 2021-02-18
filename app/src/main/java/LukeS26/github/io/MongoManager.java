@@ -42,31 +42,10 @@ public class MongoManager {
      * @param token hashed token
      * @return document with token if found, null if not found
      */
-    public Token findTokenFromString(String token) {
+    public Document findToken(String token) {
         MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
         try {
             Document tokenDoc = tokenCollection.find(Filters.eq("token", token)).first();
-            if (tokenDoc != null) {
-                return Token.fromDoc(tokenDoc);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        return null;
-    }
-
-    /**
-     * Get org.bson.Document for the given username
-     * 
-     * @param username username for the token doc you want to get
-     * @return
-     */
-    public Document findTokenDocFromUsername(String username) {
-        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
-        try {
-            Document tokenDoc = tokenCollection.find(Filters.eq("username", username)).first();
             if (tokenDoc != null) {
                 return tokenDoc;
             }
@@ -87,7 +66,7 @@ public class MongoManager {
      * @param postID
      * @return
      */
-    public Document getAllComments(String postID) {
+    public Document findAllComments(String postID) {
         MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         FindIterable<Document> postComments = commentsCollection.find(Filters.eq("parent_id", new ObjectId(postID)));
 
@@ -121,12 +100,12 @@ public class MongoManager {
         commentCollection.insertOne(commentDoc);
     }
 
-    public Comment getComment(String commentID) {
+    public Document findComment(String commentID) {
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         try {
             Document commentDoc = commentCollection.find(Filters.eq("_id", new ObjectId(commentID))).first();
             if (commentDoc != null) {
-                return Comment.fromDoc(commentDoc);
+                return commentDoc;
             }
 
         } catch (IllegalArgumentException e) {
@@ -136,7 +115,7 @@ public class MongoManager {
         return null;
     }
 
-    public FindIterable<Document> getReplies(String parentID) {
+    public FindIterable<Document> findReplies(String parentID) {
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         try {
             FindIterable<Document> docList = commentCollection.find(Filters.eq("parent_id", new ObjectId(parentID)));
@@ -159,12 +138,12 @@ public class MongoManager {
         postCollection.insertOne(postDoc);
     }
 
-    public Post getPost(String postID) {
+    public Document findPost(String postID) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
             Document postDoc = postCollection.find(Filters.eq("_id", new ObjectId(postID))).first();
             if (postDoc != null) {
-                return Post.fromDoc(postDoc);
+                return postDoc;
             }
 
         } catch (IllegalArgumentException e) {
@@ -189,24 +168,36 @@ public class MongoManager {
     }
 
     /**
-     * Gets the account from the database with the given username. Can be null.
-     * 
-     * @param username the username to check for
-     * @return a account object for that user, or null if no account was found
+     * Gets the account document from the database with the given username.
+     * @param username the username to find a doc for
+     * @return an org.bson.Document for the given username if found, null if not found
      */
-    public Account getAccount(String username) {
+    public Document findAccount(String username) {
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
         try {
             Document accountDoc = accountCollection.find(Filters.eq("username", username)).first();
             if (accountDoc != null) {
-                return Account.fromDoc(accountDoc);
+                return accountDoc;
             }
 
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
 
         return null;
+    }
+
+    public void updateAccount(String username, Document update) {
+        MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
+        try {
+            Document accountDoc = accountCollection.find(Filters.eq("username", username)).first();
+            if (accountDoc != null) {
+                accountCollection.findOneAndUpdate(Filters.eq("username", username), update);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     // #endregion
 }

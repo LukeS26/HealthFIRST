@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletOutputStream;
 
@@ -73,7 +74,7 @@ public class HttpServer {
          * Get all comments and comments on comments for a post
          */
         app.get("/api/replies/*", ctx -> {
-            FindIterable<Document> commentList = mongoManager.getReplies(ctx.splat(0));
+            FindIterable<Document> commentList = mongoManager.findReplies(ctx.splat(0));
             if (commentList == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
@@ -105,7 +106,7 @@ public class HttpServer {
                 return;
             }
 
-            Token token = mongoManager.findTokenFromString(ctx.header("Authorization"));
+            Token token = Token.fromDoc(mongoManager.findToken(ctx.header("Authorization")));
             if (token == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
@@ -126,7 +127,7 @@ public class HttpServer {
          * Get a specific comment
          */
         app.get("/api/comments/*", ctx -> {
-            Comment comment = mongoManager.getComment(ctx.splat(0));
+            Comment comment = Comment.fromDoc(mongoManager.findComment(ctx.splat(0)));
             if (comment == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
@@ -158,7 +159,7 @@ public class HttpServer {
                 return;
             }
 
-            Token token = mongoManager.findTokenFromString(ctx.header("Authorization"));
+            Token token = Token.fromDoc(mongoManager.findToken(ctx.header("Authorization")));
             if (token == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
@@ -182,7 +183,7 @@ public class HttpServer {
                 ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
 
-            Post post = mongoManager.getPost(ctx.splat(0));
+            Post post = Post.fromDoc(mongoManager.findPost(ctx.splat(0)));
             if (post == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
@@ -196,6 +197,58 @@ public class HttpServer {
         // #endregion
 
         // #region Accounts
+
+        app.patch("/api/account", ctx -> {
+            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
+                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
+            }
+
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Token token = Token.fromDoc(mongoManager.findToken(ctx.header("Authorization")));
+            if (token == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Document userAccountDoc = mongoManager.findAccount((String) doc.get("username"));
+            if (userAccountDoc == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            Document changes = new Document();
+            // Create an empty account just for checking if the key exists
+            Document blankAccount = new Account().toDoc(true);
+            for (Entry<String, Object> e : doc.entrySet()) {
+                // Check if the empty account has the given key before setting it
+                if (blankAccount.containsKey(e.getKey())) {
+                    // TODO: There is no check that the changes they are making wont break anything
+                    // (ex. setting the profile picture link to a sentence), you should check this
+                    changes.put(e.getKey(), e.getValue());
+
+                } else {
+                    ctx.status(HttpStatus.BAD_REQUEST_400);
+                    return;
+                }
+            }
+
+            mongoManager.updateAccount((String) doc.get("username"), changes);
+            ctx.status(HttpStatus.NO_CONTENT_204); // TODO: You should be using 204 instead of 200 when not responding
+                                                   // with content or creating new content
+        });
 
         /**
          * Create a new account
@@ -217,7 +270,7 @@ public class HttpServer {
             }
 
             // Checking if account already exists with that username
-            Account existingAccount = mongoManager.getAccount((String) doc.get("username"));
+            Account existingAccount = Account.fromDoc(mongoManager.findAccount((String) doc.get("username")));
             if (existingAccount != null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
@@ -253,7 +306,7 @@ public class HttpServer {
          * Get account information
          */
         app.get("/api/account/*", ctx -> {
-            Account userAccount = mongoManager.getAccount(ctx.splat(0));
+            Account userAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0)));
             if (userAccount != null) {
                 Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
                                                                     // don't want to send pass
@@ -290,7 +343,7 @@ public class HttpServer {
                 return;
             }
 
-            Account loginAccount = mongoManager.getAccount((String) doc.get("username"));
+            Account loginAccount = Account.fromDoc(mongoManager.findAccount((String) doc.get("username")));
 
             // Fix logging into accounts that don't exist
             if (loginAccount == null) {
@@ -303,7 +356,7 @@ public class HttpServer {
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
                 System.out.println("Correct password");
 
-                Document tokenDoc = mongoManager.findTokenDocFromUsername((String) doc.get("username"));
+                Document tokenDoc = mongoManager.findToken((String) doc.get("username"));
                 if (tokenDoc != null) {
                     tokenDoc.remove("_id");
                     String tokenJson = tokenDoc.toJson();

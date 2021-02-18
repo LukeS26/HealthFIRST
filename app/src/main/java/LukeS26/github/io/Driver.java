@@ -5,8 +5,6 @@ public class Driver {
         HttpServer server = new HttpServer();
 
         server.start();
-
-        //System.out.println(server.mongoManager.getAllComments("6026d329da97123844466de5").toJson());
     }
     
     // Create account
@@ -32,8 +30,6 @@ public class Driver {
 
     /**
      * TODO: New endpoints below
-     * DELETE /api/account/token
-     * Remove a token from the database (invalidates it, this should be done when logging out)
      * 
      * PATCH /api/account/{USERNAME}
      * Update an account (bio, pfp, etc.)

@@ -63,7 +63,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	},
 	mode: "cors",
 	headers: {
-		'Origin': '157.230.233.218:8080/api/posts'
+		'Origin': '157.230.233.218:8080'
 	}
 })
 .then(res => console.log(res.json()))

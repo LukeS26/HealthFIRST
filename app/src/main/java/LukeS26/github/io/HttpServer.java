@@ -1,5 +1,8 @@
 package LukeS26.github.io;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -22,11 +25,14 @@ import io.javalin.Javalin;
 public class HttpServer {
     public MongoManager mongoManager;
     private Javalin app;
+    private String[] suspiciousEndpoints;
 
     public HttpServer() {
         System.out.println("Initializing MongoDB....");
         mongoManager = new MongoManager();
         System.out.println("Finished initializing MongoDB.");
+
+        suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html", "stream/rtmp" };
 
         System.out.println("Initializing Javalin...");
         app = Javalin.create(config -> {
@@ -42,6 +48,20 @@ public class HttpServer {
     }
 
     public void start() {
+        app.before(ctx -> {
+            for (String s : suspiciousEndpoints) {
+                if (ctx.fullUrl().contains(s)) {
+                    ctx.header("Content-Encoding", "gzip");
+                    ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
+                    InputStream is = new FileInputStream(Settings.BOMB_LOCATION);
+                    ctx.result(is);
+
+                    is.close();
+                    System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
+                    return;
+                }
+            }
+        });
         // insertTestAccount(); // Used for testing
 
         // #region Replies

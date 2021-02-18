@@ -50,29 +50,24 @@ window.onclick = function() {
 }
 
 let data = {
-	"title": "text",
-	"body": "text"
+	title: "text",
+	body: "text"
 }
+let currToken = getCookie("token");
 
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	body: JSON.stringify(data),
 	headers: {
-		"Content-type": "application/json; charset=UTF-8",
-		'Authorization': getCookie("token")
-	},
-	mode: "cors",
-	headers: {
+		'Content-type': 'application/json; charset=UTF-8',
+		'Authorization': currToken,
 		'Origin': '157.230.233.218:8080/api/posts'
-	}
+	},
+	mode: "cors"
 })
-.then(res => console.log(res.json()))
+.then(res =>  res.json())
 .then(json => {
-	if (json !== null) {
-		alert(json);
-	} else {
-		alert("error!");
-	}
+	console.log("hello!");
 })
 .catch(err => {
 	console.log(err);

@@ -65,7 +65,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	},
 	mode: "cors"
 })
-.then(res => console.log(res.json()))
+.then(res => res.json())
 .then(json => {
 	if (json !== null) {
 		alert(json);

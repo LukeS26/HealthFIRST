@@ -45,53 +45,38 @@ public class MongoManager {
     public Token findTokenFromString(String token) {
         MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
         try {
-            FindIterable<Document> tokenDocs = tokenCollection.find();
-            for (Document tokenDoc : tokenDocs) {
-                if (token.equals((String) tokenDoc.get("token"))) {
-                    return Token.fromDoc(tokenDoc);
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        return null;
-    }
-
-    public Document findTokenDocFromUsername(String username) {
-        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
-        try {
-            FindIterable<Document> tokenDocs = tokenCollection.find();
-
-            for (Document tokenDoc : tokenDocs) {
-                if (username.equals((String) tokenDoc.get("username"))) {
-                    return tokenDoc;
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        return null;
-    }
-
-    public Token findTokenFromUsername(String username) {
-        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
-        try {
-            Document tokenDoc = tokenCollection.find(Filters.eq("username", username)).first();
+            Document tokenDoc = tokenCollection.find(Filters.eq("token", token)).first();
             if (tokenDoc != null) {
                 return Token.fromDoc(tokenDoc);
             }
 
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
 
         return null;
     }
 
+    /**
+     * Get org.bson.Document for the given username
+     * 
+     * @param username 
+     * @return
+     */
+    public Document findTokenDocFromUsername(String username) {
+        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
+        try {
+            Document tokenDoc = tokenCollection.find(Filters.eq("username", username)).first();
+            if (tokenDoc != null) {
+                return tokenDoc;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
     // #endregion
 
     // #region Comments

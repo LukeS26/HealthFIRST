@@ -54,8 +54,10 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	body: "text",
 	title: "text",
 	headers: {
-		'Authorization': getCookie("token")
-	}
+		'Authorization': getCookie("token"),
+		'Origin': '157.230.233.218:8080/api/posts'
+	},
+	mode: "cors"
 })
 .then(res => res.json())
 .then(json => {

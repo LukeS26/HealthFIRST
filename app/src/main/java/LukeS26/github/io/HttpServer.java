@@ -42,8 +42,7 @@ public class HttpServer {
             config.requestLogger((ctx, ms) -> {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
                 LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
-                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl()
-                        + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
             });
 
         }).start(Settings.HTTP_SERVER_PORT);
@@ -56,7 +55,6 @@ public class HttpServer {
                 if (ctx.fullUrl().contains(s)) {
                     // Put in try/catch in case they close the page while still sending the bomb
                     try {
-
                         ctx.header("Content-Encoding", "gzip");
                         ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
 
@@ -68,6 +66,7 @@ public class HttpServer {
 
                         System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
                         return;
+
                     } catch (Exception e) {
                     }
                 }
@@ -111,11 +110,12 @@ public class HttpServer {
                 return;
             }
 
-            Token token = Token.fromDoc(mongoManager.findToken(ctx.header("Authorization")));
-            if (token == null) {
+            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
+            Token token = Token.fromDoc(tokenDoc);
 
             Comment comment = new Comment();
             // only accept ObjectId objects instead of strings to stay consistent, because I
@@ -132,12 +132,12 @@ public class HttpServer {
          * Get a specific comment
          */
         app.get("/api/comments/*", ctx -> {
-            Comment comment = Comment.fromDoc(mongoManager.findComment(ctx.splat(0)));
-            if (comment == null) {
+            Document commentDoc = mongoManager.findComment(ctx.splat(0));
+            if (commentDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
             }
-            String commentJson = comment.toDoc().toJson();
+            String commentJson = commentDoc.toJson();
 
             ctx.result(commentJson);
             ctx.status(HttpStatus.OK_200);
@@ -164,11 +164,12 @@ public class HttpServer {
                 return;
             }
 
-            Token token = Token.fromDoc(mongoManager.findToken(ctx.header("Authorization")));
-            if (token == null) {
+            Document tokenDoc =mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
+            Token token = Token.fromDoc(tokenDoc);
 
             Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
             post.author = token.username;
@@ -188,13 +189,13 @@ public class HttpServer {
                 ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
 
-            Post post = Post.fromDoc(mongoManager.findPost(ctx.splat(0)));
-            if (post == null) {
+            Document postDoc = mongoManager.findPost(ctx.splat(0));
+            if (postDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
             }
 
-            String postJson = post.toDoc().toJson();
+            String postJson = postDoc.toJson();
 
             ctx.result(postJson);
             ctx.status(HttpStatus.OK_200);
@@ -217,8 +218,8 @@ public class HttpServer {
                 return;
             }
 
-            Token token = Token.fromDoc(mongoManager.findToken(ctx.header("Authorization")));
-            if (token == null) {
+            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
@@ -277,15 +278,14 @@ public class HttpServer {
             }
 
             // Checking if account already exists with that username
-            Account existingAccount = Account.fromDoc(mongoManager.findAccount((String) doc.get("username")));
-            if (existingAccount != null) {
+            Document accountDoc = mongoManager.findAccount((String) doc.get("username"));
+            if (accountDoc != null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
-
             Account userAccount = new Account();
             /*
-             * Can't use userAccount.fromDoc here because this won't contain a bio,
+             * Can't use .fromDoc here because this won't contain a bio,
              * userAccount link, permission id, etc.
              */
             userAccount.username = (String) doc.get("username");
@@ -313,8 +313,9 @@ public class HttpServer {
          * Get account information
          */
         app.get("/api/account/*", ctx -> {
-            Account userAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0)));
-            if (userAccount != null) {
+            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0));
+            if (existingUserAccountDoc != null) {
+                Account userAccount = Account.fromDoc(existingUserAccountDoc);
                 Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
                                                                     // don't want to send pass
                 String accountJson = userAccountDoc.toJson();
@@ -350,14 +351,13 @@ public class HttpServer {
                 return;
             }
 
-            Account loginAccount = Account.fromDoc(mongoManager.findAccount((String) doc.get("username")));
-
-            // Fix logging into accounts that don't exist
-            if (loginAccount == null) {
+            Document loginAccountDoc = mongoManager.findAccount((String) doc.get("username"));
+            if (loginAccountDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
             }
-
+            Account loginAccount = Account.fromDoc(loginAccountDoc);
+            
             System.out.println("Found account");
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {

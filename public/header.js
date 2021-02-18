@@ -49,4 +49,22 @@ window.onclick = function() {
 	}
 }
 
-displayPost({title: "hello", author: "I like pizza", body: "I like pizza"}, 56);
+fetch("http://157.230.233.218:8080/api/posts", {
+	method: "POST",
+	body: "text",
+	title: "text",
+	headers: {
+		'Authorization': getCookie("token")
+	}
+})
+.then(res => res.json())
+.then(json => {
+	if (json !== null) {
+		alert(json);
+	} else {
+		alert("error!");
+	}
+})
+.catch(err => {
+	console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+})

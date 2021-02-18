@@ -3,11 +3,15 @@ package LukeS26.github.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletOutputStream;
 
 import com.mongodb.client.FindIterable;
 
@@ -53,10 +57,14 @@ public class HttpServer {
                 if (ctx.fullUrl().contains(s)) {
                     ctx.header("Content-Encoding", "gzip");
                     ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
-                    InputStream is = new FileInputStream(Settings.BOMB_LOCATION);
-                    ctx.result(is);
 
-                    is.close();
+                    byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
+
+                    ServletOutputStream sos = ctx.res.getOutputStream();
+                    sos.write(fileBytes);
+                    sos.flush();
+
+                    System.out.println("Response size: " + new File(Settings.BOMB_LOCATION).length());
                     System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
                     return;
                 }

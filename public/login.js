@@ -62,12 +62,10 @@ function checkUser() {
 	.then(json => {
 		token = json.token;
 		document.cookie = `token=${token}; expires=${json.expire}`;
-		document.cookie = `username=${username}`;
+		document.cookie = `username=${username}; expires=${json.expire}`;
 		window.location.href = "index.html";
 	})
 	.catch(err => {
 		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")
 	});
-
-
 }

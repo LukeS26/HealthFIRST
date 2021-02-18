@@ -48,3 +48,5 @@ window.onclick = function() {
 		profileHeaderStuff.style.top = "-103%";
 	}
 }
+
+displayPost({title: "hello", author: "I like pizza", body: "I like pizza"}, 56);

@@ -36,7 +36,7 @@ function displayPost(post, id) {
 }
 
 function loadPost(id) {
-	window.location.assign(window.location.href + "post.html?id=" + id);
+	window.location.assign("/post.html?id=" + id);
 }
 
 function toggleCommenter(id) {

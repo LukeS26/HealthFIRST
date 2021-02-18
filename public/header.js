@@ -66,7 +66,8 @@ fetch("http://157.230.233.218:8080/api/posts", {
 		'Origin': '157.230.233.218:8080/api/posts'
 	}
 })
-.then(res => res.json())
+.then(res => console.log(res.json()))
+/*
 .then(json => {
 	if (json !== null) {
 		alert(json);
@@ -74,6 +75,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
 		alert("error!");
 	}
 })
+*/
 .catch(err => {
 	console.log(err);
 	console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");

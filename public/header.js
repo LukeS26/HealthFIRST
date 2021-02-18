@@ -53,17 +53,18 @@ let data = {
 	"title": "text",
 	"body": "text"
 }
+let currToken = getCookie("token");
 
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	body: JSON.stringify(data),
 	headers: {
 		"Content-type": "application/json; charset=UTF-8",
-		'Authorization': getCookie("token")
+		'Authorization': currToken
 	},
 	mode: "cors",
 	headers: {
-		'Origin': '157.230.233.218:8080'
+		'Origin': '157.230.233.218:8080/api/posts'
 	}
 })
 .then(res => console.log(res.json()))

@@ -46,12 +46,12 @@ function toggleCommenter(id) {
 
 	if (open[id]) {
 		img.style.transform = "rotate(0deg)";
-		div[4].style.display = "none";
+		div[2].style.display = "none";
 		open[id] = false;
 	} else {
 		img.style.transform = "rotate(-180deg)";
-		div[4].style.display = "block";
-		div[4].focus();
+		div[2].style.display = "block";
+		div[2].focus();
 		open[id] = true;
 	}
 }

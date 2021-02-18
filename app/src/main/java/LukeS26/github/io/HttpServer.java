@@ -44,81 +44,6 @@ public class HttpServer {
     public void start() {
         // insertTestAccount(); // Used for testing
 
-        // #region Authentication
-        /**
-         * Getting an account token + verifying username+pass
-         */
-        app.post("/api/account/login", ctx -> {
-            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
-            }
-
-            Document doc = null;
-            try {
-                doc = Document.parse(ctx.body());
-
-            } catch (Exception e) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
-                return;
-            }
-
-            if (!doc.containsKey("username") || !doc.containsKey("password") || !doc.containsKey("expire")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
-                return;
-            }
-
-            Account loginAccount = mongoManager.getAccount((String) doc.get("username"));
-
-            // Fix logging into accounts that don't exist
-            if (loginAccount == null) {
-                ctx.status(HttpStatus.NOT_FOUND_404);
-                return;
-            }
-
-            System.out.println("Found account");
-
-            if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
-                System.out.println("Correct password");
-
-                // If the token should expiring, create a new token expiring in an hour
-                if ((boolean) doc.get("expire")) {
-                    Token token = new Token((String) doc.get("username"), true);
-                    System.out.println("Writing token");
-                    mongoManager.writeToken(token);
-                    String tokenJson = token.toDoc().toJson();
-
-                    ctx.result(tokenJson);
-                    ctx.status(HttpStatus.CREATED_201);
-
-                    // Else, try to find an existing immortal token, and return it if it exists and
-                    // create a new one if it doesn't
-                } else {
-                    Document tokenDoc = mongoManager.findImmortalTokenDoc((String) doc.get("username"));
-                    if (tokenDoc != null) {
-                        tokenDoc.remove("_id");
-                        String tokenJson = tokenDoc.toJson();
-
-                        ctx.result(tokenJson);
-                        ctx.status(HttpStatus.OK_200);
-
-                    } else {
-                        Token token = new Token((String) doc.get("username"), false);
-                        System.out.println("Writing token");
-                        mongoManager.writeToken(token);
-                        String tokenJson = token.toDoc().toJson();
-
-                        ctx.result(tokenJson);
-                        ctx.status(HttpStatus.CREATED_201);
-                    }
-                }
-
-            } else {
-                ctx.status(HttpStatus.FORBIDDEN_403);
-            }
-
-        });
-        // #endregion
-
         // #region Replies
         /**
          * Get all comments and comments on comments for a post
@@ -156,7 +81,7 @@ public class HttpServer {
                 return;
             }
 
-            Token token = mongoManager.findToken(ctx.header("Authorization"));
+            Token token = mongoManager.findTokenFromString(ctx.header("Authorization"));
             if (token != null) {
                 Comment comment = new Comment();
                 // only accept ObjectId objects instead of strings to stay consistent, because I
@@ -205,13 +130,13 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("author") || !doc.containsKey("title")
+            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("title")
                     || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
 
-            Token token = mongoManager.findToken(ctx.header("Authorization"));
+            Token token = mongoManager.findTokenFromString(ctx.header("Authorization"));
             if (token != null) {
                 Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
                 post.author = token.username;
@@ -313,6 +238,65 @@ public class HttpServer {
                 // You could provide an error body here
                 ctx.status(HttpStatus.NOT_FOUND_404);
             }
+        });
+
+        /**
+         * Getting an account token + verifying username+pass
+         */
+        app.post("/api/account/login", ctx -> {
+            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
+                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
+            }
+
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!doc.containsKey("username") || !doc.containsKey("password")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Account loginAccount = mongoManager.getAccount((String) doc.get("username"));
+
+            // Fix logging into accounts that don't exist
+            if (loginAccount == null) {
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
+            System.out.println("Found account");
+
+            if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
+                System.out.println("Correct password");
+
+                Document tokenDoc = mongoManager.findTokenDocFromUsername((String) doc.get("username"));
+                if (tokenDoc != null) {
+                    tokenDoc.remove("_id");
+                    String tokenJson = tokenDoc.toJson();
+
+                    ctx.result(tokenJson);
+                    ctx.status(HttpStatus.OK_200);
+
+                } else {
+                    Token token = new Token((String) doc.get("username"));
+                    System.out.println("Writing token");
+                    mongoManager.writeToken(token);
+                    String tokenJson = token.toDoc().toJson();
+
+                    ctx.result(tokenJson);
+                    ctx.status(HttpStatus.CREATED_201);
+                }
+
+            } else {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+            }
+
         });
         // #endregion
     }

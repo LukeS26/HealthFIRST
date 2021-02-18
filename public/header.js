@@ -49,12 +49,16 @@ window.onclick = function() {
 	}
 }
 
+let data = {
+	"title": "text",
+	"body": "text"
+}
+
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
-	body: "text",
-	title: "text",
-	author: "text",
+	body: JSON.stringify(data),
 	headers: {
+		"Content-type": "application/json; charset=UTF-8",
 		'Authorization': getCookie("token"),
 		'Origin': '157.230.233.218:8080/api/posts'
 	},

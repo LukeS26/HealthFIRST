@@ -59,15 +59,11 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	body: JSON.stringify(data),
 	headers: {
-		'Content-type': 'application/json; charset=UTF-8'
-	},
-	mode: "cors",
-	headers: {
+		'Content-type': 'application/json; charset=UTF-8',
+		'Authorization': currToken,
 		'Origin': '157.230.233.218:8080/api/posts'
 	},
-	headers: {
-		'Authorization': currToken
-	}
+	mode: "cors"
 })
 .then(res => console.log(res.json()))
 .then(json => {

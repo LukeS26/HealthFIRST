@@ -65,7 +65,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	},
 	mode: "cors"
 })
-.then(res => {return res.json()})
+.then(res =>  res.json())
 .then(json => {
 	console.log("hello!");
 })

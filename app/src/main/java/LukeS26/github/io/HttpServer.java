@@ -54,17 +54,22 @@ public class HttpServer {
         app.before(ctx -> {
             for (String s : suspiciousEndpoints) {
                 if (ctx.fullUrl().contains(s)) {
-                    ctx.header("Content-Encoding", "gzip");
-                    ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
+                    // Put in try/catch in case they close the page while still sending the bomb
+                    try {
 
-                    byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
+                        ctx.header("Content-Encoding", "gzip");
+                        ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
 
-                    ServletOutputStream sos = ctx.res.getOutputStream();
-                    sos.write(fileBytes);
-                    sos.flush();
+                        byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
 
-                    System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
-                    return;
+                        ServletOutputStream sos = ctx.res.getOutputStream();
+                        sos.write(fileBytes);
+                        sos.flush();
+
+                        System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
+                        return;
+                    } catch (Exception e) {
+                    }
                 }
             }
         });
@@ -237,6 +242,8 @@ public class HttpServer {
                 if (blankAccount.containsKey(e.getKey())) {
                     // TODO: There is no check that the changes they are making wont break anything
                     // (ex. setting the profile picture link to a sentence), you should check this
+                    // Also you should check that they aren't changing their username to someone
+                    // else's username
                     changes.put(e.getKey(), e.getValue());
 
                 } else {

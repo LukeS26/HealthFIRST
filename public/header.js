@@ -53,6 +53,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	body: "text",
 	title: "text",
+	author: "text",
 	headers: {
 		'Authorization': getCookie("token"),
 		'Origin': '157.230.233.218:8080/api/posts'
@@ -68,5 +69,6 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	}
 })
 .catch(err => {
+	console.log(err);
 	console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 })

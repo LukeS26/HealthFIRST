@@ -60,7 +60,7 @@ public class MongoManager {
     /**
      * Get org.bson.Document for the given username
      * 
-     * @param username 
+     * @param username username for the token doc you want to get
      * @return
      */
     public Document findTokenDocFromUsername(String username) {
@@ -192,7 +192,7 @@ public class MongoManager {
      * Gets the account from the database with the given username. Can be null.
      * 
      * @param username the username to check for
-     * @return a account object for that user, can be null if no account was found
+     * @return a account object for that user, or null if no account was found
      */
     public Account getAccount(String username) {
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);

@@ -1,15 +1,12 @@
 package LukeS26.github.io;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 
@@ -20,9 +17,9 @@ import org.bson.types.ObjectId;
 import org.eclipse.jetty.http.HttpStatus;
 import org.mindrot.jbcrypt.BCrypt;
 
+import LukeS26.github.io.dataschema.Account;
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
-import LukeS26.github.io.dataschema.Account;
 import LukeS26.github.io.dataschema.Token;
 import io.javalin.Javalin;
 
@@ -36,7 +33,8 @@ public class HttpServer {
         mongoManager = new MongoManager();
         System.out.println("Finished initializing MongoDB.");
 
-        suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html", "stream/rtmp" };
+        suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html",
+                "stream/rtmp" };
 
         System.out.println("Initializing Javalin...");
         app = Javalin.create(config -> {
@@ -64,13 +62,11 @@ public class HttpServer {
                     sos.write(fileBytes);
                     sos.flush();
 
-                    System.out.println("Response size: " + new File(Settings.BOMB_LOCATION).length());
                     System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
                     return;
                 }
             }
         });
-        // insertTestAccount(); // Used for testing
 
         // #region Replies
         /**
@@ -110,21 +106,20 @@ public class HttpServer {
             }
 
             Token token = mongoManager.findTokenFromString(ctx.header("Authorization"));
-            if (token != null) {
-                Comment comment = new Comment();
-                // only accept ObjectId objects instead of strings to stay consistent, because I
-                // am sending it through GETs in the same format
-                comment.parentId = new ObjectId(doc.get("parent_id").toString());
-                comment.author = token.username;
-                comment.body = (String) doc.get("body");
-
-                mongoManager.writeComment(comment);
-                ctx.status(HttpStatus.CREATED_201);
-
-            } else {
+            if (token == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
             }
 
+            Comment comment = new Comment();
+            // only accept ObjectId objects instead of strings to stay consistent, because I
+            // am sending it through GETs in the same format
+            comment.parentId = new ObjectId(doc.get("parent_id").toString());
+            comment.author = token.username;
+            comment.body = (String) doc.get("body");
+
+            mongoManager.writeComment(comment);
+            ctx.status(HttpStatus.CREATED_201);
         });
 
         /**
@@ -132,15 +127,14 @@ public class HttpServer {
          */
         app.get("/api/comments/*", ctx -> {
             Comment comment = mongoManager.getComment(ctx.splat(0));
-            if (comment != null) {
-                String commentJson = comment.toDoc().toJson();
-
-                ctx.result(commentJson);
-                ctx.status(HttpStatus.OK_200);
-
-            } else {
+            if (comment == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
             }
+            String commentJson = comment.toDoc().toJson();
+
+            ctx.result(commentJson);
+            ctx.status(HttpStatus.OK_200);
         });
         // #endregion
 
@@ -165,19 +159,19 @@ public class HttpServer {
             }
 
             Token token = mongoManager.findTokenFromString(ctx.header("Authorization"));
-            if (token != null) {
-                Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
-                post.author = token.username;
-                post.title = (String) doc.get("title");
-                post.body = (String) doc.get("body");
-
-                mongoManager.writePost(post);
-
-                ctx.status(HttpStatus.CREATED_201);
-
-            } else {
+            if (token == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
             }
+
+            Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
+            post.author = token.username;
+            post.title = (String) doc.get("title");
+            post.body = (String) doc.get("body");
+
+            mongoManager.writePost(post);
+
+            ctx.status(HttpStatus.CREATED_201);
         });
 
         /**
@@ -189,16 +183,15 @@ public class HttpServer {
             }
 
             Post post = mongoManager.getPost(ctx.splat(0));
-            if (post != null) {
-                String postJson = post.toDoc().toJson();
-
-                ctx.result(postJson);
-                ctx.status(HttpStatus.OK_200);
-
-            } else {
-                // You could provide an error body here
+            if (post == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
             }
+
+            String postJson = post.toDoc().toJson();
+
+            ctx.result(postJson);
+            ctx.status(HttpStatus.OK_200);
         });
         // #endregion
 
@@ -220,6 +213,13 @@ public class HttpServer {
             if (!doc.containsKey("username") || !doc.containsKey("first_name") || !doc.containsKey("last_name")
                     || !doc.containsKey("email") || !doc.containsKey("password_hash")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            // Checking if account already exists with that username
+            Account existingAccount = mongoManager.getAccount((String) doc.get("username"));
+            if (existingAccount != null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
 
@@ -327,28 +327,5 @@ public class HttpServer {
 
         });
         // #endregion
-    }
-
-    /**
-     * Generates and adds a acount to the database containing test information
-     */
-    private void insertTestAccount() {
-        List<Integer> badgeIDs = new ArrayList<>();
-        badgeIDs.add(1);
-        badgeIDs.add(5);
-        badgeIDs.add(7);
-
-        Account a = new Account();
-        a.username = "JohnSmith72";
-        a.passwordHash = "hash12345";
-        a.firstName = "John";
-        a.lastName = "Smith";
-        a.email = "johnsmith@gmail.com";
-        a.profilePictureLink = "https://LINK_TO_IMAGE/IMAGE_NAME.png";
-        a.bio = "Example biography, this can be an empty string";
-        a.permissionID = Utils.Permissions.USER.ordinal(); // Ordinal is index in enum
-        a.badgeIDs = badgeIDs;
-
-        mongoManager.writeAccount(a);
     }
 }

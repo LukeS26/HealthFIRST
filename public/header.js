@@ -50,8 +50,8 @@ window.onclick = function() {
 }
 
 let data = {
-	"title": "text",
-	"body": "text"
+	title: "text",
+	body: "text"
 }
 let currToken = getCookie("token");
 

@@ -50,12 +50,14 @@ window.onclick = function() {
 }
 
 document.onload = function() {
+	console.log("ran");
+
 	let data = {
 		title: "text",
 		body: "text"
 	}
 	let currToken = getCookie("token");
-	
+
 	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
 		body: JSON.stringify(data),

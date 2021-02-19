@@ -120,7 +120,7 @@ public class MongoManager {
     public FindIterable<Document> getFeed(int pageNumber) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
-            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.descending("date")).skip(Settings.POSTS_PER_PAGE * (pageNumber-1)).limit(Settings.POSTS_PER_PAGE);
+            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.ascending("date")).skip(Settings.POSTS_PER_PAGE * (pageNumber-1)).limit(Settings.POSTS_PER_PAGE);
             if (postDocs != null) {
                 return postDocs;
             }

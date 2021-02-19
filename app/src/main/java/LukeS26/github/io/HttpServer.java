@@ -58,16 +58,17 @@ public class HttpServer {
                         ctx.header("Content-Encoding", "gzip");
                         ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
 
+                        System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
                         byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
 
                         ServletOutputStream sos = ctx.res.getOutputStream();
                         sos.write(fileBytes);
                         sos.flush();
 
-                        System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
                         return;
 
                     } catch (Exception e) {
+                        System.out.println("Exception while sending GZip: " + e.getMessage());
                     }
                 }
             }

@@ -58,7 +58,6 @@ public class HttpServer {
                     try {
                         ctx.header("Content-Encoding", "gzip");
                         ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
-
                         
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
                         LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));

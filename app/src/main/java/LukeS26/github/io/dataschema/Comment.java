@@ -10,7 +10,7 @@ public class Comment extends DataSchema {
      */
     public ObjectId id;
     public ObjectId postId;
-    public ObjectId replyToId; // Can be null
+    public ObjectId replyToId; // Initialized if it is a reply on a comment, null if a comment on a post
     public String author;
     public String body;
     // TODO: Keep post ID and a replyTo ID for the comment it is replying to, this can be null if it is a comment on a post

@@ -66,32 +66,10 @@ public class MongoManager {
      * @param postID
      * @return
      */
-    public Document findAllComments(String postID) {
+    public FindIterable<Document> findAllComments(String postID) {
         MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
-        FindIterable<Document> postComments = commentsCollection.find(Filters.eq("parent_id", new ObjectId(postID)));
-
-        List<Document> allComments = new ArrayList<>();
-        List<Document> toProcess = new ArrayList<>();
-        for (Document doc : postComments) {
-            toProcess.add(doc);
-            allComments.add(doc);
-        }
-
-        while (toProcess.size() > 0) {
-            Document curDoc = toProcess.get(toProcess.size() - 1);
-            toProcess.remove(toProcess.size() - 1);
-            FindIterable<Document> children = commentsCollection
-                    .find(Filters.eq("parent_id", (ObjectId) curDoc.get("_id")));
-            MongoCursor<Document> childrenCursor = children.cursor();
-            while (childrenCursor.hasNext()) {
-                Document child = childrenCursor.next();
-                allComments.add(child);
-                toProcess.add(child);
-            }
-        }
-
-        Document returnDoc = new Document("comments", allComments);
-        return returnDoc;
+        FindIterable<Document> postComments = commentsCollection.find(Filters.eq("post_id", new ObjectId(postID)));
+        return postComments;
     }
 
     public void writeComment(Comment comment) {
@@ -114,21 +92,7 @@ public class MongoManager {
 
         return null;
     }
-
-    public FindIterable<Document> findReplies(String parentID) {
-        MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
-        try {
-            FindIterable<Document> docList = commentCollection.find(Filters.eq("parent_id", new ObjectId(parentID)));
-            if (docList.cursor().hasNext()) {
-                return docList;
-            }
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-        }
-
-        return null;
-    }
+    // TODO: Allow editing of comments (might want to add a boolean for isEdited to show if it was edited like Discord)
     // #endregion
 
     // #region Posts
@@ -169,8 +133,10 @@ public class MongoManager {
 
     /**
      * Gets the account document from the database with the given username.
+     * 
      * @param username the username to find a doc for
-     * @return an org.bson.Document for the given username if found, null if not found
+     * @return an org.bson.Document for the given username if found, null if not
+     *         found
      */
     public Document findAccount(String username) {
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);

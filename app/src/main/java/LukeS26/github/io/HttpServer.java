@@ -162,7 +162,10 @@ public class HttpServer {
 
         // #region Posts
         app.get("/api/posts/feed", ctx -> {
-
+            FindIterable<Document> feed = mongoManager.getFeed();
+            Document feedDoc = new Document("feed", feed);
+            ctx.result(feedDoc.toJson());
+            ctx.status(HttpStatus.OK_200);
         });
 
         /**

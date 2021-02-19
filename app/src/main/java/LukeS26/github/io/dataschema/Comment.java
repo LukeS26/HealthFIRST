@@ -9,8 +9,8 @@ public class Comment extends DataSchema {
      * replying to
      */
     public ObjectId id;
-    public ObjectId parentId; // This will be the post ID if it is a comment on a post, and a comment ID if a
-                              // reply on a comment
+    public ObjectId postId;
+    public ObjectId replyToId; // Can be null
     public String author;
     public String body;
     // TODO: Keep post ID and a replyTo ID for the comment it is replying to, this can be null if it is a comment on a post
@@ -23,14 +23,15 @@ public class Comment extends DataSchema {
      */
     @Override
     public Document toDoc() {
-        Document commentDoc = new Document("parent_id", parentId).append("author", author).append("body", body);
+        Document commentDoc = new Document("post_id", postId).append("reply_to_id", replyToId).append("author", author).append("body", body);
         return commentDoc;
     }
 
     public static Comment fromDoc(Document doc) {
         Comment c = new Comment();
         c.id = (ObjectId) doc.get("_id");
-        c.parentId = (ObjectId) doc.get("parent_id");
+        c.postId = (ObjectId) doc.get("post_id");
+        c.replyToId = (ObjectId) doc.get("reply_to_id");
         c.author = (String) doc.get("author");
         c.body = (String) doc.get("body");
 

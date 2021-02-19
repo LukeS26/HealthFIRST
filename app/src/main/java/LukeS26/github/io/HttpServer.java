@@ -127,7 +127,8 @@ public class HttpServer {
             Comment comment = new Comment();
             // only accept ObjectId objects instead of strings to stay consistent, because I
             // am sending it through GETs in the same format
-            comment.parentId = new ObjectId(doc.get("parent_id").toString());
+            comment.postId = new ObjectId((String) doc.get("post_id"));
+            comment.replyToId = new ObjectId((String) doc.get("reply_to_id"));
             comment.author = token.username;
             comment.body = (String) doc.get("body");
 

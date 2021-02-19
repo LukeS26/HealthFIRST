@@ -42,7 +42,8 @@ public class HttpServer {
             config.requestLogger((ctx, ms) -> {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
                 LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
-                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl()
+                        + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
             });
 
         }).start(Settings.HTTP_SERVER_PORT);
@@ -165,7 +166,7 @@ public class HttpServer {
                 return;
             }
 
-            Document tokenDoc =mongoManager.findToken(ctx.header("Authorization"));
+            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
             if (tokenDoc == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
@@ -205,6 +206,8 @@ public class HttpServer {
 
         // #region Accounts
 
+        // TODO: Right now, changing your password is done through this endpoint. Might
+        // want to change it to it's own endpoint
         app.patch("/api/account", ctx -> {
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
                 ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
@@ -219,14 +222,14 @@ public class HttpServer {
                 return;
             }
 
-            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
-            if (tokenDoc == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
+            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
 
@@ -241,22 +244,25 @@ public class HttpServer {
             Document blankAccount = new Account().toDoc(true);
             for (Entry<String, Object> e : doc.entrySet()) {
                 // Check if the empty account has the given key before setting it
-                if (blankAccount.containsKey(e.getKey())) {
-                    // TODO: There is no check that the changes they are making wont break anything
-                    // (ex. setting the profile picture link to a sentence), you should check this
-                    // Also you should check that they aren't changing their username to someone
-                    // else's username
-                    changes.put(e.getKey(), e.getValue());
-
-                } else {
+                if (!blankAccount.containsKey(e.getKey())) {
                     ctx.status(HttpStatus.BAD_REQUEST_400);
                     return;
                 }
+                // TODO: Check if setting profile pic link to something besides a link, etc.
+
+                // Checking if the username already exists
+                if (e.getKey().equals("username")) {
+                    Document existingUserDoc = mongoManager.findAccount((String) e.getValue());
+                    if (existingUserDoc != null) {
+                        ctx.status(HttpStatus.FORBIDDEN_403);
+                        return;
+                    }
+                }
+                changes.put(e.getKey(), e.getValue());
             }
 
             mongoManager.updateAccount((String) doc.get("username"), changes);
-            ctx.status(HttpStatus.NO_CONTENT_204); // TODO: You should be using 204 instead of 200 when not responding
-                                                   // with content or creating new content
+            ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
         });
 
         /**
@@ -286,8 +292,8 @@ public class HttpServer {
             }
             Account userAccount = new Account();
             /*
-             * Can't use .fromDoc here because this won't contain a bio,
-             * userAccount link, permission id, etc.
+             * Can't use .fromDoc here because this won't contain a bio, userAccount link,
+             * permission id, etc.
              */
             userAccount.username = (String) doc.get("username");
             userAccount.firstName = (String) doc.get("first_name");

@@ -34,6 +34,4 @@ public class Driver {
      * GET /api/posts/something else here
      * Get a list of the most recent posts for a feed like instagram
      */
-
-     // TODO: Reset your password feature
 }

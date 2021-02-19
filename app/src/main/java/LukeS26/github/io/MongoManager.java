@@ -120,7 +120,7 @@ public class MongoManager {
     public FindIterable<Document> getFeed() {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
-            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.ascending("date"));
+            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.descending("date"));
             if (postDocs != null) {
                 return postDocs;
             }

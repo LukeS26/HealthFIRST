@@ -1,6 +1,7 @@
 package LukeS26.github.io;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -8,6 +9,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -118,7 +120,10 @@ public class MongoManager {
     public FindIterable<Document> getFeed() {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
-            FindIterable<Document> postDocs = postCollection.find();
+            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.ascending("date"));
+            if (postDocs != null) {
+                return postDocs;
+            }
 
         } catch (Exception e) {
             System.out.println(e);

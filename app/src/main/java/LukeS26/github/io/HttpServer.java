@@ -110,7 +110,7 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("parent_id")
+            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("post_id") || !doc.containsKey("reply_to_id")
                     || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;

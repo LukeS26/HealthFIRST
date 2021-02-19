@@ -13,6 +13,7 @@ public class Comment extends DataSchema {
                               // reply on a comment
     public String author;
     public String body;
+    // TODO: Keep post ID and a replyTo ID for the comment it is replying to, this can be null if it is a comment on a post
 
     /**
      * Same as Post.toDoc, this can't include the ID since this is used for new

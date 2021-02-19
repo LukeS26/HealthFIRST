@@ -1,15 +1,13 @@
 package LukeS26.github.io;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletOutputStream;
 
@@ -20,9 +18,9 @@ import org.bson.types.ObjectId;
 import org.eclipse.jetty.http.HttpStatus;
 import org.mindrot.jbcrypt.BCrypt;
 
+import LukeS26.github.io.dataschema.Account;
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
-import LukeS26.github.io.dataschema.Account;
 import LukeS26.github.io.dataschema.Token;
 import io.javalin.Javalin;
 
@@ -36,15 +34,15 @@ public class HttpServer {
         mongoManager = new MongoManager();
         System.out.println("Finished initializing MongoDB.");
 
-        suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html", "stream/rtmp" };
+        suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html",
+                "stream/rtmp", "getuser?index=0", "jenkins/login", "check.best-proxies.ru", "setup.cgi" };
 
         System.out.println("Initializing Javalin...");
         app = Javalin.create(config -> {
             config.requestLogger((ctx, ms) -> {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
                 LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
-                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl()
-                        + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+                System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
             });
 
         }).start(Settings.HTTP_SERVER_PORT);
@@ -55,29 +53,38 @@ public class HttpServer {
         app.before(ctx -> {
             for (String s : suspiciousEndpoints) {
                 if (ctx.fullUrl().contains(s)) {
-                    ctx.header("Content-Encoding", "gzip");
-                    ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
+                    // Put in try/catch in case they close the page while still sending the bomb
+                    try {
+                        ctx.header("Content-Encoding", "gzip");
+                        ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
 
-                    byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
+                        
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
+                        LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
+                        System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+                        
+                        System.out.println("[ANTI-BOT] Suspicious request to " + s + ". G-Zip bombing client...");
+                        byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
 
-                    ServletOutputStream sos = ctx.res.getOutputStream();
-                    sos.write(fileBytes);
-                    sos.flush();
+                        ServletOutputStream sos = ctx.res.getOutputStream();
+                        sos.write(fileBytes);
+                        sos.flush();
 
-                    System.out.println("Response size: " + new File(Settings.BOMB_LOCATION).length());
-                    System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
-                    return;
+                        return;
+
+                    } catch (Exception e) {
+                        System.out.println("Exception while sending GZip: " + e);
+                    }
                 }
             }
         });
-        // insertTestAccount(); // Used for testing
 
         // #region Replies
         /**
          * Get all comments and comments on comments for a post
          */
         app.get("/api/replies/*", ctx -> {
-            FindIterable<Document> commentList = mongoManager.getReplies(ctx.splat(0));
+            FindIterable<Document> commentList = mongoManager.findReplies(ctx.splat(0));
             if (commentList == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
@@ -109,38 +116,37 @@ public class HttpServer {
                 return;
             }
 
-            Token token = mongoManager.findTokenFromString(ctx.header("Authorization"));
-            if (token != null) {
-                Comment comment = new Comment();
-                // only accept ObjectId objects instead of strings to stay consistent, because I
-                // am sending it through GETs in the same format
-                comment.parentId = new ObjectId(doc.get("parent_id").toString());
-                comment.author = token.username;
-                comment.body = (String) doc.get("body");
-
-                mongoManager.writeComment(comment);
-                ctx.status(HttpStatus.CREATED_201);
-
-            } else {
+            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
             }
+            Token token = Token.fromDoc(tokenDoc);
 
+            Comment comment = new Comment();
+            // only accept ObjectId objects instead of strings to stay consistent, because I
+            // am sending it through GETs in the same format
+            comment.parentId = new ObjectId(doc.get("parent_id").toString());
+            comment.author = token.username;
+            comment.body = (String) doc.get("body");
+
+            mongoManager.writeComment(comment);
+            ctx.status(HttpStatus.CREATED_201);
         });
 
         /**
          * Get a specific comment
          */
         app.get("/api/comments/*", ctx -> {
-            Comment comment = mongoManager.getComment(ctx.splat(0));
-            if (comment != null) {
-                String commentJson = comment.toDoc().toJson();
-
-                ctx.result(commentJson);
-                ctx.status(HttpStatus.OK_200);
-
-            } else {
+            Document commentDoc = mongoManager.findComment(ctx.splat(0));
+            if (commentDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
             }
+            String commentJson = commentDoc.toJson();
+
+            ctx.result(commentJson);
+            ctx.status(HttpStatus.OK_200);
         });
         // #endregion
 
@@ -164,20 +170,21 @@ public class HttpServer {
                 return;
             }
 
-            Token token = mongoManager.findTokenFromString(ctx.header("Authorization"));
-            if (token != null) {
-                Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
-                post.author = token.username;
-                post.title = (String) doc.get("title");
-                post.body = (String) doc.get("body");
-
-                mongoManager.writePost(post);
-
-                ctx.status(HttpStatus.CREATED_201);
-
-            } else {
+            Document tokenDoc =mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
             }
+            Token token = Token.fromDoc(tokenDoc);
+
+            Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
+            post.author = token.username;
+            post.title = (String) doc.get("title");
+            post.body = (String) doc.get("body");
+
+            mongoManager.writePost(post);
+
+            ctx.status(HttpStatus.CREATED_201);
         });
 
         /**
@@ -188,21 +195,74 @@ public class HttpServer {
                 ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
 
-            Post post = mongoManager.getPost(ctx.splat(0));
-            if (post != null) {
-                String postJson = post.toDoc().toJson();
-
-                ctx.result(postJson);
-                ctx.status(HttpStatus.OK_200);
-
-            } else {
-                // You could provide an error body here
+            Document postDoc = mongoManager.findPost(ctx.splat(0));
+            if (postDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
             }
+
+            String postJson = postDoc.toJson();
+
+            ctx.result(postJson);
+            ctx.status(HttpStatus.OK_200);
         });
         // #endregion
 
         // #region Accounts
+
+        app.patch("/api/account", ctx -> {
+            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
+                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
+            }
+
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Document userAccountDoc = mongoManager.findAccount((String) doc.get("username"));
+            if (userAccountDoc == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            Document changes = new Document();
+            // Create an empty account just for checking if the key exists
+            Document blankAccount = new Account().toDoc(true);
+            for (Entry<String, Object> e : doc.entrySet()) {
+                // Check if the empty account has the given key before setting it
+                if (blankAccount.containsKey(e.getKey())) {
+                    // TODO: There is no check that the changes they are making wont break anything
+                    // (ex. setting the profile picture link to a sentence), you should check this
+                    // Also you should check that they aren't changing their username to someone
+                    // else's username
+                    changes.put(e.getKey(), e.getValue());
+
+                } else {
+                    ctx.status(HttpStatus.BAD_REQUEST_400);
+                    return;
+                }
+            }
+
+            mongoManager.updateAccount((String) doc.get("username"), changes);
+            ctx.status(HttpStatus.NO_CONTENT_204); // TODO: You should be using 204 instead of 200 when not responding
+                                                   // with content or creating new content
+        });
 
         /**
          * Create a new account
@@ -223,9 +283,15 @@ public class HttpServer {
                 return;
             }
 
+            // Checking if account already exists with that username
+            Document accountDoc = mongoManager.findAccount((String) doc.get("username"));
+            if (accountDoc != null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
             Account userAccount = new Account();
             /*
-             * Can't use userAccount.fromDoc here because this won't contain a bio,
+             * Can't use .fromDoc here because this won't contain a bio,
              * userAccount link, permission id, etc.
              */
             userAccount.username = (String) doc.get("username");
@@ -253,8 +319,9 @@ public class HttpServer {
          * Get account information
          */
         app.get("/api/account/*", ctx -> {
-            Account userAccount = mongoManager.getAccount(ctx.splat(0));
-            if (userAccount != null) {
+            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0));
+            if (existingUserAccountDoc != null) {
+                Account userAccount = Account.fromDoc(existingUserAccountDoc);
                 Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
                                                                     // don't want to send pass
                 String accountJson = userAccountDoc.toJson();
@@ -290,20 +357,19 @@ public class HttpServer {
                 return;
             }
 
-            Account loginAccount = mongoManager.getAccount((String) doc.get("username"));
-
-            // Fix logging into accounts that don't exist
-            if (loginAccount == null) {
+            Document loginAccountDoc = mongoManager.findAccount((String) doc.get("username"));
+            if (loginAccountDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
             }
+            Account loginAccount = Account.fromDoc(loginAccountDoc);
 
             System.out.println("Found account");
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
                 System.out.println("Correct password");
 
-                Document tokenDoc = mongoManager.findTokenDocFromUsername((String) doc.get("username"));
+                Document tokenDoc = mongoManager.findToken((String) doc.get("username"));
                 if (tokenDoc != null) {
                     tokenDoc.remove("_id");
                     String tokenJson = tokenDoc.toJson();
@@ -327,28 +393,5 @@ public class HttpServer {
 
         });
         // #endregion
-    }
-
-    /**
-     * Generates and adds a acount to the database containing test information
-     */
-    private void insertTestAccount() {
-        List<Integer> badgeIDs = new ArrayList<>();
-        badgeIDs.add(1);
-        badgeIDs.add(5);
-        badgeIDs.add(7);
-
-        Account a = new Account();
-        a.username = "JohnSmith72";
-        a.passwordHash = "hash12345";
-        a.firstName = "John";
-        a.lastName = "Smith";
-        a.email = "johnsmith@gmail.com";
-        a.profilePictureLink = "https://LINK_TO_IMAGE/IMAGE_NAME.png";
-        a.bio = "Example biography, this can be an empty string";
-        a.permissionID = Utils.Permissions.USER.ordinal(); // Ordinal is index in enum
-        a.badgeIDs = badgeIDs;
-
-        mongoManager.writeAccount(a);
     }
 }

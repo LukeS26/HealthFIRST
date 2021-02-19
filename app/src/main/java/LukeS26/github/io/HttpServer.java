@@ -35,7 +35,7 @@ public class HttpServer {
         System.out.println("Finished initializing MongoDB.");
 
         suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html",
-                "stream/rtmp", "getuser?index=0" };
+                "stream/rtmp", "getuser?index=0", "jenkins/login", "check.best-proxies.ru", "setup.cgi" };
 
         System.out.println("Initializing Javalin...");
         app = Javalin.create(config -> {

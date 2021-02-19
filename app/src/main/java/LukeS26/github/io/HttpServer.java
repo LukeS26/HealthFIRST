@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletOutputStream;
@@ -160,6 +161,10 @@ public class HttpServer {
         // #endregion
 
         // #region Posts
+        app.get("/api/posts/feed", ctx -> {
+
+        });
+
         /**
          * Create a post
          */
@@ -190,6 +195,7 @@ public class HttpServer {
             post.author = token.username;
             post.title = (String) doc.get("title");
             post.body = (String) doc.get("body");
+            post.date = new Date();
 
             mongoManager.writePost(post);
 

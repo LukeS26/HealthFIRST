@@ -1,13 +1,11 @@
 package LukeS26.github.io;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
@@ -111,6 +109,18 @@ public class MongoManager {
             }
 
         } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public FindIterable<Document> getFeed() {
+        MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
+        try {
+            FindIterable<Document> postDocs = postCollection.find();
+
+        } catch (Exception e) {
             System.out.println(e);
         }
 

@@ -1,5 +1,7 @@
 package LukeS26.github.io.dataschema;
 
+import java.util.Date;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -8,6 +10,8 @@ public class Post extends DataSchema {
     public String author;
     public String title;
     public String body;
+    
+    public Date date;
 
     /**
      * Converts this Post object into a document Posts converted into documents
@@ -18,7 +22,7 @@ public class Post extends DataSchema {
      */
     @Override
     public Document toDoc() {
-        Document postDoc = new Document("author", author).append("title", title).append("body", body);
+        Document postDoc = new Document("author", author).append("title", title).append("body", body).append("date", date);
         return postDoc;
     }
 
@@ -28,6 +32,7 @@ public class Post extends DataSchema {
         p.author = (String) doc.get("author");
         p.title = (String) doc.get("title");
         p.body = (String) doc.get("body");
+        p.date = (Date) doc.get("date");
 
         return p;
     }

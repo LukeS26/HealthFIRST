@@ -73,7 +73,7 @@ public class HttpServer {
                         return;
 
                     } catch (Exception e) {
-                        System.out.println("Exception while sending GZip: " + e.getMessage());
+                        System.out.println("Exception while sending GZip: " + e);
                     }
                 }
             }

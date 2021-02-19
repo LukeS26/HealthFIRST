@@ -58,7 +58,12 @@ public class HttpServer {
                         ctx.header("Content-Encoding", "gzip");
                         ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
 
-                        System.out.println("Suspicious request to " + s + ". G-Zip bombing client...");
+                        
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
+                        LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
+                        System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+                        
+                        System.out.println("[ANTI-BOT] Suspicious request to " + s + ". G-Zip bombing client...");
                         byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
 
                         ServletOutputStream sos = ctx.res.getOutputStream();

@@ -49,9 +49,7 @@ window.onclick = function() {
 	}
 }
 
-document.onload = function() {
-	console.log("ran");
-
+function checkUser() {
 	let data = {
 		title: "text",
 		body: "text"
@@ -81,3 +79,5 @@ document.onload = function() {
 		console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	});
 }
+
+checkUser();

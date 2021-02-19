@@ -43,7 +43,7 @@ function checkUser() {
 		},
 		mode: "cors",
 		headers: {
-			'Origin': '157.230.233.218:8080/api/account/login'
+			'Origin': 'http://157.230.233.218:8080/api/account/login'
 		}
 	}).then(res => {
 		let code = res.status;

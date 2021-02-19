@@ -31,9 +31,6 @@ public class Driver {
     /**
      * TODO: New endpoints below
      * 
-     * PATCH /api/account/{USERNAME}
-     * Update an account (bio, pfp, etc.)
-     * 
      * GET /api/posts/something else here
      * Get a list of the most recent posts for a feed like instagram
      */

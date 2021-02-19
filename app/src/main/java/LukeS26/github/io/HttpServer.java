@@ -35,7 +35,7 @@ public class HttpServer {
         System.out.println("Finished initializing MongoDB.");
 
         suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html",
-                "stream/rtmp" };
+                "stream/rtmp", "getuser?index=0" };
 
         System.out.println("Initializing Javalin...");
         app = Javalin.create(config -> {
@@ -357,7 +357,7 @@ public class HttpServer {
                 return;
             }
             Account loginAccount = Account.fromDoc(loginAccountDoc);
-            
+
             System.out.println("Found account");
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {

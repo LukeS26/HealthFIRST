@@ -58,11 +58,12 @@ public class HttpServer {
                     try {
                         ctx.header("Content-Encoding", "gzip");
                         ctx.header("Content-Length", "" + new File(Settings.BOMB_LOCATION).length());
-                        
+
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss a");
                         LocalDateTime now = LocalDateTime.now(ZoneId.of("US/Eastern"));
-                        System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to " + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
-                        
+                        System.out.println("[LOG] " + dtf.format(now) + " | " + ctx.method() + " request to "
+                                + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
+
                         System.out.println("[ANTI-BOT] Suspicious request to " + s + ". G-Zip bombing client...");
                         byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
 
@@ -83,14 +84,14 @@ public class HttpServer {
         /**
          * Get all comments and comments on comments for a post
          */
-        app.get("/api/replies/*", ctx -> {
-            FindIterable<Document> commentList = mongoManager.findReplies(ctx.splat(0));
+        app.get("/api/comments/*", ctx -> {
+            FindIterable<Document> commentList = mongoManager.findAllComments(ctx.splat(0));
             if (commentList == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
             }
 
-            Document replyDoc = new Document("replies", commentList);
+            Document replyDoc = new Document("comments", commentList);
             ctx.result(replyDoc.toJson());
             ctx.status(HttpStatus.OK_200);
         });
@@ -98,7 +99,7 @@ public class HttpServer {
 
         // #region Comments
         /**
-         * Create a comment for the specified parent Authorization completed
+         * Create a comment for the specified parent
          */
         app.post("/api/comments", ctx -> {
             Document doc = null;
@@ -110,8 +111,8 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("post_id") || !doc.containsKey("reply_to_id")
-                    || !doc.containsKey("body")) {
+            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("post_id")
+                    || !doc.containsKey("reply_to_id") || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
             }
@@ -134,7 +135,7 @@ public class HttpServer {
             } else {
                 comment.replyToId = null;
             }
-            
+
             comment.author = token.username;
             comment.body = (String) doc.get("body");
 
@@ -145,7 +146,7 @@ public class HttpServer {
         /**
          * Get a specific comment
          */
-        app.get("/api/comments/*", ctx -> {
+        app.get("/api/comment/*", ctx -> {
             Document commentDoc = mongoManager.findComment(ctx.splat(0));
             if (commentDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
@@ -160,7 +161,7 @@ public class HttpServer {
 
         // #region Posts
         /**
-         * Create a post Authorization complete
+         * Create a post
          */
         app.post("/api/posts", ctx -> {
             Document doc = null;

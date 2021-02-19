@@ -54,6 +54,15 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.headerRight {
+    color: white;
+    position: absolute;
+    margin: auto;
+    padding-top: 10px;
+    padding-left: 15px;
+    text-decoration: none;
+}
+
 .posts {
     margin: auto;
     z-index: 0;

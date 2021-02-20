@@ -64,4 +64,37 @@ var request = new Request(url, {
 });
 */
 
+function checkUser() {
+	let data = {
+		title: "text",
+		body: "text"
+	}
+	let currToken = getCookie("token");
+
+	fetch("http://157.230.233.218:8080/api/posts", {
+		method: "POST",
+		body: JSON.stringify(data),
+		headers: {
+			'Content-type': 'application/json; charset=UTF-8',
+			'Authorization': currToken,
+			'Origin': 'http://157.230.233.218:8080/api/posts'
+		},
+		mode: "cors"
+	})
+	.then(res => {
+		console.log("tried res");
+		return res.json();
+	})
+	.then(json => {
+		console.log("tried json")
+		console.log(json);
+	})
+	.catch(err => {
+		console.log(err);
+		console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	});
+}
+
+checkUser();
+
 getPosts("602878639903f175355bd339");

@@ -1,8 +1,5 @@
 package LukeS26.github.io;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -117,10 +114,10 @@ public class MongoManager {
         return null;
     }
 
-    public FindIterable<Document> getFeed() {
+    public FindIterable<Document> getFeed(int pageNumber) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
-            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.ascending("date"));
+            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.ascending("date")).skip(Settings.POSTS_PER_PAGE * (pageNumber-1)).limit(Settings.POSTS_PER_PAGE);
             if (postDocs != null) {
                 return postDocs;
             }

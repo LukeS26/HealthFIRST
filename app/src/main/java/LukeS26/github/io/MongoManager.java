@@ -1,8 +1,5 @@
 package LukeS26.github.io;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;

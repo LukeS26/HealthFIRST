@@ -48,3 +48,36 @@ window.onclick = function() {
 		profileHeaderStuff.style.top = "-103%";
 	}
 }
+
+function checkUser() {
+	let data = {
+		title: "text",
+		body: "text"
+	}
+	let currToken = getCookie("token");
+
+	fetch("http://157.230.233.218:8080/api/posts", {
+		method: "POST",
+		body: JSON.stringify(data),
+		headers: {
+			'Content-type': 'application/json; charset=UTF-8',
+			'Authorization': currToken,
+			'Origin': 'http://157.230.233.218:8080/api/posts'
+		},
+		mode: "cors"
+	})
+	.then(res => {
+		console.log("tried res");
+		return res.json();
+	})
+	.then(json => {
+		console.log("tried json")
+		console.log(json);
+	})
+	.catch(err => {
+		console.log(err);
+		console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	});
+}
+
+checkUser();

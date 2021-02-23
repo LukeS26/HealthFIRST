@@ -62,6 +62,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
     	'Content-Type': 'application/json',
 		'Authorization': currToken
 	},
+	mode: "no-cors",
 	body: JSON.stringify(data),
 
 })

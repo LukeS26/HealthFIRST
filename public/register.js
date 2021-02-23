@@ -57,4 +57,11 @@ function checkForm() {
 
 function stringToHash(string) { 
     return string; 
-} 
+}
+
+onkeydown = function(e) {
+	let key = e.key;
+	if (key === "Enter") {
+		checkForm();
+	}
+}

@@ -66,6 +66,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
 })
 .then(res => {
 	let code = res.status;
+	console.log(code);
 	if (code === 400) {
 		alert("token didn't work!");
 	} else {

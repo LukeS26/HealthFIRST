@@ -2,7 +2,7 @@ let postCount = 0;
 let open = [];
 
 function getPosts(url) {
-	let fetchUrl = "157.230.233.218:8080/api/posts/" + url;
+	let fetchUrl = "https://cors-anywhere.herokuapp.com/http://157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then(function (json) {

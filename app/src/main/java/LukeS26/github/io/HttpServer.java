@@ -178,9 +178,7 @@ public class HttpServer {
          * Create a post
          */
         app.post("/api/posts", ctx -> {
-            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
-            }
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
 
             Document doc = null;
             try {

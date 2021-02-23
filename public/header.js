@@ -64,10 +64,13 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	},
 	mode: "no-cors" 
 })
-.then(res => res.json())
-.then(json => {
-	console.log("tried json")
-	console.log(json);
+.then(res => {
+	let code = res.status;
+	if (code === 400) {
+		alert("token didn't work!");
+	} else {
+		alert("It worked!");
+	}
 })
 .catch(err => {
 	console.log(err);

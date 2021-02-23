@@ -36,7 +36,7 @@ function checkUser() {
 
 	fetch("http://157.230.233.218:8080/api/account/login", {
 		method: "POST",
-		body: JSON.stringify(data),
+		body: (data),
 		headers: {
 			"Content-type": "application/json; charset=UTF-8"
 		},

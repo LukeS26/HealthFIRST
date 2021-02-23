@@ -72,7 +72,7 @@ function checkUser() {
 
 onkeydown = function(e) {
 	let key = e.key;
-	if (key === "ENTER") {
+	if (key === "Enter") {
 		checkForm();
 	}
 }

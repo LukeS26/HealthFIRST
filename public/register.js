@@ -48,6 +48,7 @@ function checkForm() {
             };
     fetch("http://157.230.233.218:8080/api/account/signup", {
         method: "POST",
+        mode: "no-cors",
         body: JSON.stringify(data)
     }).then(res => {
         console.log("Request complete!");

@@ -41,7 +41,7 @@ function checkUser() {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8"
 		},
-		mode: "cors"
+		mode: "no-cors"
 	}).then(res => {
 		let code = res.status;
 		if (code === 404) {

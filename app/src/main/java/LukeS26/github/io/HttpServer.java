@@ -188,7 +188,7 @@ public class HttpServer {
          * Create a post
          */
         app.post("/api/posts", ctx -> {
-            ctx.header("Access-Control-Allow-Origin", "*");`
+            ctx.header("Access-Control-Allow-Origin", "*");
             // ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document doc = null;
@@ -378,7 +378,7 @@ public class HttpServer {
          */
         app.post("/api/account/login", ctx -> {
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
 
             Document doc = null;

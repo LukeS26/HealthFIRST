@@ -188,39 +188,36 @@ public class HttpServer {
          * Create a post
          */
         app.post("/api/posts", ctx -> {
-            ctx.header("Access-Control-Allow-Origin", "*");
-            // ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
+                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
+            }
 
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
-
             } catch (Exception e) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                System.out.println("Malformed JSON");
                 return;
             }
-
             if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("title")
                     || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                System.out.println("Missing Authorization, title, or body");
                 return;
             }
-
             Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
             if (tokenDoc == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
             Token token = Token.fromDoc(tokenDoc);
-
             Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
             post.author = token.username;
             post.title = (String) doc.get("title");
             post.body = (String) doc.get("body");
             post.date = new Date();
-
             mongoManager.writePost(post);
-
             ctx.status(HttpStatus.CREATED_201);
         });
 

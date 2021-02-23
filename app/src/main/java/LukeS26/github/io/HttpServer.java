@@ -188,7 +188,8 @@ public class HttpServer {
          * Create a post
          */
         app.post("/api/posts", ctx -> {
-            ctx.res.setHeader("Access-Control-Allow-Origin", "*");
+            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+            // ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -196,14 +197,12 @@ public class HttpServer {
 
             } catch (Exception e) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
-                System.out.println("Malformed JSON");
                 return;
             }
 
             if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("title")
                     || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
-                System.out.println("Missing Authorization, title, or body");
                 return;
             }
 

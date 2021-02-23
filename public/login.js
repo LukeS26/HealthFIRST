@@ -61,6 +61,8 @@ function checkUser() {
 			document.getElementById("passwordIncorrect").style.display = "none";
 			let json = res.json();
 
+			console.log(json);
+
 			token = JSON.parse(json).token;
 			document.cookie = `token=${token}; expires=${expires}`;
 			document.cookie = `username=${username}; expires=${expires}`;

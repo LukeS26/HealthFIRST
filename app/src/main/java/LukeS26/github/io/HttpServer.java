@@ -1,6 +1,7 @@
 package LukeS26.github.io;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class HttpServer {
     public MongoManager mongoManager;
     private Javalin app;
     private String[] suspiciousEndpoints;
+    private byte[] gzipBytes;
 
     public HttpServer() {
         System.out.println("Initializing MongoDB....");
@@ -49,6 +51,15 @@ public class HttpServer {
 
         }).start(Settings.HTTP_SERVER_PORT);
         System.out.println("Finished initializing Javalin.");
+
+        System.out.println("Loading GZip bomb...");
+        try {
+            gzipBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Finished loading GZip bomb.");
     }
 
     public void start() {
@@ -66,10 +77,9 @@ public class HttpServer {
                                 + ctx.fullUrl() + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
 
                         System.out.println("[ANTI-BOT] Suspicious request to " + s + ". G-Zip bombing client...");
-                        byte[] fileBytes = Files.readAllBytes(Paths.get(Settings.BOMB_LOCATION));
 
                         ServletOutputStream sos = ctx.res.getOutputStream();
-                        sos.write(fileBytes);
+                        sos.write(gzipBytes);
                         sos.flush();
                         return;
 
@@ -178,7 +188,7 @@ public class HttpServer {
          * Create a post
          */
         app.post("/api/posts", ctx -> {
-            ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -219,9 +229,7 @@ public class HttpServer {
          * Get a post
          */
         app.get("/api/posts/*", ctx -> {
-            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
-            }
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document postDoc = mongoManager.findPost(ctx.splat(0));
             if (postDoc == null) {
@@ -241,9 +249,7 @@ public class HttpServer {
         // TODO: Right now, changing your password is done through this endpoint. Might
         // want to change it to it's own endpoint
         app.patch("/api/account", ctx -> {
-            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
-            }
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -372,9 +378,7 @@ public class HttpServer {
          * Getting an account token + verifying username+pass
          */
         app.post("/api/account/login", ctx -> {
-            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
-            }
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {

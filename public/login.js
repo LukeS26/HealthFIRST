@@ -32,11 +32,11 @@ function checkUser() {
 	let data = {
 		"username": username,
 		"password": hashedPassword
-	}
+	};
 
 	fetch("http://157.230.233.218:8080/api/account/login", {
 		method: "POST",
-		body: (data),
+		body: JSON.stringify(data),
 		headers: {
 			"Content-type": "application/json; charset=UTF-8"
 		},
@@ -56,6 +56,7 @@ function checkUser() {
 		}
 	})
 	.then(json => {
+		console.log(json);
 		token = json.token;
 		document.cookie = `token=${token}; expires=${json.expire}`;
 		document.cookie = `username=${username}; expires=${json.expire}`;

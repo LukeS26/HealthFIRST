@@ -243,9 +243,6 @@ public class HttpServer {
         // #endregion
 
         // #region Accounts
-
-        // TODO: Right now, changing your password is done through this endpoint. Might
-        // want to change it to it's own endpoint
         app.patch("/api/account", ctx -> {
             ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 

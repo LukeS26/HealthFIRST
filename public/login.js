@@ -69,3 +69,10 @@ function checkUser() {
 		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")
 	});
 }
+
+onkeydown = function(e) {
+	let key = e.key;
+	if (key === "ENTER") {
+		checkForm();
+	}
+}

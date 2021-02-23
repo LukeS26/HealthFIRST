@@ -57,13 +57,13 @@ let currToken = getCookie("token");
 
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
-	body: JSON.stringify(data),
 	headers: {
 		'Accept': 'application/json',
     	'Content-Type': 'application/json',
 		'Authorization': currToken
 	},
-	mode: "cors"
+	body: JSON.stringify(data),
+
 })
 .then(res => {
 	let code = res.status;

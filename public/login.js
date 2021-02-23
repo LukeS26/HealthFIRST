@@ -41,10 +41,7 @@ function checkUser() {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8"
 		},
-		mode: "cors",
-		headers: {
-			'Origin': 'http://157.230.233.218:8080/api/account/login'
-		}
+		mode: "cors"
 	}).then(res => {
 		let code = res.status;
 		if (code === 404) {

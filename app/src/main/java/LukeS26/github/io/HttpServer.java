@@ -71,7 +71,6 @@ public class HttpServer {
                         ServletOutputStream sos = ctx.res.getOutputStream();
                         sos.write(fileBytes);
                         sos.flush();
-
                         return;
 
                     } catch (Exception e) {
@@ -81,7 +80,7 @@ public class HttpServer {
             }
         });
 
-        // #region Replies
+        // #region Comments
         /**
          * Get all comments and comments on comments for a post
          */
@@ -96,9 +95,7 @@ public class HttpServer {
             ctx.result(replyDoc.toJson());
             ctx.status(HttpStatus.OK_200);
         });
-        // #endregion
 
-        // #region Comments
         /**
          * Create a comment for the specified parent
          */
@@ -184,19 +181,21 @@ public class HttpServer {
             if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
                 ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
             }
-            
+
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());
 
             } catch (Exception e) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                System.out.println("Malformed JSON");
                 return;
             }
 
             if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("title")
                     || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                System.out.println("Missing Authorization, title, or body");
                 return;
             }
 

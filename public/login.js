@@ -33,10 +33,10 @@ function checkUser() {
 		"username": username,
 		"password": hashedPassword
 	};
-	
+
 	let expires = document.getElementById("keepLoggedIn").checked;
-	if(expires) {
-		expires = (new Date(Date.now()+ 86400*1000)).toUTCString()
+	if (expires) {
+		expires = (new Date(Date.now() + 86400 * 1000)).toUTCString()
 	} else {
 		expires = "";
 	}
@@ -59,20 +59,18 @@ function checkUser() {
 		} else {
 			document.getElementById("usernameNotFound").style.display = "none";
 			document.getElementById("passwordIncorrect").style.display = "none";
-			return res.json();
+			let json = res.json();
+
+			token = JSON.parse(json).token;
+			document.cookie = `token=${token}; expires=${expires}`;
+			document.cookie = `username=${username}; expires=${expires}`;
+			window.location.href = "/";
 		}
 	})
-	.then(json => {
-		console.log(json)
-		token = JSON.parse(json).token;
-		document.cookie = `token=${token}; expires=${expires}`;
-		document.cookie = `username=${username}; expires=${expires}`;
-		window.location.href = "/";
-	})
-	
+
 }
 
-onkeydown = function(e) {
+onkeydown = function (e) {
 	let key = e.key;
 	if (key === "Enter") {
 		checkForm();

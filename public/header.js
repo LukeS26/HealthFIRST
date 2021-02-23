@@ -61,7 +61,6 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	headers: {
 		'Content-type': 'application/json; charset=UTF-8',
 		'Authorization': currToken,
-		'Origin': 'http://157.230.233.218'
 	},
 	mode: "cors"
 })

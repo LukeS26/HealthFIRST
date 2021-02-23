@@ -10,7 +10,7 @@ function getUrlVars() {
 let id = getUrlVars()["id"];
 
 function getPost(url) {
-	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
+	let fetchUrl = "157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then( function(json) {

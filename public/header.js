@@ -60,9 +60,9 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	headers: {
 		'Content-type': 'application/json; charset=UTF-8',
 		'Authorization': currToken,
-		'Origin': 'http://157.230.233.218:8080/api/posts'
+		'Access-Control-Allow-Origin': 'http://157.230.233.218:8080/api/posts'
 	},
-	mode: "cors"
+	mode: "cors" 
 })
 .then(res => {
 	console.log("tried res");

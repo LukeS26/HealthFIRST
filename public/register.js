@@ -46,7 +46,7 @@ function checkForm() {
                 "email": email,
                 "password_hash": hashedPassword
             };
-    fetch("http://157.230.233.218:8080/api/account/signup", {
+    fetch("https://cors-anywhere.herokuapp.com/http://157.230.233.218:8080/api/account/signup", {
         method: "POST",
         body: JSON.stringify(data)
     }).then(res => {

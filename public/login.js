@@ -31,8 +31,7 @@ function checkUser() {
 	let hashedPassword = stringToHash(password);
 	let data = {
 		"username": username,
-		"password": hashedPassword,
-		"expire": !keepLoggedIn
+		"password": hashedPassword
 	}
 
 	fetch("http://157.230.233.218:8080/api/account/login", {

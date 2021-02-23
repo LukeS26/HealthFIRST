@@ -48,28 +48,15 @@ function checkUser() {
 			"Content-type": "application/json; charset=UTF-8"
 		},
 		mode: "no-cors"
-	}).then(res => {
-		let code = res.status;
-		if (code === 404) {
-			document.getElementById("usernameNotFound").style.display = "block";
-			document.getElementById("passwordIncorrect").style.display = "none";
-		} else if (code === 403) {
-			document.getElementById("passwordIncorrect").style.display = "block";
-			document.getElementById("usernameNotFound").style.display = "none";
-		} else {
-			document.getElementById("usernameNotFound").style.display = "none";
-			document.getElementById("passwordIncorrect").style.display = "none";
-			res.json()
-			.then(json => {
-				console.log(json);
-		
-				token = json.token;
-				document.cookie = `token=${token}; expires=${expires}`;
-				document.cookie = `username=${username}; expires=${expires}`;
-				window.location.href = "/";
-			})
-		}
-	})
+	}).then(res => res.json())
+		.then(json => {
+			console.log(json);
+
+			token = json.token;
+			document.cookie = `token=${token}; expires=${expires}`;
+			document.cookie = `username=${username}; expires=${expires}`;
+			window.location.href = "/";
+		})
 
 }
 

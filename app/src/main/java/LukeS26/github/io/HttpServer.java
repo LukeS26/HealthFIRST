@@ -188,7 +188,7 @@ public class HttpServer {
          * Create a post
          */
         app.post("/api/posts", ctx -> {
-            ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -229,9 +229,7 @@ public class HttpServer {
          * Get a post
          */
         app.get("/api/posts/*", ctx -> {
-            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
-            }
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document postDoc = mongoManager.findPost(ctx.splat(0));
             if (postDoc == null) {
@@ -251,9 +249,7 @@ public class HttpServer {
         // TODO: Right now, changing your password is done through this endpoint. Might
         // want to change it to it's own endpoint
         app.patch("/api/account", ctx -> {
-            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
-            }
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -382,9 +378,7 @@ public class HttpServer {
          * Getting an account token + verifying username+pass
          */
         app.post("/api/account/login", ctx -> {
-            if (ctx.headerMap().containsKey("Origin") && ctx.header("Origin").contains(Settings.WEBSITE_URL)) {
-                ctx.res.setHeader("Access-Control-Allow-Origin", "http://157.230.233.218");
-            }
+            ctx.res.setHeader("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {

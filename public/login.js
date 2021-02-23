@@ -68,10 +68,7 @@ function checkUser() {
 		document.cookie = `username=${username}; expires=${expires}`;
 		window.location.href = "/";
 	})
-	.catch(err => {
-		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")
-		console.log(err);
-	});
+	
 }
 
 onkeydown = function(e) {

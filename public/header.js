@@ -54,7 +54,7 @@ let data = {
 	body: "text"
 }
 let currToken = getCookie("token");
-console.log(currToken);
+
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	body: JSON.stringify(data),

@@ -64,6 +64,7 @@ function checkUser() {
 	})
 	.catch(err => {
 		console.log("Request Failed!!!!!!!!!!!!!!!!!!!!!!!!")
+		console.log(err);
 	});
 }
 

@@ -405,7 +405,7 @@ public class HttpServer {
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
                 System.out.println("Correct password");
 
-                Document tokenDoc = mongoManager.findToken((String) doc.get("username"));
+                Document tokenDoc = mongoManager.findTokenForUser((String) doc.get("username"));
                 if (tokenDoc != null) {
                     tokenDoc.remove("_id");
                     String tokenJson = tokenDoc.toJson();

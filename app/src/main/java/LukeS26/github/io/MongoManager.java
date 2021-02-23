@@ -53,6 +53,21 @@ public class MongoManager {
 
         return null;
     }
+
+    public Document findTokenForUser(String username) {
+        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
+        try {
+            Document tokenDoc = tokenCollection.find(Filters.eq("username", username)).first();
+            if (tokenDoc != null) {
+                return tokenDoc;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
     // #endregion
 
     // #region Comments

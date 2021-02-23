@@ -62,7 +62,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
 		'Authorization': currToken,
 		'Origin': 'http://157.230.233.218:8080/api/posts'
 	},
-	mode: "cors" 
+	mode: "no-cors" 
 })
 .then(res => {
 	console.log("tried res");

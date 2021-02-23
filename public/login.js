@@ -59,15 +59,15 @@ function checkUser() {
 		} else {
 			document.getElementById("usernameNotFound").style.display = "none";
 			document.getElementById("passwordIncorrect").style.display = "none";
-			let json = res.json();
-
-			console.log(json);
-
-			token = JSON.parse(json).token;
-			document.cookie = `token=${token}; expires=${expires}`;
-			document.cookie = `username=${username}; expires=${expires}`;
-			window.location.href = "/";
+			return res;
 		}
+	}).then(res => {
+		console.log(res.json());
+
+		token = JSON.parse(res.json()).token;
+		document.cookie = `token=${token}; expires=${expires}`;
+		document.cookie = `username=${username}; expires=${expires}`;
+		window.location.href = "/";
 	})
 
 }

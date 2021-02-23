@@ -49,7 +49,7 @@ function checkUser() {
 		},
 		mode: "no-cors"
 	}).then(res => res.json())
-		.then(json => {
+		.then(function(json) {
 			console.log(json);
 
 			token = json.token;

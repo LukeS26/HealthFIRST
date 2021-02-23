@@ -59,8 +59,7 @@ function checkUser() {
 		} else {
 			document.getElementById("usernameNotFound").style.display = "none";
 			document.getElementById("passwordIncorrect").style.display = "none";
-			return res.json()
-			.then(json => {
+			res.json().then(json => {
 				console.log(json);
 		
 				token = json.token;

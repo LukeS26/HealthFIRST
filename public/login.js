@@ -41,7 +41,7 @@ function checkUser() {
 		expires = "";
 	}
 
-	fetch("http://157.230.233.218:8080/api/account/login", {
+	await fetch("http://157.230.233.218:8080/api/account/login", {
 		method: "POST",
 		body: JSON.stringify(data),
 		headers: {
@@ -59,7 +59,8 @@ function checkUser() {
 		} else {
 			document.getElementById("usernameNotFound").style.display = "none";
 			document.getElementById("passwordIncorrect").style.display = "none";
-			res.json.then(json => {
+			await res.json()
+			.then(json => {
 				console.log(json);
 		
 				token = json.token;

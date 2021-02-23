@@ -59,7 +59,8 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	body: JSON.stringify(data),
 	headers: {
-		'Content-type': 'application/json; charset=UTF-8',
+		'Accept': 'application/json',
+    	'Content-Type': 'application/json',
 		'Authorization': currToken
 	},
 	mode: "cors"

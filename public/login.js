@@ -59,12 +59,12 @@ function checkUser() {
 		} else {
 			document.getElementById("usernameNotFound").style.display = "none";
 			document.getElementById("passwordIncorrect").style.display = "none";
-			return res;
+			return res.json();
 		}
-	}).then(res => {
-		console.log(res.json());
+	}).then(json => {
+		console.log(json);
 
-		token = JSON.parse(res.json()).token;
+		token = JSON.parse(json).token;
 		document.cookie = `token=${token}; expires=${expires}`;
 		document.cookie = `username=${username}; expires=${expires}`;
 		window.location.href = "/";

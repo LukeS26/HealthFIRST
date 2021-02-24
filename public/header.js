@@ -61,10 +61,10 @@ h.append('Authorization', currToken);
 let req = new Request("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	headers: h,
-	mode: "no-cors",
+	mode: "cors",
 	body: JSON.stringify(data)
 });
-
+ 
 fetch(req)
 .then(res => {
 	let code = res.status;

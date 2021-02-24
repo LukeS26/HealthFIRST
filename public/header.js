@@ -54,18 +54,18 @@ let data = {
 	body: "text"
 }
 let currToken = getCookie("token");
-
-fetch("http://157.230.233.218:8080/api/posts", {
+let h = new Headers();
+h.append('Accept', 'application/json');
+h.append('Content-Type', 'application/json');
+h.append('Authorization', currToken);
+let req = new Request("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
-	headers: {
-		'Accept': 'application/json',
-    	'Content-Type': 'application/json',
-		'Authorization': currToken
-	},
+	headers: h,
 	mode: "no-cors",
-	body: JSON.stringify(data),
+	body: JSON.stringify(data)
+});
 
-})
+fetch(req)
 .then(res => {
 	let code = res.status;
 	console.log(code);

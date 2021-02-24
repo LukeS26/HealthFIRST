@@ -47,17 +47,15 @@ function checkUser() {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8"
 		},
-		mode: "no-cors"
+		mode: "cors"
 	}).then(res => res.json())
-		.then(function(json) {
-			console.log(json);
-
-			token = json.token;
-			document.cookie = `token=${token}; expires=${expires}`;
-			document.cookie = `username=${username}; expires=${expires}`;
-			window.location.href = "/";
-		})
-
+	.then(function(json) {
+		console.log(json);
+		token = json.token;
+		document.cookie = `token=${token}; expires=${expires}`;
+		document.cookie = `username=${username}; expires=${expires}`;
+		window.location.href = "/";
+	})
 }
 
 onkeydown = function (e) {

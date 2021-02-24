@@ -54,18 +54,16 @@ let data = {
 	body: "text"
 }
 let currToken = getCookie("token");
-let h = new Headers();
-h.append('Accept', 'application/json');
-h.append('Content-Type', 'application/json');
-h.append('Authorization', currToken);
-let req = new Request("http://157.230.233.218:8080/api/posts", {
+
+fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
-	headers: h,
-	mode: "cors",
-	body: JSON.stringify(data)
-});
- 
-fetch(req)
+	body: JSON.stringify(data),
+	headers: {
+		'Content-type': 'application/json; charset=UTF-8',
+		'Authorization': currToken
+	},
+	mode: "cors"
+})
 .then(res => {
 	let code = res.status;
 	console.log(code);

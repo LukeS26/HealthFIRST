@@ -348,6 +348,20 @@ public class HttpServer {
 
             mongoManager.writeAccount(userAccount);
 
+            Document tokenDoc = mongoManager.findTokenForUser(userAccount.username);
+            String tokenJson;
+            if (tokenDoc != null) {
+                tokenDoc.remove("_id");
+                tokenJson = tokenDoc.toJson();
+
+            } else {
+                Token token = new Token(userAccount.username);
+                System.out.println("Writing token");
+                mongoManager.writeToken(token);
+                tokenJson = token.toDoc().toJson();
+            }
+
+            ctx.result(tokenJson);
             ctx.status(HttpStatus.CREATED_201);
         });
 
@@ -404,22 +418,11 @@ public class HttpServer {
                 System.out.println("Correct password");
 
                 Document tokenDoc = mongoManager.findTokenForUser((String) doc.get("username"));
-                if (tokenDoc != null) {
-                    tokenDoc.remove("_id");
-                    String tokenJson = tokenDoc.toJson();
+                tokenDoc.remove("_id");
+                String tokenJson = tokenDoc.toJson();
 
-                    ctx.result(tokenJson);
-                    ctx.status(HttpStatus.OK_200);
-
-                } else {
-                    Token token = new Token((String) doc.get("username"));
-                    System.out.println("Writing token");
-                    mongoManager.writeToken(token);
-                    String tokenJson = token.toDoc().toJson();
-
-                    ctx.result(tokenJson);
-                    ctx.status(HttpStatus.CREATED_201);
-                }
+                ctx.result(tokenJson);
+                ctx.status(HttpStatus.OK_200);
 
             } else {
                 ctx.status(HttpStatus.FORBIDDEN_403);

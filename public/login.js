@@ -49,7 +49,7 @@ function checkUser() {
 		},
 		mode: "cors",
 		headers: {
-			"Origin": "http://157.230.233.218:8080"
+			"Origin": "http://157.230.233.218"
 		}
 	})
 	.then(res => res.json())

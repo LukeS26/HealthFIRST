@@ -53,14 +53,19 @@ let data = {
 	title: "text",
 	body: "text"
 }
-let currToken = getCookie("token");
+
+let currToken;
+async function collectToken() {
+currToken =  await getCookie("token");
+}
+collectToken();
 
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	body: JSON.stringify(data),
 	headers: {
 		'Content-type': 'application/json; charset=UTF-8',
-		'Authorization': await getCookie("token")
+		'Authorization': currToken
 	},
 	mode: "cors",
 	credentials: "include",

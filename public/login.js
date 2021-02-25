@@ -73,6 +73,7 @@ function checkUser() {
 		document.cookie = `username=${username}; expires=${expires}`;
 		window.location.href = "/";
 	})
+	.catch(err => console.log(err)); 
 }
 
 onkeydown = function (e) {

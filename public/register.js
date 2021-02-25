@@ -56,16 +56,20 @@ function checkForm() {
 	    	headers: {
 	    		"Origin": "http://157.230.233.218"
 	    	}
-        }).then(res => {
+        })
+        .then(res => {
             let code = res.status;
-            console.log(code);
+            //console.log(code);
             if (code === 403) {
                 document.getElementById("usernameTaken").style.display = "block";
             } else {
                 document.getElementById("usernameTaken").style.display = "none";
+                return res.json()
             }
             console.log("Request complete!");
-        })        
+        })
+        .then(json => console.log(json))
+        .catch(err => console.log(err));     
     }
 }
 

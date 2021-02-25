@@ -70,8 +70,7 @@ function checkUser() {
 		console.log(json);
 		token = json.token;
 		document.cookie = `token=${token}; expires=${expires}`;
-		document.cookie = `username=${username}; expires=${expires}`;
-		alert(expires); 
+		document.cookie = `username=${username}; expires=${expires}`; 
 		window.location.href = "/";
 	})
 	.catch(err => console.log(err)); 

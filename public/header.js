@@ -13,7 +13,7 @@ usernameOutput.innerHTML = username;
 document.getElementById("profileHeader").style.width = (username.length * 1.5 - (username.length * 2)) + "em";
 document.getElementById("profileHeaderStuff").style.width = document.getElementById("profileHeader").offsetWidth - 4 + "px";
 
-async function getCookie(name) {
+function getCookie(name) {
 	let cookieArr = document.cookie.split(";");
 
 	for (let i = 0; i < cookieArr.length; i++) {
@@ -53,14 +53,14 @@ let data = {
 	title: "text",
 	body: "text"
 }
-let currToken = await getCookie("token");
+let currToken = getCookie("token");
 
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
 	body: JSON.stringify(data),
 	headers: {
 		'Content-type': 'application/json; charset=UTF-8',
-		'Authorization': currToken
+		'Authorization': await getCookie("token")
 	},
 	mode: "cors",
 	credentials: "include",

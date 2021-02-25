@@ -52,7 +52,20 @@ function checkUser() {
 			"Origin": "http://157.230.233.218"
 		}
 	})
-	.then(res => res.json())
+	.then(res => {
+		let code = res.status;
+		if (code === 404) {
+			document.getElementById("usernameNotFound").style.display = "block";
+			document.getElementById("passwordIncorrect").style.display = "none";
+		} else if (code === 403) {
+			document.getElementById("passwordIncorrect").style.display = "block";
+			document.getElementById("usernameNotFound").style.display = "none";
+		} else {
+			document.getElementById("usernameNotFound").style.display = "none";
+			document.getElementById("passwordIncorrect").style.display = "none";
+			return res.json();
+		}
+	})
 	.then(function(json) {
 		console.log(json);
 		token = json.token;

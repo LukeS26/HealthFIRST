@@ -348,6 +348,20 @@ public class HttpServer {
 
             mongoManager.writeAccount(userAccount);
 
+            Document tokenDoc = mongoManager.findTokenForUser(userAccount.username);
+            String tokenJson;
+            if (tokenDoc != null) {
+                tokenDoc.remove("_id");
+                tokenJson = tokenDoc.toJson();
+
+            } else {
+                Token token = new Token(userAccount.username);
+                System.out.println("Writing token");
+                mongoManager.writeToken(token);
+                tokenJson = token.toDoc().toJson();
+            }
+            
+            ctx.result(tokenJson);
             ctx.status(HttpStatus.CREATED_201);
         });
 

@@ -41,13 +41,16 @@ function checkUser() {
 		expires = "";
 	}
 
-	fetch("http://cors-anywhere.herokuapp.com/157.230.233.218:8080/api/account/login", {
+	fetch("http://157.230.233.218:8080/api/account/login", {
 		method: "POST",
 		body: JSON.stringify(data),
 		headers: {
 			"Content-type": "application/json; charset=UTF-8"
 		},
-		mode: "cors"
+		mode: "cors",
+		headers: {
+			"Origin": "http://157.230.233.218:8080"
+		}
 	})
 	.then(res => res.json())
 	.then(function(json) {

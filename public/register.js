@@ -57,6 +57,12 @@ function checkForm() {
 	    		"Origin": "http://157.230.233.218"
 	    	}
         }).then(res => {
+            let code = res.status;
+            if (code === 403) {
+                document.getElementById("usernameTaken").style.display = "block";
+            } else {
+                document.getElementById("usernameTaken").style.display = "none";
+            }
             console.log("Request complete!");
         })        
     }

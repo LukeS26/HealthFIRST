@@ -58,11 +58,11 @@ function checkForm() {
 	    	}
         }).then(res => {
             let code = res.status;
+            console.log(code);
             if (code === 403) {
                 document.getElementById("usernameTaken").style.display = "block";
             } else {
                 document.getElementById("usernameTaken").style.display = "none";
-                return res.json();
             }
             console.log("Request complete!");
         })        

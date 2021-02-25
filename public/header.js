@@ -53,12 +53,8 @@ let data = {
 	title: "text",
 	body: "text"
 }
-
-let currToken;
-async function collectToken() {
-currToken =  await getCookie("token");
-}
-collectToken();
+let currToken = getCookie("token");
+console.log(currToken);
 
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",

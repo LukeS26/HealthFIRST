@@ -62,6 +62,7 @@ function checkForm() {
                 document.getElementById("usernameTaken").style.display = "block";
             } else {
                 document.getElementById("usernameTaken").style.display = "none";
+                return res.json();
             }
             console.log("Request complete!");
         })        

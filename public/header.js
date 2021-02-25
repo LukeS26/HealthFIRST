@@ -13,7 +13,7 @@ usernameOutput.innerHTML = username;
 document.getElementById("profileHeader").style.width = (username.length * 1.5 - (username.length * 2)) + "em";
 document.getElementById("profileHeaderStuff").style.width = document.getElementById("profileHeader").offsetWidth - 4 + "px";
 
-function getCookie(name) {
+async function getCookie(name) {
 	let cookieArr = document.cookie.split(";");
 
 	for (let i = 0; i < cookieArr.length; i++) {

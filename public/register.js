@@ -39,6 +39,12 @@ function checkForm() {
     }
 
     let hashedPassword = stringToHash(password);
+    let expires = document.getElementById("keepLoggedIn").checked;
+	if (!expires) {
+		expires = (new Date(Date.now() + 86400 * 1000)).toUTCString()
+	} else {
+		expires = "";
+	}
     if (filled && pass && age) {
         let data = {"username": username,
                     "first_name": firstName,
@@ -68,7 +74,13 @@ function checkForm() {
             }
             console.log("Request complete!");
         })
-        .then(json => console.log(json))
+        .then(json => {
+            console.log(json);
+		    token = json.token;
+		    document.cookie = `token=${token}; expires=${expires}`;
+		    document.cookie = `username=${username}; expires=${expires}`;
+		    window.location.href = "/";
+        })
         .catch(err => console.log(err));     
     }
 }

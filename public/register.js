@@ -40,25 +40,25 @@ function checkForm() {
 
     let hashedPassword = stringToHash(password);
     if (filled && pass && age) {
-    let data = {"username": username,
-                "first_name": firstName,
-                "last_name": lastName,
-                "email": email,
-                "password_hash": hashedPassword
-            };
-    fetch("http://157.230.233.218:8080/api/account/signup", {
-        method: "POST",
-		body: JSON.stringify(data),
-		headers: {
-			"Content-type": "application/json; charset=UTF-8"
-		},
-		mode: "cors",
-		headers: {
-			"Origin": "http://157.230.233.218"
-		}
-    }).then(res => {
-        console.log("Request complete!");
-    })        
+        let data = {"username": username,
+                    "first_name": firstName,
+                    "last_name": lastName,
+                    "email": email,
+                    "password_hash": hashedPassword
+                };
+        fetch("http://157.230.233.218:8080/api/account/signup", {
+            method: "POST",
+	    	body: JSON.stringify(data),
+	    	headers: {
+	    		"Content-type": "application/json; charset=UTF-8"
+	    	},
+	    	mode: "no-cors",
+	    	headers: {
+	    		"Origin": "http://157.230.233.218"
+	    	}
+        }).then(res => {
+            console.log("Request complete!");
+        })        
     }
 }
 

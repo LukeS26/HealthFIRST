@@ -62,8 +62,7 @@ fetch("http://157.230.233.218:8080/api/posts", {
 		'Content-type': 'application/json; charset=UTF-8',
 		'Authorization': currToken
 	},
-	mode: "cors",
-	credentials: "include"
+	mode: "same-origin"
 })
 .then(res => {
 	let code = res.status;

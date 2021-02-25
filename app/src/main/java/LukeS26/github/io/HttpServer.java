@@ -188,6 +188,7 @@ public class HttpServer {
          * Create a post
          */
         app.post("/api/posts", ctx -> {
+            ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");
             ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
 

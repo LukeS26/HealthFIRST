@@ -39,6 +39,7 @@ function checkForm() {
     }
 
     let hashedPassword = stringToHash(password);
+    let expires = (new Date(Date.now() + 86400 * 1000)).toUTCString();
     if (filled && pass && age) {
         let data = {"username": username,
                     "first_name": firstName,
@@ -56,16 +57,26 @@ function checkForm() {
 	    	headers: {
 	    		"Origin": "http://157.230.233.218"
 	    	}
-        }).then(res => {
+        })
+        .then(res => {
             let code = res.status;
-            console.log(code);
+            //console.log(code);
             if (code === 403) {
                 document.getElementById("usernameTaken").style.display = "block";
             } else {
                 document.getElementById("usernameTaken").style.display = "none";
+                return res.json()
             }
             console.log("Request complete!");
-        })        
+        })
+        .then(json => {
+            console.log(json);
+		    token = json.token;
+		    document.cookie = `token=${token}; expires=${expires}`;
+		    document.cookie = `username=${username}; expires=${expires}`;
+		    window.location.href = "/";
+        })
+        .catch(err => console.log(err));     
     }
 }
 

@@ -63,8 +63,9 @@ fetch("http://157.230.233.218:8080/api/posts", {
 		'Authorization': currToken
 	},
 	mode: "cors",
+	credentials: "include",
 	headers: {
-		"Origin": "http://157.230.233.218"
+		'Origin': 'http://157.230.233.218:8080'
 	}
 })
 .then(res => {

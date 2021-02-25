@@ -35,7 +35,7 @@ function checkUser() {
 	};
 
 	let expires = document.getElementById("keepLoggedIn").checked;
-	if (expires) {
+	if (!expires) { 
 		expires = (new Date(Date.now() + 86400 * 1000)).toUTCString()
 	} else {
 		expires = "";
@@ -70,9 +70,10 @@ function checkUser() {
 		console.log(json);
 		token = json.token;
 		document.cookie = `token=${token}; expires=${expires}`;
-		document.cookie = `username=${username}; expires=${expires}`;
+		document.cookie = `username=${username}; expires=${expires}`; 
 		window.location.href = "/";
 	})
+	.catch(err => console.log(err)); 
 }
 
 onkeydown = function (e) {

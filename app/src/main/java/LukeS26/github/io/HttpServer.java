@@ -302,6 +302,8 @@ public class HttpServer {
          * Create a new account
          */
         app.post("/api/account/signup", ctx -> {
+            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+
             Document doc = null;
             try {
                 doc = Document.parse(ctx.body());

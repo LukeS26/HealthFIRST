@@ -52,14 +52,14 @@ function checkForm() {
 	    	headers: {
 	    		"Content-type": "application/json; charset=UTF-8"
 	    	},
-	    	mode: "no-cors",
+	    	mode: "cors",
 	    	headers: {
 	    		"Origin": "http://157.230.233.218"
 	    	}
         }).then(res => {
             let code = res.status;
             console.log(code);
-            if (!res.ok) {
+            if (code === 403) {
                 document.getElementById("usernameTaken").style.display = "block";
             } else {
                 document.getElementById("usernameTaken").style.display = "none";

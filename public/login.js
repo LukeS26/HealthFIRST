@@ -71,6 +71,7 @@ function checkUser() {
 		token = json.token;
 		document.cookie = `token=${token}; expires=${expires}`;
 		document.cookie = `username=${username}; expires=${expires}`;
+		alert(expires); 
 		window.location.href = "/";
 	})
 	.catch(err => console.log(err)); 

@@ -80,3 +80,10 @@ if (getCookie("accepted") !== "true") {
 		console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	});
 }
+
+function logout() {
+	document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+	document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+	document.cookie = "accepted=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+	window.location.href = "/login.html";
+}

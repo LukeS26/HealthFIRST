@@ -70,10 +70,9 @@ if (getCookie("accepted") !== "true") {
 		let code = res.status;
 		console.log(code);
 		if (!res.ok) {
-			//alert("token didn't work!");
 			window.location.href = "/login.html";
 		} else {
-			//alert("It worked!");
+			alert("added cookie!");
 			document.cookie = "accepted=true";
 		}
 	})

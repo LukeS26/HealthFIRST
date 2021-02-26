@@ -1,7 +1,7 @@
 let profileOut = document.getElementById("profileOut");
 
 let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
-fetch(fetchUrl)
+fetch(url)
 		.then(res => res.json())
 		.then(json => {
 			profileOut.innerHTML = json;

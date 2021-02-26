@@ -49,6 +49,8 @@ public class HttpServer {
                         + " from userAgent: " + ctx.userAgent() + " and IP: " + ctx.ip());
             });
 
+            config.enableCorsForAllOrigins();
+
         }).start(Settings.HTTP_SERVER_PORT);
         System.out.println("Finished initializing Javalin.");
 

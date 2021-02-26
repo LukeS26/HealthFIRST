@@ -37,7 +37,6 @@ function checkUser() {
 	let expires = document.getElementById("keepLoggedIn").checked;
 	if (expires) { 
 		expires = (new Date(Date.now() + 86400 * 1000)).toUTCString()
-		alert("You want to be remembered!")
 	} else {
 		expires = "";
 	}

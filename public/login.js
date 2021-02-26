@@ -36,7 +36,7 @@ function checkUser() {
 
 	let expires = document.getElementById("keepLoggedIn").checked;
 	if (expires) { 
-		expires = (new Date(Date.now() + 525600 * 60 * 1000)).toUTCString()
+		expires = (new Date(Date.now() + 525600 * 60 * 1000 * 5)).toUTCString();
 	} else {
 		expires = "";
 	}

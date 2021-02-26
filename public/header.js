@@ -60,10 +60,9 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	body: JSON.stringify(data),
 	headers: {
 		'Content-type': 'application/json; charset=UTF-8',
-		'Authorization': currToken 
+		'Authorization': "Basic " + currToken
 	},
 	mode: "cors",
-	credentials: "same-origin",
 	headers: {
 		'Origin': 'http://157.230.233.218:8080'
 	}

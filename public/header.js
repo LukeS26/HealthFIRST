@@ -49,7 +49,7 @@ window.onclick = function() {
 	}
 }
 
-if (getCookie("accepted") === "true") {
+if (getCookie("accepted") !== "true") {
 	let data = {
 		title: "text",
 		body: "text"

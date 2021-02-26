@@ -49,33 +49,36 @@ window.onclick = function() {
 	}
 }
 
-let data = {
-	title: "text",
-	body: "text"
+if (getCookie("accepted") === "true") {
+	let data = {
+		title: "text",
+		body: "text"
+	}
+	let currToken = getCookie("token");
+
+	fetch("http://157.230.233.218:8080/api/posts", {
+		method: "POST",
+		body: JSON.stringify(data),
+		mode: "cors",
+		headers: {
+			'Content-type': 'application/json; charset=UTF-8',
+			'Authorization': currToken,
+			'Origin': 'http://157.230.233.218:8080'
+		}
+	})
+	.then(res => {
+		let code = res.status;
+		console.log(code);
+		if (!res.ok) {
+			//alert("token didn't work!");
+			window.location.href = "/login.html";
+		} else {
+			//alert("It worked!");
+			document.cookie = "accepted=true";
+		}
+	})
+	.catch(err => {
+		console.log(err);
+		console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	});
 }
-
-let currToken = getCookie("token");
-
-fetch("http://157.230.233.218:8080/api/posts", {
-	method: "POST",
-	body: JSON.stringify(data),
-	mode: "cors",
-	headers: {
-		'Content-type': 'application/json; charset=UTF-8',
-		'Authorization': currToken,
-		'Origin': 'http://157.230.233.218:8080'
-	}
-})
-.then(res => {
-	let code = res.status;
-	console.log(code);
-	if (!res.ok) {
-		alert("token didn't work!");
-	} else {
-		alert("It worked!");
-	}
-})
-.catch(err => {
-	console.log(err);
-	console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-});

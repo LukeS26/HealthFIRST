@@ -72,7 +72,6 @@ if (getCookie("accepted") !== "true") {
 		if (!res.ok) {
 			window.location.href = "/login.html";
 		} else {
-			alert("added cookie!");
 			document.cookie = "accepted=true";
 		}
 	})

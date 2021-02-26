@@ -49,38 +49,6 @@ window.onclick = function() {
 	}
 }
 
-if (getCookie("accepted") !== "true") {
-	let data = {
-		title: "text",
-		body: "text"
-	}
-	let currToken = getCookie("token");
-
-	fetch("http://157.230.233.218:8080/api/posts", {
-		method: "POST",
-		body: JSON.stringify(data),
-		mode: "cors",
-		headers: {
-			'Content-type': 'application/json; charset=UTF-8',
-			'Authorization': currToken,
-			'Origin': 'http://157.230.233.218:8080'
-		}
-	})
-	.then(res => {
-		let code = res.status;
-		console.log(code);
-		if (!res.ok) {
-			window.location.href = "/login.html";
-		} else {
-			document.cookie = "accepted=true";
-		}
-	})
-	.catch(err => {
-		console.log(err);
-		console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	});
-}
-
 function logout() {
 	document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 	document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";

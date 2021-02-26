@@ -39,7 +39,8 @@ function checkForm() {
     }
 
     let hashedPassword = stringToHash(password);
-    let expires = (new Date(Date.now() + 525600 * 60 * 1000 * 5)).toUTCString();
+    let expires = "";
+    //let expires = (new Date(Date.now() + 525600 * 60 * 1000 * 5)).toUTCString();
     if (filled && pass && age) {
         let data = {"username": username,
                     "first_name": firstName,

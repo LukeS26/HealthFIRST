@@ -14,8 +14,22 @@
 </head>
 
 <body>
-  <h1> Profile </h1>
-  <a href='/'> Home </a>
+  <header>
+    <a href="/"><h1 class="headerRight">Luke's Blog</h1></a>
+    <div id="profileHeader" class="profileHeader" onclick="toggleOptions()">
+      <img src="defaultPic.png" height="50px" width="50px">
+      <h2 id="usernameOutput"></h2>
+    </div>
+    <div id="profileHeaderStuff">
+      <div>
+        <a href="profile.html">Profile</a><br><br>
+        <a>Options</a><br><br>
+        <a onclick="logout()">Logout</a><br><br>
+      </div>
+    </div>
+  </header>
+  <br><br><br>
+  <div id="profileOut"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="profiles.js"></script>
 </body>

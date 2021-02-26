@@ -64,7 +64,6 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	},
 	mode: "cors",
 	credentials: "same-origin",
-	withCredentials: true,
 	headers: {
 		'Origin': 'http://157.230.233.218:8080'
 	}

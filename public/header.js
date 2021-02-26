@@ -54,8 +54,6 @@ let data = {
 	body: "text"
 }
 let currToken = getCookie("token");
-let h = new Headers();
-h.append("Authorization", currToken);
 
 fetch("http://157.230.233.218:8080/api/posts", {
 	method: "POST",
@@ -67,9 +65,9 @@ fetch("http://157.230.233.218:8080/api/posts", {
 	credentials: "include",
 	withCredentials: true,
 	headers: {
-		'Origin': 'http://157.230.233.218:8080'
-	},
-	headers: h
+		'Origin': 'http://157.230.233.218:8080',
+		'Authorization': currToken
+	}
 })
 .then(res => {
 	let code = res.status;

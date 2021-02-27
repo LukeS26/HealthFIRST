@@ -4,7 +4,15 @@ let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
 fetch(url)
 		.then(res => res.json())
 		.then(json => {
-			profileOut.innerHTML = json.first_name;
+			let profileContent = ""
+			profileContent += json.username + "<br>";
+			profileContent += json.email + "<br>";
+			profileContent += json.first_name + "<br>";
+			profileContent += json.last_name + "<br>";
+			profileContent += json.profile_picture_link + "<br>";
+			profileContent += json.permission_id + "<br>";
+			profileContent += json.badge_ids + "<br>";
+			profileOut.innerHTML = profileContent;
 		})
 		.catch(function (error) {
 			console.log(error);

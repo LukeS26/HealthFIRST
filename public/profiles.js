@@ -4,7 +4,7 @@ let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
 fetch(url)
 		.then(res => res.json())
 		.then(json => {
-			profileOut.innerHTML = json.firstName;
+			profileOut.innerHTML = json.first_name;
 		})
 		.catch(function (error) {
 			console.log(error);

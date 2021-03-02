@@ -25,8 +25,6 @@ function displayPost(post, id) {
 	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>${post.title}</h1>`;
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
 	html += `<p class='postBody'>${post.body}</p> </div>`;
-	html += `<div class='commentOpener' onclick='toggleCommenter(\"post${postCount}\")'><img src='Arrow.png' width='20px' height='10px'> Comment</div>`;
-	html += `<div class='commentCreator' contenteditable>`;
 
 	container.innerHTML += html;
 
@@ -38,30 +36,5 @@ function displayPost(post, id) {
 function loadPost(id) {
 	window.location.assign("/post.html?id=" + id);
 }
-
-function toggleCommenter(id) {
-	let div = document.getElementById(id).childNodes;
-	let img = div[1].childNodes;
-	img = img[0];
-
-	if (open[id]) {
-		img.style.transform = "rotate(0deg)";
-		div[2].style.display = "none";
-		open[id] = false;
-	} else {
-		img.style.transform = "rotate(-180deg)";
-		div[2].style.display = "block";
-		div[2].focus();
-		open[id] = true;
-	}
-}
-
-/*
-var request = new Request(url, {
-	method: 'POST',
-	body: data,
-	headers: new Headers()
-});
-*/
 
 getPosts("602878639903f175355bd339");

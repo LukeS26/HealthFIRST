@@ -76,24 +76,8 @@
     padding: 5px;
     margin-bottom: 20px;
 }
-.commentOpener {
-    border-top: 2px lightgray solid;
-    padding: 5px;
-    padding-top: 8px;
-}
-.commentOpener:hover {
+.postContainer:hover {
     cursor: pointer;
-}
-.commentOpener img {
-    transition: transform 0.5s;
-}
-
-.commentCreator {
-    display: none;
-    border: 1px lightgray solid;
-    padding: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 #profileHeader {

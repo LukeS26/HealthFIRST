@@ -244,6 +244,43 @@ public class HttpServer {
             ctx.result(postJson);
             ctx.status(HttpStatus.OK_200);
         });
+
+        app.delete("/api/posts/*", ctx -> {
+            ctx.header("Access-Control-Allow-Headers", "Authorization");
+            ctx.header("Access-Control-Allow-Credentials", "true");
+            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+            Token token = Token.fromDoc(tokenDoc);
+
+            Post post = mongoManager.findPost(ctx.splat(0));
+            if (!post.author.equals(token.username)) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            mongoManager.deletePost(post);
+
+            ctx.status(HttpStatus.OK_200);
+        });
         // #endregion
 
         // #region Accounts

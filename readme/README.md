@@ -10,7 +10,15 @@ Mental Health:
 Droplet ip: http://157.230.233.218/
 
 Commands: 
- - mv -vf ./public/* /var/www/html/
+ - To stop the server (if its running in the background)
+	- pkill -f .*GradleDaemon. (put another * at the end, markdown makes that italic)
+
+ - To start the server
+ 	- nohup bash run.sh & (starts the server in the background)
+	- disown (lets you use the terminal without freezing it)
+	
+ - To move javascript files
+ 	- mv -vf ./public/* /var/www/html/
 
 App:
 	Unites people

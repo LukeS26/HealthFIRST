@@ -23,6 +23,15 @@ function getPost(url) {
 	});
 }
 
+function getComments(url) {
+	let fetchUrl = "http://157.230.233.218:8080/api/comments/" + url;
+	fetch(fetchUrl)
+	.then(res => res.json())
+	.then(function (json) {
+		console.log(json);
+	});
+}
+
 getPost(id);
 
 function displayPost(vals) {

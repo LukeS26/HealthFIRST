@@ -108,6 +108,10 @@ public class MongoManager {
     // #endregion
 
     // #region Posts
+    public void deletePost(Post post) {
+        MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
+        postCollection.findOneAndDelete(Filters.eq("_id", post.id));
+    }
     public void writePost(Post post) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         Document postDoc = post.toDoc();

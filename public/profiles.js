@@ -30,7 +30,7 @@ function generateHTML(info) {
 	let profileContent = "";
 	console.log(info);
 	if (info.profile_picture_link !== null) {
-		profileContent += `<img class="profileImage" src="${info.profile_picture_link}" height="100px width="100px">`;
+		profileContent += `<img class="profileImage" src="${info.profile_picture_link}" height="100px" width="100px">`;
 	} else {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px">`;
 	}

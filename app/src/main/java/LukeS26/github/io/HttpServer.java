@@ -272,7 +272,7 @@ public class HttpServer {
             Token token = Token.fromDoc(tokenDoc);
 
             Document post = mongoManager.findPost(ctx.splat(0));
-            if (!post.get("author").equals(token.username)) {
+            if (!(String) post.get("author").equals(token.username)) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }

@@ -22,9 +22,12 @@ function displayPost(post, id) {
 	container.className = "postContainer";
 	container.id = "post" + postCount;
 
+	//caps post to 500 chars in home menu
+	let body = post.body.slice(0, 500);
+	
 	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>${post.title}</h1>`;
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
-	html += `<p class='postBody'>${post.body}</p> </div>`;
+	html += `<p class='postBody'>${body}</p> </div>`;
 
 	container.innerHTML += html;
 
@@ -37,4 +40,11 @@ function loadPost(id) {
 	window.location.assign("/post.html?id=" + id);
 }
 
+
 getPosts("602878639903f175355bd339");
+
+function loadPage(page) {
+	fetch("http://157.230.233.218:8080/api/posts/feed?page=" + page)
+	.andThen(res => res.json())
+	.andThen(function(json) { console.log(json) } );
+}

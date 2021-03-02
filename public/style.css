@@ -80,6 +80,10 @@
     cursor: pointer;
 }
 
+.profileImage {
+    border-radius: 20px;
+}
+
 #profileHeader {
     position: sticky;
     float: right;

@@ -4,15 +4,7 @@ let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
 fetch(url)
 		.then(res => res.json())
 		.then(json => {
-			let profileContent = ""
-			profileContent += json.username + "<br>";
-			profileContent += json.email + "<br>";
-			profileContent += json.first_name + "<br>";
-			profileContent += json.last_name + "<br>";
-			profileContent += json.profile_picture_link + "<br>";
-			profileContent += json.permission_id + "<br>";
-			profileContent += json.badge_ids + "<br>";
-			profileOut.innerHTML = profileContent;
+			generateHTML(json);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -32,4 +24,23 @@ function getCookie(name) {
 	}
 
 	return null;
+}
+
+function generateHTML(info) {
+	let profileContent = "";
+	if (info.profile_picture_link !== null) {
+		profileContent += `<img src="${info.profile_picture_link}"> height="100px width="100px"`;
+	} else {
+		profileContent += `<img src="defaultPic.png" height="100px" width="100px;`
+	}
+	/*
+	profileContent += json.username + "<br>";
+	profileContent += json.email + "<br>";
+	profileContent += json.first_name + "<br>";
+	profileContent += json.last_name + "<br>";
+	profileContent += json.profile_picture_link + "<br>";
+	profileContent += json.permission_id + "<br>";
+	profileContent += json.badge_ids + "<br>";
+	profileOut.innerHTML = profileContent;
+	*/
 }

@@ -33,6 +33,8 @@ function generateHTML(info) {
 	} else {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px;`
 	}
+
+	profileOut.innerHTML = profileContent;
 	/*
 	profileContent += json.username + "<br>";
 	profileContent += json.email + "<br>";
@@ -41,6 +43,5 @@ function generateHTML(info) {
 	profileContent += json.profile_picture_link + "<br>";
 	profileContent += json.permission_id + "<br>";
 	profileContent += json.badge_ids + "<br>";
-	profileOut.innerHTML = profileContent;
 	*/
 }

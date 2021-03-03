@@ -91,7 +91,7 @@
 .threeDots {
     color: gray;
     display: none;
-    position: fixed;
+    position: relative;
     right: 10px;
 }
 

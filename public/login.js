@@ -76,12 +76,11 @@ function checkUser() {
 			.then(res => res.json())
 			.then(json => {
 				document.cookie = `imgUrl=${json.profile_picture_link}; expires=${expires}`;
-				alert("updated cookie!");
+				window.location.href = "/";
 			})
 			.catch(function (error) {
 				console.log(error);
 		});
-		window.location.href = "/";
 	})
 	.catch(err => console.log(err)); 
 }

@@ -307,12 +307,6 @@ public class HttpServer {
                 return;
             }
 
-            Document userAccountDoc = mongoManager.findAccount((String) doc.get("username"));
-            if (userAccountDoc == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
-                return;
-            }
-
             Document changes = new Document();
             // Create an empty account just for checking if the key exists
             Document blankAccount = new Account().toDoc(true);

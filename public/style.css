@@ -83,9 +83,6 @@
 .profileImage {
     border-radius: 100%; 
 }
-.profileImage img {
-    padding-top: 5px;
-}
 
 #profileHeader {
     position: sticky;
@@ -97,7 +94,7 @@
 }
 #profileHeader img {
     position: relative;
-    padding-top: 5px;
+    padding-top: 10px;
     padding-right: 10px;
     padding-left: 5px;
 }

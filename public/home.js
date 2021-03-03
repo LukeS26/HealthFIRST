@@ -25,15 +25,9 @@ function displayPost(post, id) {
 	//caps post to 500 chars in home menu
 	let body = post.body.slice(0, 500);
 	
-	/*
 	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>${post.title}</h1>`;
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
 	html += `<p class='postBody'>${body}</p> </div>`;
-	*/
-	
-	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>Ha Ha Ha</h1>`;
-	html += `<h5 class='postAuthor'>Some random user</h5>`;
-	html += `<p class='postBody'>${script}</p></div>`;
 
 	container.innerHTML += html;
 
@@ -41,17 +35,6 @@ function displayPost(post, id) {
 	document.getElementById("posts").appendChild(container);
 	postCount++;
 }
-
-let reader = new FileReader();
-let file = new File([], "beeMovie.txt");
-
-reader.readAsText(file);
-reader.onload = function() {
-  console.log(reader.result);
-};
-reader.onerror = function() {
-  console.log(reader.error);
-};
 
 function loadPost(id) {
 	window.location.assign("/post.html?id=" + id);

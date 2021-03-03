@@ -63,9 +63,11 @@ function changeProfilePic() {
 			'Origin': 'http://157.230.233.218:8080'
 		}
 	})
+	.then(res => {
+		if (res.ok) {
+			document.cookie = `imgUrl=${url}; expires=${getCookie("cookieGoneDate")}`; 
+			window.location.reload();
+		}
+	})
 	.catch(err => console.log(err));
-
-	document.cookie = `imgUrl=${url}; expires=${getCookie("cookieGoneDate")}`; 
-
-	window.location.reload();
 }

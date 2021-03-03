@@ -30,14 +30,6 @@ function displayPost(post, id) {
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
 	html += `<p class='postBody'>${body}</p> </div>`;
 	*/
-
-	let script = "";
-
-	fetch("beeMovie.txt")
-	.then(res => res.text())
-	.then(text => {
-		script = text;
-	})
 	
 	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>Ha Ha Ha</h1>`;
 	html += `<h5 class='postAuthor'>Some random user</h5>`;
@@ -49,6 +41,18 @@ function displayPost(post, id) {
 	document.getElementById("posts").appendChild(container);
 	postCount++;
 }
+
+let reader = new FileReader();
+
+  reader.readAsText("beeMovie.txt");
+
+  reader.onload = function() {
+    console.log(reader.result);
+  };
+
+  reader.onerror = function() {
+    console.log(reader.error);
+};
 
 function loadPost(id) {
 	window.location.assign("/post.html?id=" + id);

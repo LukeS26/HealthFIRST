@@ -28,7 +28,6 @@ function getCookie(name) {
 
 function generateHTML(info) {
 	let profileContent = "";
-	console.log(info);
 	if (info.profile_picture_link !== null) {
 		profileContent += `<div class="profileImage" style="width: 100px; height: 100px; overflow: hidden;"><img src="${info.profile_picture_link}" height="150px" width="150px"></div>`;
 	} else {

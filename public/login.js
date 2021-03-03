@@ -70,7 +70,16 @@ function checkUser() {
 		console.log(json);
 		token = json.token;
 		document.cookie = `token=${token}; expires=${expires}`;
-		document.cookie = `username=${username}; expires=${expires}`; 
+		document.cookie = `username=${username}; expires=${expires}`;
+		let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
+		fetch(url)
+			.then(res => res.json())
+			.then(json => {
+				document.cookie = `imgUrl=${json.profile_picture_link}; expires=${expires}`;
+			})
+			.catch(function (error) {
+				console.log(error);
+		});
 		window.location.href = "/";
 	})
 	.catch(err => console.log(err)); 

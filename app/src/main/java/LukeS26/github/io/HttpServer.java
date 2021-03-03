@@ -331,7 +331,7 @@ public class HttpServer {
 
             System.out.println("Updating account: " + changes.toJson());
 
-            mongoManager.updateAccount((String) doc.get("username"), changes);
+            mongoManager.updateAccount((String) tokenDoc.get("username"), changes);
             ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
         });
 

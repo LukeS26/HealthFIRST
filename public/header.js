@@ -10,7 +10,7 @@ if (getCookie("username") === null) {
 	username = getCookie("username");
 }
 
-if (getCookie("imgUrl") !== null) {
+if (getCookie("imgUrl") !== null && getCookie("imgUrl") !== "null") {
 	headerImage.src = getCookie("imgUrl");
 }
 

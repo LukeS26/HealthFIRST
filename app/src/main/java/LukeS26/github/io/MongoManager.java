@@ -193,9 +193,6 @@ public class MongoManager {
         try {
             accountCollection.findOneAndUpdate(Filters.eq("username", username), updateDoc);
 
-            System.out.println("updating doc: ");
-            System.out.println(updateDoc.toJson());
-
         } catch (Exception e) {
             System.out.println(e);
         }

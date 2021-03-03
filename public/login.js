@@ -76,6 +76,7 @@ function checkUser() {
 			.then(res => res.json())
 			.then(json => {
 				document.cookie = `imgUrl=${json.profile_picture_link}; expires=${expires}`;
+				alert("updated cookie!");
 			})
 			.catch(function (error) {
 				console.log(error);

@@ -45,3 +45,23 @@ function generateHTML(info) {
 	profileContent += json.badge_ids + "<br>";
 	*/
 }
+
+function changeProfilePic() {
+	let url = document.getElementById("imgUrlImage").value;
+	let data = {
+		username: getCookie("username"),
+		profile_picture_link: url
+	};
+
+	fetch("http://157.230.233.218:8080/api/account/", {
+		method: "PATCH",
+		body: JSON.stringify(data),
+		headers: {
+			"Content-type": "application/json; charset=UTF-8"
+		},
+		mode: "cors",
+		headers: {
+			"Origin": "http://157.230.233.218"
+		}
+	}).catch(err => console.log(err));
+}

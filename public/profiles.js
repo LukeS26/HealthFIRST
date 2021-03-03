@@ -62,5 +62,10 @@ function changeProfilePic() {
 			'Authorization': currToken,
 			'Origin': 'http://157.230.233.218:8080'
 		}
-	}).catch(err => console.log(err));
+	})
+	.catch(err => console.log(err));
+
+	document.cookie = `imgUrl=${url}; expires=${getCookie("cookieGoneDate")}`; 
+
+	window.location.reload();
 }

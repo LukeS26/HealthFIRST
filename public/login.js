@@ -71,6 +71,7 @@ function checkUser() {
 		token = json.token;
 		document.cookie = `token=${token}; expires=${expires}`;
 		document.cookie = `username=${username}; expires=${expires}`;
+		document.cookie = `cookieGoneDate=${expires}; expires=${expires}`;
 		let url = "http://157.230.233.218:8080/api/account/" + username;
 		fetch(url)
 			.then(res => res.json())

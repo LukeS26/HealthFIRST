@@ -79,10 +79,20 @@
 .postContainer:hover {
     cursor: pointer;
 }
+.postContainer:hover > .threeDots {
+    display: block;
+}
 
 .profileImage {
     border-radius: 100%;
     margin-top: 5px;
+}
+
+.threeDots {
+    color: gray;
+    display: none;
+    float: right;
+    position: fixed;
 }
 
 #profileHeader {

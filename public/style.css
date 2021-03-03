@@ -79,7 +79,7 @@
 .postContainer:hover {
     cursor: pointer;
 }
-.postContainer:hover > .treeDots {
+.postContainer:hover > .threeDots {
     display: block;
 }
 
@@ -88,7 +88,7 @@
     margin-top: 5px;
 }
 
-.treeDots {
+.threeDots {
     color: gray;
     display: none;
 }

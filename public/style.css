@@ -82,7 +82,6 @@
 
 .profileImage {
     border-radius: 100%;
-    padding-top: 5px; 
 }
 
 #profileHeader {
@@ -96,7 +95,6 @@
 #profileHeader img {
     position: relative;
     padding-right: 10px;
-    margin: auto;
 }
 #profileHeader h2 {
     position: relative;

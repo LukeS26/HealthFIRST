@@ -1,12 +1,17 @@
 let username;
 let usernameOutput = document.getElementById("usernameOutput");
 let profileHeaderStuff = document.getElementById("profileHeaderStuff");
+let headerImage = document.getElementById("headerImage");
 let optionsOpen = false;
 
 if (getCookie("username") === null) {
 	username = "Username";
 } else {
 	username = getCookie("username");
+}
+
+if (getCookie("imgUrl") !== null) {
+	headerImage.src = getCookie("imgUrl");
 }
 
 usernameOutput.innerHTML = username;

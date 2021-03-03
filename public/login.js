@@ -55,14 +55,11 @@ function checkUser() {
 	.then(res => {
 		let code = res.status;
 		if (code === 404) {
-			document.getElementById("usernameNotFound").style.display = "block";
-			document.getElementById("passwordIncorrect").style.display = "none";
+			document.getElementById("notFound").style.display = "block";
 		} else if (code === 403) {
-			document.getElementById("passwordIncorrect").style.display = "block";
-			document.getElementById("usernameNotFound").style.display = "none";
+			document.getElementById("notFound").style.display = "block";
 		} else {
-			document.getElementById("usernameNotFound").style.display = "none";
-			document.getElementById("passwordIncorrect").style.display = "none";
+			document.getElementById("notFound").style.display = "none";
 			return res.json();
 		}
 	})

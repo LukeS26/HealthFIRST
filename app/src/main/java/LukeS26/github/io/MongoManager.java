@@ -191,7 +191,7 @@ public class MongoManager {
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
         Document updateDoc = new Document("$set", update);
         try {
-            accountCollection.updateOne(Filters.eq("username", username), updateDoc);
+            accountCollection.findOneAndUpdate(Filters.eq("username", username), updateDoc);
 
             System.out.println("updating doc: ");
             System.out.println(updateDoc.toJson());

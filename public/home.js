@@ -30,10 +30,18 @@ function displayPost(post, id) {
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
 	html += `<p class='postBody'>${body}</p> </div>`;
 	*/
+
+	let script = "";
+
+	fetch("beeMovie.txt")
+	.then(res => res.text())
+	.then(text => {
+		script = text;
+	})
 	
 	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>Ha Ha Ha</h1>`;
 	html += `<h5 class='postAuthor'>Some random user</h5>`;
-	html += `<p class='postBody'><object type='text/plain' data='beeMovie.txt' style='overflow: hidden;'></object></p> </div>`;
+	html += `<p class='postBody'>${script}</p></div>`;
 
 	container.innerHTML += html;
 

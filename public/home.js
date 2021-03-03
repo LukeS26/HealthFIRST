@@ -25,9 +25,15 @@ function displayPost(post, id) {
 	//caps post to 500 chars in home menu
 	let body = post.body.slice(0, 500);
 	
+	/*
 	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>${post.title}</h1>`;
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
 	html += `<p class='postBody'>${body}</p> </div>`;
+	*/
+	
+	html += `<div id="postOpen" onclick="loadPost('${id}')"> <h1 class='postTitle'>Ha Ha Ha</h1>`;
+	html += `<h5 class='postAuthor'>Some random user</h5>`;
+	html += `<p class='postBody'><object type='text/plain' data='beeMovie.txt'></object></p> </div>`;
 
 	container.innerHTML += html;
 

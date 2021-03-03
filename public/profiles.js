@@ -29,7 +29,7 @@ function getCookie(name) {
 function generateHTML(info) {
 	let profileContent = "";
 	if (info.profile_picture_link !== null) {
-		profileContent += `<div class="profileImage" style="width: 100px; height: 100px; overflow: hidden;"><img src="${info.profile_picture_link}" height="150px" width="150px"></div>`;
+		profileContent += `<div class="profileImage" style="width: 100px; height: 100px; overflow: hidden;"><img src="${info.profile_picture_link}" height="100px" width="100px"></div>`;
 	} else {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px">`;
 	}

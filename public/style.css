@@ -96,7 +96,7 @@
 #profileHeader img {
     position: relative;
     padding-right: 10px;
-    padding-top: 5px;
+    margin: auto;
 }
 #profileHeader h2 {
     position: relative;

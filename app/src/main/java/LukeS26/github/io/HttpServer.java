@@ -323,7 +323,7 @@ public class HttpServer {
                 if (e.getKey().equals("profile_picture_link")) {
                     // Checks for http:// or https://, has to be a valid site and have a file extension at the end (https://site.com/image.png)
                     // Since its checking an unlimited amount of characters for the site name, it could be www.site.com or just site.com, it doesn't matter
-                    Pattern p = Pattern.compile("^http[s]{0,1}:\\/\\/.*\\/.*\\.[a-zA-Z]{3,4}$");
+                    Pattern p = Pattern.compile("^http[s]{0,1}:\\/\\/.*\\/.*\\.[a-zA-Z]{3,4}");
                     Matcher m = p.matcher((String) e.getValue());
                     if (!m.find()) {
                         ctx.status(HttpStatus.BAD_REQUEST_400);

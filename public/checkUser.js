@@ -31,7 +31,6 @@ if (getCookie("accepted") !== "true") {
 	})
 	.then(res => {
 		let code = res.status;
-		console.log(code);
 		if (!res.ok) {
 			window.location.href = "/login.html";
 		} else {

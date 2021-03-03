@@ -307,12 +307,6 @@ public class HttpServer {
                 return;
             }
 
-            Document userAccountDoc = mongoManager.findAccount((String) doc.get("username"));
-            if (userAccountDoc == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
-                return;
-            }
-
             Document changes = new Document();
             // Create an empty account just for checking if the key exists
             Document blankAccount = new Account().toDoc(true);
@@ -334,6 +328,8 @@ public class HttpServer {
                 }
                 changes.put(e.getKey(), e.getValue());
             }
+
+            System.out.println("Updating account: " + changes.toJson());
 
             mongoManager.updateAccount((String) doc.get("username"), changes);
             ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful

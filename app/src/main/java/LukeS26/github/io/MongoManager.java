@@ -104,7 +104,8 @@ public class MongoManager {
 
         return null;
     }
-    // TODO: Allow editing of comments (might want to add a boolean for isEdited to show if it was edited like Discord)
+    // TODO: Allow editing of comments (might want to add a boolean for isEdited to
+    // show if it was edited like Discord)
     // #endregion
 
     // #region Posts
@@ -137,7 +138,8 @@ public class MongoManager {
     public FindIterable<Document> getFeed(int pageNumber) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
-            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.ascending("date")).skip(Settings.POSTS_PER_PAGE * (pageNumber-1)).limit(Settings.POSTS_PER_PAGE);
+            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.ascending("date"))
+                    .skip(Settings.POSTS_PER_PAGE * (pageNumber - 1)).limit(Settings.POSTS_PER_PAGE);
             if (postDocs != null) {
                 return postDocs;
             }
@@ -188,10 +190,7 @@ public class MongoManager {
     public void updateAccount(String username, Document update) {
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
         try {
-            Document accountDoc = accountCollection.find(Filters.eq("username", username)).first();
-            if (accountDoc != null) {
-                accountCollection.findOneAndUpdate(Filters.eq("username", username), update);
-            }
+            accountCollection.findOneAndUpdate(Filters.eq("username", username), update);
 
         } catch (Exception e) {
             System.out.println(e);

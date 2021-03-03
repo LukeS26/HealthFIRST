@@ -91,6 +91,8 @@
 .threeDots {
     color: gray;
     display: none;
+    float: right;
+    position: fixed;
 }
 
 #profileHeader {

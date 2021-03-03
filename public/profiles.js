@@ -65,7 +65,7 @@ function changeProfilePic() {
 	})
 	.catch(err => console.log(err));
 
-	document.cookie = `imgUrl=${json.profile_picture_link}; expires=${getCookie("cookieGoneDate")}`;
+	document.cookie = `imgUrl=${url}; expires=${getCookie("cookieGoneDate")}`; 
 
 	window.location.reload();
 }

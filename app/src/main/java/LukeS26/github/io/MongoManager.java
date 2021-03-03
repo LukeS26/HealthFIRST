@@ -189,8 +189,9 @@ public class MongoManager {
 
     public void updateAccount(String username, Document update) {
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
+        Document updateDoc = new Document("$set", update);
         try {
-            accountCollection.findOneAndUpdate(Filters.eq("username", username), update);
+            accountCollection.findOneAndUpdate(Filters.eq("username", username), updateDoc);
 
         } catch (Exception e) {
             System.out.println(e);

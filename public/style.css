@@ -82,6 +82,7 @@
 
 .profileImage {
     border-radius: 100%;
+    padding: 10px;
 }
 
 #profileHeader {

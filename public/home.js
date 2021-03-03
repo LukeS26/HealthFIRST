@@ -43,15 +43,14 @@ function displayPost(post, id) {
 }
 
 let reader = new FileReader();
+let file = new File([], "beeMovie.txt");
 
-  reader.readAsText("beeMovie.txt");
-
-  reader.onload = function() {
-    console.log(reader.result);
-  };
-
-  reader.onerror = function() {
-    console.log(reader.error);
+reader.readAsText(file);
+reader.onload = function() {
+  console.log(reader.result);
+};
+reader.onerror = function() {
+  console.log(reader.error);
 };
 
 function loadPost(id) {

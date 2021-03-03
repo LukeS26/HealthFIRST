@@ -79,10 +79,18 @@
 .postContainer:hover {
     cursor: pointer;
 }
+.postContainer:hover > .treeDots {
+    display: block;
+}
 
 .profileImage {
     border-radius: 100%;
     margin-top: 5px;
+}
+
+.treeDots {
+    color: gray;
+    display: none;
 }
 
 #profileHeader {

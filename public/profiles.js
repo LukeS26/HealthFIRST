@@ -49,7 +49,6 @@ function generateHTML(info) {
 function changeProfilePic() {
 	let url = document.getElementById("imgUrlInput").value;
 	let data = {
-		username: getCookie("username"),
 		profile_picture_link: url
 	};
 	let currToken = getCookie("token");

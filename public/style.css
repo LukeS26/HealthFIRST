@@ -85,6 +85,65 @@
     margin-top: 5px;
 }
 
+.blur {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
+    background-color: rgba(211, 211, 211, 0);
+    transition: background-color 0.2s ease-in-out;
+    display: none;
+}
+
+.popup {
+    position: relative;
+    top: 25%;
+    border: 2px black solid;
+    margin: auto;
+    width: 50%;
+    background-color: white;
+    text-align: center;
+}
+
+#updatePhotoButton {
+    margin: 20px;
+    height: 50px;
+    width: 150px;
+    background-color: blue;
+    color: white;
+    border: 2px blue solid;
+    font-size: 20px;
+    border-radius: 5px;
+}
+#updatePhotoButton:hover {
+    cursor: pointer;
+    background-color: darkblue;
+    border: 2px darkblue solid;
+}
+
+#dropBox {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 300px;
+    background-color: lightgray;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#dropBox div {
+    color: gray;
+    font-size: 60px;
+    padding: 40px;
+}
+
+#imgUrlInput {
+    padding: 5px;
+}
+
 #profileHeader {
     position: sticky;
     float: right;

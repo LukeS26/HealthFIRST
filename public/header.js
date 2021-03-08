@@ -36,7 +36,7 @@ function toggleOptions() {
 	if (optionsOpen) {
 		profileHeaderStuff.style.top = "-103%";
 	} else {
-		profileHeaderStuff.style.top = "100%";
+		profileHeaderStuff.style.top = "98%";
 	}
 }
 

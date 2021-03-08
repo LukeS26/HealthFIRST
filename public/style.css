@@ -71,7 +71,7 @@
 }
 
 .postContainer {
-    border: 2px gray solid;
+    border: 2px rgb(180, 180, 180) solid;
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 20px;

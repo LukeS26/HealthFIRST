@@ -106,6 +106,7 @@
     width: 50%;
     background-color: white;
     text-align: center;
+    box-shadow: 2px 2px gray;
 }
 
 #updatePhotoButton {

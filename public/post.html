@@ -18,17 +18,19 @@
 	<header>
 		<a href="/"><h1 class="headerRight">Luke's Blog</h1></a>
 		<div id="profileHeader" class="profileHeader" onclick="toggleOptions()">
-			<img src="defaultPic.png" height="50px" width="50px">
-			<h2 id="usernameOutput"></h2>
+		  <div class="profileImage" style="height: 50px; width: 50px; overflow: hidden;">
+			<img id="headerImage" src="defaultPic.png" height="50px" width="50px"> 
+		  </div>
+		  <h2 id="usernameOutput"></h2>
 		</div>
 		<div id="profileHeaderStuff">
-			<div>
-				<a href="profile.html">Profile</a><br><br>
-				<a>Options</a><br><br>
-				<a onclick="logout()">Logout</a><br><br>
-			</div>
+		  <div>
+			<a href="profile.html">Profile</a><br><br>
+			<a>Options</a><br><br>
+			<a onclick="logout()">Logout</a><br><br>
+		  </div>
 		</div>
-	</header>
+	  </header>
 
 	<br><br><br>
 	<div style="z-index: -2; position: absolute;">

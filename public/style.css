@@ -75,6 +75,7 @@
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 20px;
+    background-color: white;
 }
 .postContainer:hover {
     cursor: pointer;
@@ -189,7 +190,7 @@
 }
 
 body {
-    background-color: rgb(116, 116, 116);
+    background-color: rgb(124, 124, 124);
 }
 
 header {

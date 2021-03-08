@@ -71,7 +71,7 @@
 }
 
 .postContainer {
-    border: 2px rgb(180, 180, 180) solid;
+    border: 2px gray solid;
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 20px;
@@ -190,7 +190,7 @@
 }
 
 body {
-    background-color: rgb(124, 124, 124);
+    background-color: rgb(180, 180, 180);
 }
 
 header {

@@ -170,7 +170,8 @@
 }
 
 #profileHeaderStuff {
-    border: 2px black solid;
+    border: 1.5px black solid;
+    border-radius: 5px;
     border-top: none;
     height: 200%;
     background-color: white;

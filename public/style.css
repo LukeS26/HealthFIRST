@@ -188,6 +188,10 @@
     color: black;
 }
 
+body {
+    background-color: rgb(116, 116, 116);
+}
+
 header {
     position: absolute;
     top: 0%;

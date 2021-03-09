@@ -138,7 +138,7 @@
 
 #dropBox div {
     color: gray;
-    font-size: 60px;
+    font-size: 20%;
     padding: 40px;
 }
 
@@ -213,9 +213,11 @@ header > *:hover {
     }
     .popup * {
         width: 50%;
+        height: 50%;
     }
     #dropBox {
         width: 50%;
+        height: 25%;
     }
 }
 

@@ -119,3 +119,16 @@ function setBlurColor() {
 	let blur = document.getElementById("popupBlur");
 	blur.style.backgroundColor = blurColor;
 }
+
+if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i)) {
+	let dropBox = document.getElementById("dropBox");
+	let picOr = document.getElementById("picOr");
+	dropBox.remove();
+	picOr.remove();
+}

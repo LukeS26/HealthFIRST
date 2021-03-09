@@ -213,11 +213,11 @@ header > *:hover {
     }
     .popup * {
         width: 50%;
-        height: 50%;
+        height: 25%;
     }
     #dropBox {
         width: 50%;
-        height: 25%;
+        height: 12.5%;
     }
 }
 

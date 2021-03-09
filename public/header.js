@@ -61,3 +61,13 @@ function logout() {
 	document.cookie = "imgUrl=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 	window.location.href = "/login.html";
 }
+
+if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i) {
+	alert("You're using Mobile Device!!")
+}

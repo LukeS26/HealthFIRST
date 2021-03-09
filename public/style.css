@@ -214,6 +214,9 @@ header > *:hover {
     .popup * {
         width: 50%;
     }
+    #dropBox {
+        width: 50%;
+    }
 }
 
 /*test*/

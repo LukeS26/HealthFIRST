@@ -129,6 +129,9 @@ if( navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/Windows Phone/i)) {
 	let dropBox = document.getElementById("dropBox");
 	let picOr = document.getElementById("picOr");
+	let imgUrlInput = document.getElementById("imgUrlInput");
 	dropBox.remove();
 	picOr.remove();
+	imgUrlInput.style.margin = "10px";
+	imgUrlInput.style.width = "90%";
 }

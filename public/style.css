@@ -211,6 +211,9 @@ header > *:hover {
     .posts {
         width: 100%;
     }
+    .popup * {
+        width: 50%;
+    }
 }
 
 /*test*/

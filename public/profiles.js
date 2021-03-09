@@ -132,6 +132,6 @@ if( navigator.userAgent.match(/Android/i)
 	let imgUrlInput = document.getElementById("imgUrlInput");
 	dropBox.remove();
 	picOr.remove();
-	imgUrlInput.style.margin = "10px";
+	imgUrlInput.style.marginTop = "10px";
 	imgUrlInput.style.width = "90%";
 }

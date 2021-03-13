@@ -51,8 +51,10 @@ function loadPage(page) {
 	fetch("http://157.230.233.218:8080/api/posts/feed?page=" + page)
 	.then(res => res.json())
 	.then(function(json) { 
+		console.log(page);
+
 		for(let i = 0; i < json["feed"].length; i++) {
-			console.log(json["feed"][i]);
+			//console.log(json["feed"][i]);
 			displayPost(json["feed"][i], json["feed"][i]["_id"]["$oid"])
 		}
 	} );

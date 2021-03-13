@@ -87,12 +87,10 @@ function makePost(title, body) {
 	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
 		body: JSON.stringify({"title":title, "body": body}),
-		headers: {
-			"Content-type": "application/json; charset=UTF-8",
-			"Authorization": getCookie("token")
-		},
 		mode: "cors",
 		headers: {
+			"Content-type": "application/json; charset=UTF-8",
+			"Authorization": getCookie("token"),
 			"Origin": "http://157.230.233.218"
 		}
 	});

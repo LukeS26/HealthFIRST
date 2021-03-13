@@ -23,7 +23,7 @@ Commands:
 App:
 	Unites people
 	?Schedule and respond to meetings
-	?*Discussion of mental health
+	Discussion of mental health
 
 	Teams?
 		Challenges

@@ -1,5 +1,6 @@
 let postCount = 0;
 let open = [];
+let page = 0;
 
 function getPosts(url) {
 	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
@@ -58,3 +59,10 @@ function loadPage(page) {
 }
 
 loadPage(0);
+
+window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+		page++;
+		loadPage(page);
+    }
+};

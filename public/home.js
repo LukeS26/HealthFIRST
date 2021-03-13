@@ -2,6 +2,20 @@ let postCount = 0;
 let open = [];
 let page = 0;
 
+function getCookie(name) {
+	let cookieArr = document.cookie.split(";");
+
+	for (let i = 0; i < cookieArr.length; i++) {
+		let cookiePair = cookieArr[i].split("=");
+
+		if (name === cookiePair[0].trim()) {
+			return cookiePair[1];
+		}
+	}
+
+	return null;
+}
+
 function getPosts(url) {
 	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
@@ -74,7 +88,8 @@ function makePost(title, body) {
 		method: "POST",
 		body: {"title":title, "body": body},
 		headers: {
-			"Content-type": "application/json; charset=UTF-8"
+			"Content-type": "application/json; charset=UTF-8",
+			"Authorization": getCookie("token")
 		},
 		mode: "cors",
 		headers: {

@@ -1,12 +1,17 @@
 let username;
 let usernameOutput = document.getElementById("usernameOutput");
 let profileHeaderStuff = document.getElementById("profileHeaderStuff");
+let headerImage = document.getElementById("headerImage");
 let optionsOpen = false;
 
 if (getCookie("username") === null) {
 	username = "Username";
 } else {
 	username = getCookie("username");
+}
+
+if (getCookie("imgUrl") !== null && getCookie("imgUrl") !== "null") {
+	headerImage.src = getCookie("imgUrl");
 }
 
 usernameOutput.innerHTML = username;
@@ -31,7 +36,7 @@ function toggleOptions() {
 	if (optionsOpen) {
 		profileHeaderStuff.style.top = "-103%";
 	} else {
-		profileHeaderStuff.style.top = "100%";
+		profileHeaderStuff.style.top = "95%";
 	}
 }
 
@@ -53,5 +58,6 @@ function logout() {
 	document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 	document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 	document.cookie = "accepted=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+	document.cookie = "imgUrl=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 	window.location.href = "/login.html";
 }

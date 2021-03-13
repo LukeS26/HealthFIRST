@@ -55,14 +55,11 @@ function checkUser() {
 	.then(res => {
 		let code = res.status;
 		if (code === 404) {
-			document.getElementById("usernameNotFound").style.display = "block";
-			document.getElementById("passwordIncorrect").style.display = "none";
+			document.getElementById("notFound").style.display = "block";
 		} else if (code === 403) {
-			document.getElementById("passwordIncorrect").style.display = "block";
-			document.getElementById("usernameNotFound").style.display = "none";
+			document.getElementById("notFound").style.display = "block";
 		} else {
-			document.getElementById("usernameNotFound").style.display = "none";
-			document.getElementById("passwordIncorrect").style.display = "none";
+			document.getElementById("notFound").style.display = "none";
 			return res.json();
 		}
 	})
@@ -70,8 +67,18 @@ function checkUser() {
 		console.log(json);
 		token = json.token;
 		document.cookie = `token=${token}; expires=${expires}`;
-		document.cookie = `username=${username}; expires=${expires}`; 
-		window.location.href = "/";
+		document.cookie = `username=${username}; expires=${expires}`;
+		document.cookie = `cookieGoneDate=${expires}; expires=${expires}`;
+		let url = "http://157.230.233.218:8080/api/account/" + username;
+		fetch(url)
+			.then(res => res.json())
+			.then(json => {
+				document.cookie = `imgUrl=${json.profile_picture_link}; expires=${expires}`;
+				window.location.href = "/";
+			})
+			.catch(function (error) {
+				console.log(error);
+		});
 	})
 	.catch(err => console.log(err)); 
 }

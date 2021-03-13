@@ -5,7 +5,7 @@ public class Settings {
    public static final int MONGO_PORT = 27017;
    public static final String MONGO_ADMIN_USERNAME = "admin";
    public static final String MONGO_ADMIN_PASSWORD = "TW_[XCk(iw+V!YcgMcU}4=f{DPh<qLijcCnb)a=+FPq-HK!(H3";
-   public static final String MONGO_URI = "mongodb://" + MONGO_ADMIN_USERNAME + ":" + MONGO_ADMIN_PASSWORD + "@157.230.233.218:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
+   public static final String MONGO_URI = "mongodb://" + MONGO_ADMIN_USERNAME + ":" + MONGO_ADMIN_PASSWORD + "@" + WEBSITE_URL + ":" + MONGO_PORT + "/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
    
    public static final String MONGO_DATABASE_NAME = "InnovationApp";
    public static final String ACCOUNTS_COLLECTION_NAME = "Accounts";

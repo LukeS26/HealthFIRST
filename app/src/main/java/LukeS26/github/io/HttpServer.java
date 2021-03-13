@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 
@@ -271,8 +273,8 @@ public class HttpServer {
             }
             Token token = Token.fromDoc(tokenDoc);
 
-            Post post = mongoManager.findPost(ctx.splat(0));
-            if (!post.author.equals(token.username)) {
+            Document post = mongoManager.findPost(ctx.splat(0));
+            if (!((String) post.get("author")).equals(token.username)) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
@@ -307,12 +309,6 @@ public class HttpServer {
                 return;
             }
 
-            Document userAccountDoc = mongoManager.findAccount((String) doc.get("username"));
-            if (userAccountDoc == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
-                return;
-            }
-
             Document changes = new Document();
             // Create an empty account just for checking if the key exists
             Document blankAccount = new Account().toDoc(true);
@@ -322,6 +318,20 @@ public class HttpServer {
                     ctx.status(HttpStatus.BAD_REQUEST_400);
                     return;
                 }
+
+                // Checking if using a link to an image
+                if (e.getKey().equals("profile_picture_link")) {
+                    // Checks for http:// or https://, has to be a valid site and have a file extension at the end (https://site.com/image.png)
+                    // Since its checking an unlimited amount of characters for the site name, it could be www.site.com or just site.com, it doesn't matter
+                    Pattern p = Pattern.compile("^http[s]{0,1}:\\/\\/.*\\/.*\\.[a-zA-Z]{3,4}");
+                    Matcher m = p.matcher((String) e.getValue());
+                    if (!m.find()) {
+                        ctx.status(HttpStatus.BAD_REQUEST_400);
+                        return;
+                    }
+                }
+
+
                 // TODO: Check if setting profile pic link to something besides a link, etc.
 
                 // Checking if the username already exists
@@ -335,7 +345,7 @@ public class HttpServer {
                 changes.put(e.getKey(), e.getValue());
             }
 
-            mongoManager.updateAccount((String) doc.get("username"), changes);
+            mongoManager.updateAccount((String) tokenDoc.get("username"), changes);
             ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
         });
 

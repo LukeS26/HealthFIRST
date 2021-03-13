@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <title>Profile</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
-  
+
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
@@ -32,12 +32,14 @@
       </div>
     </header>
     <br><br><br>
-    <div class="blur" id="popupBlur" onclick="togglePhotoPopup()">
-      <div class="popup" id="imagePopup">
-        <div id="dropBox" ondrop="drop(event)" ondragover="allowDrop(event)"><div>Drag & Drop</div></div>
-        <h1 id="picOr">OR</h1>
-        <input placeholder="Paste Image URL Here" id="imgUrlInput" onclick="togglePhotoPopup(); this.select()"><br>
-        <button onclick="changeProfilePic()" id="updatePhotoButton">Submit</button>
+    <div class="blurBox">
+      <div class="blur" id="popupBlur" onclick="togglePhotoPopup()">
+        <div class="popup" id="imagePopup">
+          <div id="dropBox" ondrop="drop(event)" ondragover="allowDrop(event)"><div>Drag & Drop</div></div>
+          <h1 id="picOr">OR</h1>
+          <input placeholder="Paste Image URL Here" id="imgUrlInput" onclick="togglePhotoPopup(); this.select()"><br>
+          <button onclick="changeProfilePic()" id="updatePhotoButton">Submit</button>
+        </div>
       </div>
     </div>
     <div id="profileOut"></div>

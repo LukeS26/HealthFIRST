@@ -2,6 +2,20 @@ let postCount = 0;
 let open = [];
 let page = 0;
 
+function getCookie(name) {
+	let cookieArr = document.cookie.split(";");
+
+	for (let i = 0; i < cookieArr.length; i++) {
+		let cookiePair = cookieArr[i].split("=");
+
+		if (name === cookiePair[0].trim()) {
+			return cookiePair[1];
+		}
+	}
+
+	return null;
+}
+
 function getPosts(url) {
 	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
@@ -68,3 +82,16 @@ window.onscroll = function(ev) {
 		loadPage(page);
     }
 };
+
+function makePost(title, body) {
+	fetch("http://157.230.233.218:8080/api/posts", {
+		method: "POST",
+		body: JSON.stringify({"title":title, "body": body}),
+		mode: "cors",
+		headers: {
+			"Content-type": "application/json; charset=UTF-8",
+			"Authorization": getCookie("token"),
+			"Origin": "http://157.230.233.218"
+		}
+	});
+}

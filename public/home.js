@@ -44,7 +44,7 @@ function loadPost(id) {
 }
 
 
-getPosts("602878639903f175355bd339");
+//getPosts("602878639903f175355bd339");
 
 function loadPage(page) {
 	fetch("http://157.230.233.218:8080/api/posts/feed?page=" + page)
@@ -52,7 +52,9 @@ function loadPage(page) {
 	.then(function(json) { 
 		for(let i = 0; i < json["feed"].length; i++) {
 			console.log(json["feed"][i]);
-			displayPost(json["feed"][i], json["feed"]["_id"]["$oid"])
+			displayPost(json["feed"][i], json["feed"][i]["_id"]["$oid"])
 		}
 	} );
 }
+
+loadPage(0);

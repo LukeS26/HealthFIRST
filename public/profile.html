@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Profile</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Profile</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
 
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="manifest" href="favicon/site.webmanifest">
-  <script src="checkUser.js"></script>
-</head>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <script src="checkUser.js"></script>
+  </head>
 
-<body>
-  <header>
-    <a href="/"><h1 class="headerRight">HealthFirst</h1></a>
-    <div id="profileHeader" class="profileHeader" onclick="toggleOptions()">
-      <div class="profileImage" style="height: 50px; width: 50px; overflow: hidden;">
-        <img id="headerImage" src="defaultPic.png" height="50px" width="50px"> 
+  <body>
+    <header>
+      <a href="/"><h1 class="headerRight">HealthFirst</h1></a>
+      <div id="profileHeader" class="profileHeader" onclick="toggleOptions()">
+        <div class="profileImage" style="height: 50px; width: 50px; overflow: hidden;">
+          <img id="headerImage" src="defaultPic.png" height="50px" width="50px"> 
+        </div>
+        <h2 id="usernameOutput"></h2>
       </div>
-      <h2 id="usernameOutput"></h2>
-    </div>
-    <div id="profileHeaderStuff">
-      <div>
-        <a href="profile.html">Profile</a><br><br>
-        <a>Options</a><br><br>
-        <a onclick="logout()">Logout</a><br><br>
+      <div id="profileHeaderStuff">
+        <div>
+          <a href="profile.html">Profile</a><br><br>
+          <a>Options</a><br><br>
+          <a onclick="logout()">Logout</a><br><br>
+        </div>
+      </div>
+    </header>
+    <br><br><br>
+    <div class="blurBox">
+      <div class="blur" id="popupBlur" onclick="togglePhotoPopup()">
+        <div class="popup" id="imagePopup">
+          <div id="dropBox" ondrop="drop(event)" ondragover="allowDrop(event)"><div>Drag & Drop</div></div>
+          <h1 id="picOr">OR</h1>
+          <input placeholder="Paste Image URL Here" id="imgUrlInput" onclick="togglePhotoPopup(); this.select()"><br>
+          <button onclick="changeProfilePic()" id="updatePhotoButton">Submit</button>
+        </div>
       </div>
     </div>
-  </header>
-  <br><br><br>
-  <div class="blur" id="popupBlur" onclick="togglePhotoPopup()">
-    <div class="popup" id="imagePopup">
-      <div id="dropBox" ondrop="drop(event)" ondragover="allowDrop(event)"><div>Drag & Drop</div></div>
-      <h1 id="picOr">OR</h1>
-      <input placeholder="Paste Image URL Here" id="imgUrlInput" onclick="togglePhotoPopup(); this.select()"><br>
-      <button onclick="changeProfilePic()" id="updatePhotoButton">Submit</button>
-    </div>
-  </div>
-  <div id="profileOut"></div>
-  <button onclick="togglePhotoPopup()" style="margin-top: 20px">Change Photo</button>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <script src="profiles.js"></script>
-  <script src="header.js"></script>
-</body>
+    <div id="profileOut"></div>
+    <button onclick="togglePhotoPopup()" style="margin-top: 20px">Change Photo</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="profiles.js"></script>
+    <script src="header.js"></script>
+  </body>
 
 </html>

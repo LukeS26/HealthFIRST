@@ -45,6 +45,11 @@ getPosts("602878639903f175355bd339");
 
 function loadPage(page) {
 	fetch("http://157.230.233.218:8080/api/posts/feed?page=" + page)
-	.andThen(res => res.json())
-	.andThen(function(json) { console.log(json) } );
+	.then(res => res.json())
+	.then(function(json) { 
+		for(let i = 0; i < json["feed"].length; i++) {
+			console.log(json["feed"][i]);
+			displayPost(json["feed"][i], json["feed"]["_id"]["$oid"])
+		}
+	} );
 }

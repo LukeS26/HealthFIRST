@@ -78,7 +78,7 @@ loadPage(0);
 
 window.onscroll = function(ev) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-		page+=2;
+		page++;
 		loadPage(page);
     }
 };

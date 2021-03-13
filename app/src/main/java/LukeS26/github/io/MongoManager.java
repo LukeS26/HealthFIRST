@@ -138,8 +138,9 @@ public class MongoManager {
     public FindIterable<Document> getFeed(int pageNumber) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
+            // TODO: For some reason this is making 0 and 1 equal
             FindIterable<Document> postDocs = postCollection.find().sort(Sorts.ascending("date"))
-                    .skip(Settings.POSTS_PER_PAGE * (pageNumber - 1)).limit(Settings.POSTS_PER_PAGE);
+                    .skip(Settings.POSTS_PER_PAGE * pageNumber).limit(Settings.POSTS_PER_PAGE);
             if (postDocs != null) {
                 return postDocs;
             }

@@ -109,7 +109,7 @@ function togglePhotoPopup() {
 		window.setTimeout(setBlurColor, 1);
 		blurOpen = true;
 	} else {
-		blur.style.backgroundColor = "rgba(211, 211, 211, 0)";
+		//blur.style.backgroundColor = "rgba(211, 211, 211, 0)";
 		blur.style.display = "none";
 		blurOpen = false;
 	}
@@ -117,7 +117,7 @@ function togglePhotoPopup() {
 
 function setBlurColor() {
 	let blur = document.getElementById("popupBlur");
-	blur.style.backgroundColor = blurColor;
+	//blur.style.backgroundColor = blurColor;
 }
 
 if( navigator.userAgent.match(/Android/i)

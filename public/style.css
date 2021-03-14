@@ -86,7 +86,7 @@
     margin-top: 5px;
 }
 
-.blurBox { /* put inside of .bur*/
+.blurBox {
     filter: blur(4px);
     position: absolute;
     top: 0px;

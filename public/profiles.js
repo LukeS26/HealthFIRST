@@ -109,7 +109,7 @@ function togglePhotoPopup() {
 		window.setTimeout(setBlurColor, 1);
 		blurOpen = true;
 		document.getElementsByTagName("body")[0].style.filter = "blur(4px)";
-		document.getElementById("imagePopup")[0].style.filter = "none";
+		document.getElementById("imagePopup").style.filter = "none";
 	} else {
 		blur.style.backgroundColor = "rgba(211, 211, 211, 0)";
 		blur.style.display = "none";

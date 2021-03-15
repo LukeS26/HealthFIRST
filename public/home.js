@@ -44,7 +44,7 @@ function displayPost(post, id) {
 	}
 	
 	let dateRaw = new Date(post.date.$date);
-	date += dateRaw.getMonth() + " " + dateRaw.getDay() + ", " + dateRaw.getFullYear() + " " + dateRaw.getHours() + ":" + dateRaw.getMinutes();
+	let date = dateRaw.getMonth() + " " + dateRaw.getDay() + ", " + dateRaw.getFullYear() + " " + dateRaw.getHours() + ":" + dateRaw.getMinutes();
 
 	html += `<div id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;

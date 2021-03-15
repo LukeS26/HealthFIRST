@@ -45,6 +45,7 @@ function displayPost(post, id) {
 	
 	html += `<div id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
 	html += `<h5 class='postAuthor'>${post.author}</h5>`;
+	html += `<h6 class='postDate'>${new Date(post.date.$date).toString().split(" ").splice(1, 4)}</h6>`
 	html += `<p class='postBody'>${body}</p> </div>`;
 
 	container.innerHTML += html;

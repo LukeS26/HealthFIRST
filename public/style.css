@@ -93,9 +93,10 @@
     top: 0px;
     left: 0px;
     z-index: 999;
-    /*background-color: rgba(211, 211, 211, 0);*/
+    background-color: rgba(211, 211, 211, 0);
     transition: background-color 0.2s ease-in-out;
     display: none;
+    filter: none;
 }
 
 .popup {

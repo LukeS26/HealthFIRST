@@ -37,6 +37,7 @@ getPost(id);
 function displayPost(vals) {
 	document.getElementById("title").innerHTML = vals.title;
 	document.getElementById("author").innerHTML = vals.author;
+	document.getElementById("date").innerHTML = new Date(vals.date.$date).toLocaleString();
 	document.getElementById("body").innerHTML = vals.body;
 }
 

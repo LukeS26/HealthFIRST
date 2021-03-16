@@ -63,6 +63,8 @@ function displayComments() {
 		
 	}
 
+	console.log(commentsDisplay);
+
 }
 
 function displayPost(vals) {

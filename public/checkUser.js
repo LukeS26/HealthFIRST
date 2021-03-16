@@ -19,14 +19,14 @@ if (getCookie("accepted") !== "true") {
 	}
 	let currToken = getCookie("token");
 
-	fetch("https://157.230.233.218:8080/api/posts", {
+	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
 		body: JSON.stringify(data),
 		mode: "cors",
 		headers: {
 			'Content-type': 'application/json; charset=UTF-8',
 			'Authorization': currToken,
-			'Origin': 'https://157.230.233.218:8080'
+			'Origin': 'http://157.230.233.218:8080'
 		}
 	})
 	.then(res => {

@@ -40,7 +40,7 @@ function getChildComments(comment) {
 	let returnComments = [];
 
 	for(let i = 0; i < comments.length; i++) {
-		if(comments[i]["reply_to_id"] == comment["_id"]) {
+		if(comments[i]["reply_to_id"]["$oid"] == comment["_id"]["$oid"]) {
 			returnComments.push(comments[i]);
 			returnComments.push(getChildComments(comments[i]));
 		}

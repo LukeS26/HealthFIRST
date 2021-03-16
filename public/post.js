@@ -59,7 +59,7 @@ function displayComments() {
 
 	let commentsDisplay = [];
 
-	for(let i = 0; i < comments.length; i++) {
+	for(let i = 0; i < comments.length;) {
 		if(comments[i]["reply_to_id"] == null) {
 			comments.shift()
 			let temp = getChildComments(comments[i]);

@@ -34,8 +34,6 @@ function getComments(url) {
 	});
 }
 
-getPost(id);
-
 function getChildComments(comment) {
 	let returnComments = [];
 
@@ -82,20 +80,6 @@ function displayPost(vals) {
 	document.getElementById("body").innerHTML = vals.body;
 }
 
-//api/replies/{id}
-
-let testArr = [["A0",
-	["B0",
-		["C0"], ["C1"]],
-	["B1"]],
-
-["A1",
-	["B0",
-		["C0"]],
-	["B1",
-		["C0",	["D0"]], ["C1"]]
-	]
-];
 
 let num = -2;
 let display = "";
@@ -114,7 +98,7 @@ function formatReplies(replyArr) {
 }
 
 function load(reply, number) {
-	let comment = `<div name="${number}" style="transform: translateX(${30 * number}px)" > <h4> ${reply} </h4> </div> `
+	let comment = `<div name="${number}" style="transform: translateX(${(30 * number) + 30}px)" > <h4> ${reply} </h4> </div> `
 	
 	let shell = document.getElementById("comments");
 
@@ -128,4 +112,6 @@ function load(reply, number) {
 	}
 }
 
-console.log(display);
+getPost(id);
+getComments(id);
+displayComments(comments);

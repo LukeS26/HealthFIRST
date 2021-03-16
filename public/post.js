@@ -113,5 +113,4 @@ function load(reply, number) {
 }
 
 getPost(id);
-getComments(id);
-displayComments(comments);
+getComments(id).then(displayComments(comments));

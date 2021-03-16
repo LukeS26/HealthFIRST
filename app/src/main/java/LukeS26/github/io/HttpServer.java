@@ -203,7 +203,7 @@ public class HttpServer {
         app.post("/api/posts", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");
-            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+            ctx.header("Access-Control-Allow-Origin", "https://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -243,7 +243,7 @@ public class HttpServer {
          * Get a post
          */
         app.get("/api/posts/*", ctx -> {
-            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+            ctx.header("Access-Control-Allow-Origin", "https://" + Settings.WEBSITE_URL);
 
             Document postDoc = mongoManager.findPost(ctx.splat(0));
             if (postDoc == null) {
@@ -260,7 +260,7 @@ public class HttpServer {
         app.delete("/api/posts/*", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");
-            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+            ctx.header("Access-Control-Allow-Origin", "https://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -297,7 +297,7 @@ public class HttpServer {
 
         // #region Accounts
         app.patch("/api/account", ctx -> {
-            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+            ctx.header("Access-Control-Allow-Origin", "https://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -365,7 +365,7 @@ public class HttpServer {
          * Create a new account
          */
         app.post("/api/account/signup", ctx -> {
-            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+            ctx.header("Access-Control-Allow-Origin", "https://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {
@@ -452,7 +452,7 @@ public class HttpServer {
          * Getting an account token + verifying username+pass
          */
         app.post("/api/account/login", ctx -> {
-            ctx.header("Access-Control-Allow-Origin", "http://" + Settings.WEBSITE_URL);
+            ctx.header("Access-Control-Allow-Origin", "https://" + Settings.WEBSITE_URL);
 
             Document doc = null;
             try {

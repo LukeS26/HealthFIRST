@@ -31,6 +31,7 @@ function getComments(url) {
 	.then(function (json) {
 		console.log(json);
 		comments = json["comments"];
+		displayComments(comments);
 	});
 }
 
@@ -113,4 +114,4 @@ function load(reply, number) {
 }
 
 getPost(id);
-getComments(id).then(displayComments(comments));
+getComments(id);

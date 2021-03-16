@@ -86,7 +86,7 @@ function checkUser() {
 onkeydown = function (e) {
 	let key = e.key;
 	if (key === "Enter") {
-		if (document.getElementById("username").hasFocus()) {
+		if (document.getElementById("username") == document.activeElement) {
 			document.getElementById("password").focus();
 		} else {
 			checkForm();

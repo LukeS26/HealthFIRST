@@ -47,7 +47,7 @@ function displayPost(post, id) {
 	let date = dateRaw.toLocaleString();
 
 	html += `<div id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
-	html += `<h5 class='postAuthor'>${post.author}</h5>`;
+	html += `<a class='postAuthor' href='/user.html?${post.author}' >${post.author}</a>`;
 	html += `<h6 class='postDate'>${date}</h6>`
 	html += `<p class='postBody'>${body}</p> </div>`;
 

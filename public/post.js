@@ -54,8 +54,6 @@ function getChildComments(comment) {
 }
 
 function displayComments() {
-	getComments(id);
-
 	let commentsDisplay = [];
 
 	for(let i = 0; i < comments.length;) {

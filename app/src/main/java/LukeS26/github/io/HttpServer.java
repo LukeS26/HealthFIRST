@@ -221,7 +221,8 @@ public class HttpServer {
             Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
             post.author = token.username;
             post.title = (String) doc.get("title");
-            post.body = (String) doc.get("body");
+            post.body = format((String) doc.get("body"));
+
             post.date = new Date();
 
             mongoManager.writePost(post);
@@ -483,5 +484,12 @@ public class HttpServer {
 
         });
         // #endregion
+    }
+
+    public static String format(String str) {
+        str.replace("<", "&lt;");
+        str.replace(">", "&gt;");
+
+        return str;
     }
 }

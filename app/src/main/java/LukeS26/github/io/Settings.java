@@ -14,7 +14,7 @@ public class Settings {
    public static final String COMMENTS_COLLECTION_NAME = "Comments";
    public static final String TOKENS_COLLECTION_NAME = "Tokens";
    
-   public static final int HTTP_SERVER_PORT = 443;
+   public static final int HTTP_SERVER_PORT = 8443;
    
    public static final int BCRYPT_LOG_ROUNDS = 10;
    

@@ -29,14 +29,23 @@ import LukeS26.github.io.dataschema.Token;
 import io.javalin.Javalin;
 
 public class HttpServer {
+    private static HttpServer instance;
     public MongoManager mongoManager;
     private Javalin app;
     private String[] suspiciousEndpoints;
     private byte[] gzipBytes;
 
-    public HttpServer() {
+    public static HttpServer getInstance() {
+        if (instance == null) {
+            instance = new HttpServer();
+        }
+
+        return instance;
+    }
+
+    private HttpServer() {
         System.out.println("Initializing MongoDB....");
-        mongoManager = new MongoManager();
+        mongoManager = MongoManager.getInstance();
         System.out.println("Finished initializing MongoDB.");
 
         suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html",

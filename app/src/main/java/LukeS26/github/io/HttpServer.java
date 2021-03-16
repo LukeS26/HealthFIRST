@@ -496,11 +496,7 @@ public class HttpServer {
     }
 
     public String format(String str) {
-        str.replace("<", "&lt;");
-        str.replace(">", "&gt;");
-        str.replace("=", "&#61;");
-        str.replace(":", "&#58;");
-        str.replace("\"", "&#34;");
+        str = str.replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;").replace(":", "&#58;").replace("\"", "&#34;");
 
         return str;
     }

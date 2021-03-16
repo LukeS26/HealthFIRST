@@ -43,7 +43,10 @@ function getChildComments(comment) {
 		if(comments[i]["reply_to_id"] != null) {
 			if(comments[i]["reply_to_id"]["$oid"] == comment["_id"]["$oid"]) {
 				returnComments.push(comments[i]);
-				returnComments.push(getChildComments(comments[i]));
+				let temp = getChildComments(comments[i]);
+				if(temp.length > 0) {
+					returnComments.push(temp);
+				}
 			}
 		}
 	}
@@ -58,6 +61,7 @@ function displayComments() {
 
 	for(let i = 0; i < comments.length; i++) {
 		if(comments[i]["reply_to_id"] == null) {
+			comments.shift()
 			let temp = getChildComments(comments[i]);
 			commentsDisplay.push(comments[i]);
 			commentsDisplay.push(temp);
@@ -66,6 +70,8 @@ function displayComments() {
 	}
 
 	console.log(commentsDisplay);
+	
+	formatReplies(commentsDisplay);
 
 }
 
@@ -122,5 +128,4 @@ function load(reply, number) {
 	}
 }
 
-formatReplies(testArr);
 console.log(display);

@@ -55,7 +55,7 @@ function displayComments() {
 	let commentsDisplay = [];
 
 	for(let i = 0; i < comments.length; i++) {
-		if(isNull(comments["reply_to_id"])) {
+		if(comments["reply_to_id"] == null) {
 			let temp = getChildComments(comments[i]);
 			commentsDisplay.push(comments[i]);
 			commentsDisplay.push(temp);

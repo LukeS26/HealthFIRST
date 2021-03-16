@@ -88,6 +88,18 @@ function stringToHash(string) {
 onkeydown = function(e) {
 	let key = e.key;
 	if (key === "Enter") {
-		checkForm();
+        if (document.getElementById("username") == document.activeElement) {
+			document.getElementById("password").focus();
+		} else if (document.getElementById("password") == document.activeElement) {
+			document.getElementById("repassword").focus(); 
+        } else if (document.getElementById("repassword") == document.activeElement) {
+			document.getElementById("firstName").focus();
+        } else if (document.getElementById("firstName") == document.activeElement) {
+			document.getElementById("lastName").focus();
+        } else if (document.getElementById("lastName") == document.activeElement) {
+			document.getElementById("email").focus();
+        } else {
+		    checkForm();
+        }
 	}
 }

@@ -35,7 +35,7 @@ function checkUser() {
 	};
 
 	let expires = document.getElementById("keepLoggedIn").checked;
-	if (expires) { 
+	if (expires) {
 		expires = (new Date(Date.now() + 525600 * 60 * 1000 * 5)).toUTCString();
 	} else {
 		expires = "";
@@ -52,40 +52,44 @@ function checkUser() {
 			"Origin": "http://157.230.233.218"
 		}
 	})
-	.then(res => {
-		let code = res.status;
-		if (code === 404) {
-			document.getElementById("notFound").style.display = "block";
-		} else if (code === 403) {
-			document.getElementById("notFound").style.display = "block";
-		} else {
-			document.getElementById("notFound").style.display = "none";
-			return res.json();
-		}
-	})
-	.then(function(json) {
-		console.log(json);
-		token = json.token;
-		document.cookie = `token=${token}; expires=${expires}`;
-		document.cookie = `username=${username}; expires=${expires}`;
-		document.cookie = `cookieGoneDate=${expires}; expires=${expires}`;
-		let url = "http://157.230.233.218:8080/api/account/" + username;
-		fetch(url)
-			.then(res => res.json())
-			.then(json => {
-				document.cookie = `imgUrl=${json.profile_picture_link}; expires=${expires}`;
-				window.location.href = "/";
-			})
-			.catch(function (error) {
-				console.log(error);
-		});
-	})
-	.catch(err => console.log(err)); 
+		.then(res => {
+			let code = res.status;
+			if (code === 404) {
+				document.getElementById("notFound").style.display = "block";
+			} else if (code === 403) {
+				document.getElementById("notFound").style.display = "block";
+			} else {
+				document.getElementById("notFound").style.display = "none";
+				return res.json();
+			}
+		})
+		.then(function (json) {
+			console.log(json);
+			token = json.token;
+			document.cookie = `token=${token}; expires=${expires}`;
+			document.cookie = `username=${username}; expires=${expires}`;
+			document.cookie = `cookieGoneDate=${expires}; expires=${expires}`;
+			let url = "http://157.230.233.218:8080/api/account/" + username;
+			fetch(url)
+				.then(res => res.json())
+				.then(json => {
+					document.cookie = `imgUrl=${json.profile_picture_link}; expires=${expires}`;
+					window.location.href = "/";
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		})
+		.catch(err => console.log(err));
 }
 
 onkeydown = function (e) {
 	let key = e.key;
 	if (key === "Enter") {
-		checkForm();
+		if (document.getElementById("username").hasFocus()) {
+			document.getElementById("password").focus();
+		} else {
+			checkForm();
+		}
 	}
 }

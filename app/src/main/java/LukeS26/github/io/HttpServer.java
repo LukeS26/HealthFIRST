@@ -29,14 +29,23 @@ import LukeS26.github.io.dataschema.Token;
 import io.javalin.Javalin;
 
 public class HttpServer {
+    private static HttpServer instance;
     public MongoManager mongoManager;
     private Javalin app;
     private String[] suspiciousEndpoints;
     private byte[] gzipBytes;
 
-    public HttpServer() {
+    public static HttpServer getInstance() {
+        if (instance == null) {
+            instance = new HttpServer();
+        }
+
+        return instance;
+    }
+
+    private HttpServer() {
         System.out.println("Initializing MongoDB....");
-        mongoManager = new MongoManager();
+        mongoManager = MongoManager.getInstance();
         System.out.println("Finished initializing MongoDB.");
 
         suspiciousEndpoints = new String[] { "client_area", "system_api", "GponForm", "stalker_portal", "manager/html",
@@ -148,8 +157,8 @@ public class HttpServer {
                 comment.replyToId = null;
             }
 
-            comment.author = token.username;
-            comment.body = (String) doc.get("body");
+            comment.author = format(token.username);
+            comment.body = format((String) doc.get("body"));
 
             mongoManager.writeComment(comment);
             ctx.status(HttpStatus.CREATED_201);
@@ -219,8 +228,8 @@ public class HttpServer {
             Token token = Token.fromDoc(tokenDoc);
 
             Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
-            post.author = token.username;
-            post.title = (String) doc.get("title");
+            post.author = format(token.username);
+            post.title = format((String) doc.get("title"));
             post.body = format((String) doc.get("body"));
 
             post.date = new Date();
@@ -275,7 +284,7 @@ public class HttpServer {
             Token token = Token.fromDoc(tokenDoc);
 
             Document post = mongoManager.findPost(ctx.splat(0));
-            if (!((String) post.get("author")).equals(token.username)) {
+            if (!(format((String) post.get("author"))).equals(token.username)) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
@@ -384,10 +393,10 @@ public class HttpServer {
              * Can't use .fromDoc here because this won't contain a bio, userAccount link,
              * permission id, etc.
              */
-            userAccount.username = (String) doc.get("username");
-            userAccount.firstName = (String) doc.get("first_name");
-            userAccount.lastName = (String) doc.get("last_name");
-            userAccount.email = (String) doc.get("email");
+            userAccount.username = format((String) doc.get("username"));
+            userAccount.firstName = format((String) doc.get("first_name"));
+            userAccount.lastName = format((String) doc.get("last_name"));
+            userAccount.email = format((String) doc.get("email"));
             userAccount.bio = null;
             userAccount.profilePictureLink = null;
 
@@ -459,7 +468,7 @@ public class HttpServer {
                 return;
             }
 
-            Document loginAccountDoc = mongoManager.findAccount((String) doc.get("username"));
+            Document loginAccountDoc = mongoManager.findAccount(format((String) doc.get("username")));
             if (loginAccountDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
@@ -471,7 +480,7 @@ public class HttpServer {
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
                 System.out.println("Correct password");
 
-                Document tokenDoc = mongoManager.findTokenForUser((String) doc.get("username"));
+                Document tokenDoc = mongoManager.findTokenForUser(format((String) doc.get("username")));
                 tokenDoc.remove("_id");
                 String tokenJson = tokenDoc.toJson();
 
@@ -486,9 +495,8 @@ public class HttpServer {
         // #endregion
     }
 
-    public static String format(String str) {
-        str.replace("<", "&lt;");
-        str.replace(">", "&gt;");
+    public String format(String str) {
+        str = str.replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;").replace(":", "&#58;").replace("\"", "&#34;");
 
         return str;
     }

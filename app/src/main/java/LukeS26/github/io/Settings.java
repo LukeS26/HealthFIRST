@@ -1,7 +1,7 @@
 package LukeS26.github.io;
 
 public class Settings {
-   public static final String WEBSITE_URL = "157.230.233.218";
+   public static final String WEBSITE_URL = "healthfirst4342.tk";
    public static final int MONGO_PORT = 27017;
    public static final String MONGO_ADMIN_USERNAME = "admin";
    public static final String MONGO_ADMIN_PASSWORD = "TW_[XCk(iw+V!YcgMcU}4=f{DPh<qLijcCnb)a=+FPq-HK!(H3";

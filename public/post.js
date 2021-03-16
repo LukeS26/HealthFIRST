@@ -8,6 +8,7 @@ function getUrlVars() {
 
 
 let id = getUrlVars()["id"];
+let comments = [];
 
 function getPost(url) {
 	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
@@ -29,10 +30,40 @@ function getComments(url) {
 	.then(res => res.json())
 	.then(function (json) {
 		console.log(json);
+		comments = json["comments"];
 	});
 }
 
 getPost(id);
+
+function getChildComments(comment) {
+	let returnComments = [];
+
+	for(let i = 0; i < comments.length; i++) {
+		if(comments[i]["reply_to_id"] == comments["_id"]) {
+			returnComments.push(comments[i]);
+			returnComments.push(getChildComments(comments[i]));
+		}
+	}
+
+	return returnComments;
+}
+
+function displayComments() {
+	getComments(id);
+
+	let commentsDisplay = [];
+
+	for(let i = 0; i < comments.length; i++) {
+		if(isNull(comments["reply_to_id"])) {
+			let temp = getChildComments(comments[i]);
+			commentsDisplay.push(comments[i]);
+			commentsDisplay.push(temp);
+		}
+		
+	}
+
+}
 
 function displayPost(vals) {
 	document.getElementById("title").innerHTML = vals.title;

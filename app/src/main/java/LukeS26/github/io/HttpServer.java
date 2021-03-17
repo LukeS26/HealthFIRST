@@ -151,7 +151,7 @@ public class HttpServer {
             comment.postId = new ObjectId((String) doc.get("post_id"));
 
             if (doc.get("reply_to_id") != null) {
-                comment.replyToId = new ObjectId((String) doc.get("reply_to_id"));
+                comment.replyToId = (ObjectId)doc.get("reply_to_id");
 
             } else {
                 comment.replyToId = null;

@@ -81,7 +81,7 @@ function displayPost(vals) {
 }
 
 
-let num = 0;
+let num = -2;
 let display = "";
 
 function formatReplies(replyArr) {
@@ -98,8 +98,7 @@ function formatReplies(replyArr) {
 }
 
 function load(reply, number) {
-	user = "USER HERE"
-	let comment = `<div name="${number}" style="left: ${(30 * number) + 30}px; position: relative;" > <a href="/user?${user}> ${user} </a> <p> DATE HERE </p> <br> <p> ${reply} </p> </div> `
+	let comment = `<div name="${number}" style="left: ${(30 * number) + 30}px; position: relative;" > <h4> ${reply} </h4> </div> `
 	
 	let shell = document.getElementById("comments");
 

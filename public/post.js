@@ -117,7 +117,7 @@ function makeComment(commentId, body) {
 	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
 	fetch(fetchUrl, {
 		method: "POST",
-		body: JSON.stringify({ "id":{"$oid": commentId}, "body": body, "post_id": id}),
+		body: JSON.stringify({ "reply_to_id":{"$oid": commentId}, "body": body, "post_id": id}),
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",

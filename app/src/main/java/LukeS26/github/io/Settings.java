@@ -1,7 +1,7 @@
 package LukeS26.github.io;
 
 public class Settings {
-   public static final String WEBSITE_URL = "https://healthfirst4342.tk";
+   public static final String WEBSITE_URL = "http://healthfirst4342.tk";
    public static final String WEBSITE_IP = "157.230.233.218";
    public static final int MONGO_PORT = 27017;
    public static final String MONGO_ADMIN_USERNAME = "admin";
@@ -14,7 +14,7 @@ public class Settings {
    public static final String COMMENTS_COLLECTION_NAME = "Comments";
    public static final String TOKENS_COLLECTION_NAME = "Tokens";
    
-   public static final int HTTP_SERVER_PORT = 3000;
+   public static final int HTTP_SERVER_PORT = 8080;
    
    public static final int BCRYPT_LOG_ROUNDS = 10;
    

@@ -89,7 +89,7 @@ function formatReplies(replyArr) {
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
 			if (!Array.isArray(replyArr[i])) {
-				load(replyArr[i]["body"], num, replyArr[i]["author"]);
+				load(replyArr[i]["body"], num);
 			}
 			formatReplies(replyArr[i]);
 			num--;
@@ -97,7 +97,8 @@ function formatReplies(replyArr) {
 	}
 }
 
-function load(reply, number, user) {
+function load(reply, number) {
+	user = "USER HERE"
 	let comment = `<div name="${number}" style="left: ${(30 * number) + 30}px; position: relative;" > <a href="/user?${user}> ${user} </a> <p> DATE HERE </p> <br> <p> ${reply} </p> </div> `
 	
 	let shell = document.getElementById("comments");

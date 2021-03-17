@@ -11,7 +11,7 @@ let id = getUrlVars()["id"];
 let comments = [];
 
 function getPost(url) {
-	let fetchUrl = "https://157.230.233.218:80/api/posts/" + url;
+	let fetchUrl = "https://157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then( function(json) {
@@ -25,7 +25,7 @@ function getPost(url) {
 }
 
 function getComments(url) {
-	let fetchUrl = "https://157.230.233.218:80/api/comments/" + url;
+	let fetchUrl = "https://157.230.233.218:8080/api/comments/" + url;
 	fetch(fetchUrl)
 	.then(res => res.json())
 	.then(function (json) {

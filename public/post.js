@@ -81,7 +81,7 @@ function displayPost(vals) {
 }
 
 
-let num = -1;
+let num = 0;
 let display = "";
 
 function formatReplies(replyArr) {

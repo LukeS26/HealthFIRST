@@ -98,7 +98,8 @@ function formatReplies(replyArr) {
 }
 
 function load(reply, number) {
-	let comment = `<div name="${number}" style="left: ${(30 * number) + 30}px; position: relative;" > <p> ${reply} </p> </div> `
+	user = "USER"
+	let comment = `<div name="${number}" style="left: ${(30 * number) + 30}px; position: relative;" > <a href="/user.html?${user}"> ${user} </a> <p> ${reply} </p> </div> `
 	
 	let shell = document.getElementById("comments");
 

@@ -127,5 +127,19 @@ function makeComment(commentId, body) {
 	});
 }
 
+function makeCommentOnPost(body) {
+	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
+	fetch(fetchUrl, {
+		method: "POST",
+		body: JSON.stringify({ "body": body, "post_id": id}),
+		mode: "cors",
+		headers: {
+			"Content-type": "application/json; charset=UTF-8",
+			"Authorization": getCookie("token"),
+			"Origin": "http://157.230.233.218"
+		}
+	});
+}
+
 getPost(id);
 getComments(id);

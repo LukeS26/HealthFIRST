@@ -48,7 +48,7 @@ function checkForm() {
                     "email": email,
                     "password_hash": hashedPassword
                 };
-        fetch("https://157.230.233.218:8443/api/account/signup", {
+        fetch("https://157.230.233.218:80/api/account/signup", {
             method: "POST",
 	    	body: JSON.stringify(data),
 	    	headers: {

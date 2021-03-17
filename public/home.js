@@ -17,7 +17,7 @@ function getCookie(name) {
 }
 
 function getPosts(url) {
-	let fetchUrl = "https://157.230.233.218:8443/api/posts/" + url;
+	let fetchUrl = "https://157.230.233.218:80/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then(function (json) {
@@ -66,7 +66,7 @@ function loadPost(id) {
 //getPosts("602878639903f175355bd339");
 
 function loadPage(page) {
-	fetch("https://157.230.233.218:8443/api/posts/feed?page=" + page)
+	fetch("https://157.230.233.218:80/api/posts/feed?page=" + page)
 	.then(res => res.json())
 	.then(function(json) { 
 		console.log(page);
@@ -88,7 +88,7 @@ window.onscroll = function(ev) {
 };
 
 function makePost(title, body) {
-	fetch("https://157.230.233.218:8443/api/posts", {
+	fetch("https://157.230.233.218:80/api/posts", {
 		method: "POST",
 		body: JSON.stringify({"title":title, "body": body}),
 		mode: "cors",

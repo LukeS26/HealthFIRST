@@ -3,7 +3,7 @@ let blurColor;
 let blurOpen = false;
 let imgUrl = "";
 
-let url = "https://157.230.233.218:8443/api/account/" + getCookie("username");
+let url = "https://157.230.233.218:80/api/account/" + getCookie("username");
 fetch(url)
 		.then(res => res.json())
 		.then(json => {
@@ -62,14 +62,14 @@ function changeProfilePic() {
 		};
 		let currToken = getCookie("token");
 	
-		fetch("https://157.230.233.218:8443/api/account/", {
+		fetch("https://157.230.233.218:80/api/account/", {
 			method: "PATCH",
 			body: JSON.stringify(data),
 			mode: "cors",
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 				'Authorization': currToken,
-				'Origin': 'https://157.230.233.218:8443'
+				'Origin': 'https://157.230.233.218:80'
 			}
 		})
 		.then(res => {

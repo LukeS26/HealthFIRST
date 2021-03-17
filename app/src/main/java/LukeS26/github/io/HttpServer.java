@@ -331,18 +331,17 @@ public class HttpServer {
 
                 // Checking if using a link to an image
                 // TODO: Certain links don't work, removing for now
-                /*if (e.getKey().equals("profile_picture_link")) {
-                    // Checks for http:// or https://, has to be a valid site and have a file extension at the end (https://site.com/image.png)
-                    // Since its checking an unlimited amount of characters for the site name, it could be www.site.com or just site.com, it doesn't matter
-                    
-                    Pattern p = Pattern.compile("^http[s]{0,1}:\\/\\/.*\\/.*\\.[a-zA-Z]{3,4}");
-                    Matcher m = p.matcher((String) e.getValue());
-                    if (!m.find()) {
-                        ctx.status(HttpStatus.BAD_REQUEST_400);
-                        return;
-                    }
-                }*/
-
+                /*
+                 * if (e.getKey().equals("profile_picture_link")) { // Checks for http:// or
+                 * https://, has to be a valid site and have a file extension at the end
+                 * (https://site.com/image.png) // Since its checking an unlimited amount of
+                 * characters for the site name, it could be www.site.com or just site.com, it
+                 * doesn't matter
+                 * 
+                 * Pattern p = Pattern.compile("^http[s]{0,1}:\\/\\/.*\\/.*\\.[a-zA-Z]{3,4}");
+                 * Matcher m = p.matcher((String) e.getValue()); if (!m.find()) {
+                 * ctx.status(HttpStatus.BAD_REQUEST_400); return; } }
+                 */
 
                 // TODO: Check if setting profile pic link to something besides a link, etc.
 
@@ -492,11 +491,38 @@ public class HttpServer {
             }
 
         });
+
+        app.post("/api/token/verify", ctx -> {
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+            Document doc = null;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
+            if (tokenDoc != null) {
+                ctx.status(HttpStatus.OK_200);
+                return;
+            }
+            ctx.status(HttpStatus.FORBIDDEN_403);
+
+        });
         // #endregion
     }
 
     public String format(String str) {
-        str = str.replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;").replace(":", "&#58;").replace("\"", "&#34;");
+        str = str.replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;").replace(":", "&#58;").replace("\"",
+                "&#34;");
 
         return str;
     }

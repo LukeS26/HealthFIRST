@@ -1,5 +1,7 @@
 package LukeS26.github.io.dataschema;
 
+import java.util.Date;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -14,6 +16,8 @@ public class Comment extends DataSchema {
     public String author;
     public String body;
 
+    public Date date;
+
     /**
      * Same as Post.toDoc, this can't include the ID since this is used for new
      * posts that aren't in the database as well as posts already in the database
@@ -22,7 +26,7 @@ public class Comment extends DataSchema {
      */
     @Override
     public Document toDoc() {
-        Document commentDoc = new Document("post_id", postId).append("reply_to_id", replyToId).append("author", author).append("body", body);
+        Document commentDoc = new Document("post_id", postId).append("reply_to_id", replyToId).append("author", author).append("body", body).append("date", date);
         return commentDoc;
     }
 
@@ -33,6 +37,7 @@ public class Comment extends DataSchema {
         c.replyToId = (ObjectId) doc.get("reply_to_id");
         c.author = (String) doc.get("author");
         c.body = (String) doc.get("body");
+        c.date = (Date) doc.get("date");
 
         return c;
     }

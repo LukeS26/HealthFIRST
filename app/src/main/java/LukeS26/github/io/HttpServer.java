@@ -158,6 +158,7 @@ public class HttpServer {
 
             comment.author = format(token.username);
             comment.body = format((String) doc.get("body"));
+            comment.date = new Date();
 
             mongoManager.writeComment(comment);
             ctx.status(HttpStatus.CREATED_201);

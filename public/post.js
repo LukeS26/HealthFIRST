@@ -98,7 +98,7 @@ function formatReplies(replyArr) {
 }
 
 function load(reply, number) {
-	let comment = `<div name="${number}" style="left: ${(30 * number) + 30}px; position: relative;" > <h4> ${reply} </h4> </div> `
+	let comment = `<div name="${number}" style="left: ${(30 * number) + 30}px; position: relative;" > <p> ${reply} </p> </div> `
 	
 	let shell = document.getElementById("comments");
 

@@ -216,6 +216,7 @@ header > *:hover {
 
 body {
     font-family: Tahoma, sans-serif;
+    overflow-x: clip;
 }
 
 /*test*/

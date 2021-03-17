@@ -520,7 +520,7 @@ public class HttpServer {
     }
 
     public String format(String str) {
-        str = str.replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;").replace(":", "&#58;").replace("\"",
+        str = str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;").replace(":", "&#58;").replace("\"",
                 "&#34;");
 
         return str;

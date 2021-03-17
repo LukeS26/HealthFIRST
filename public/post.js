@@ -89,7 +89,7 @@ function formatReplies(replyArr) {
 	if (Array.isArray(replyArr)) {
 		for (let i = 0; i < replyArr.length; i++) {
 			if (!Array.isArray(replyArr[i])) {
-				load(replyArr[i]["body"], num);
+				load(replyArr[i]["body"], num, replyArr[i]["author"], replyArr[i]["_id"]["$oid"]);
 			}
 			formatReplies(replyArr[i]);
 			num--;
@@ -97,8 +97,9 @@ function formatReplies(replyArr) {
 	}
 }
 
-function load(reply, number) {
-	let comment = `<div name="${number}" style="transform: translateX(${(30 * number) + 30}px)" > <h4> ${reply} </h4> </div> `
+function load(reply, number, user, id) {
+	date = "DATE HERE"
+	let comment = `<div name="${number}" id="${id}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> </div> `
 	
 	let shell = document.getElementById("comments");
 
@@ -110,6 +111,20 @@ function load(reply, number) {
 		//be on outside edge
 		shell.innerHTML += comment;
 	}
+}
+
+function makeComment(commentId, body) {
+	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
+	fetch(fetchUrl, {
+		method: "POST",
+		body: JSON.stringify({ "reply_to_id":{"$oid": commentId}, "body": body, "post_id": id}),
+		mode: "cors",
+		headers: {
+			"Content-type": "application/json; charset=UTF-8",
+			"Authorization": getCookie("token"),
+			"Origin": "http://157.230.233.218"
+		}
+	});
 }
 
 getPost(id);

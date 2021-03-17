@@ -48,7 +48,7 @@ function checkForm() {
                     "email": email,
                     "password_hash": hashedPassword
                 };
-        fetch("https://157.230.233.218:80/api/account/signup", {
+        fetch("http://157.230.233.218:8080/api/account/signup", {
             method: "POST",
 	    	body: JSON.stringify(data),
 	    	headers: {
@@ -56,7 +56,7 @@ function checkForm() {
 	    	},
 	    	mode: "cors",
 	    	headers: {
-	    		"Origin": "https://157.230.233.218"
+	    		"Origin": "http://157.230.233.218"
 	    	}
         })
         .then(res => {

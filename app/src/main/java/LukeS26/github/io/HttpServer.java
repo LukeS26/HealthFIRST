@@ -511,7 +511,7 @@ public class HttpServer {
 
             Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
             if (tokenDoc != null) {
-                ctx.status(HttpStatus.OK_200);
+                ctx.status(HttpStatus.NO_CONTENT_204);
                 return;
             }
             ctx.status(HttpStatus.FORBIDDEN_403);

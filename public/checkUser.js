@@ -13,13 +13,10 @@ function getCookie(name) {
 }
 
 if (getCookie("accepted") !== "true") {
-	let data = {
-		title: "text",
-		body: "text"
-	}
+	let data = {}
 	let currToken = getCookie("token");
 
-	fetch("http://157.230.233.218:8080/api/posts", {
+	fetch("http://157.230.233.218:8080/api/token/verify", {
 		method: "POST",
 		body: JSON.stringify(data),
 		mode: "cors",

@@ -189,7 +189,6 @@ public class HttpServer {
             } catch (Exception e) {
             }
 
-            System.out.println("Retrieving feed");
             FindIterable<Document> feed = mongoManager.getFeed(pageNum);
             Document feedDoc = new Document("feed", feed);
 

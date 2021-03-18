@@ -243,8 +243,10 @@ body {
 }
 
 .commentDisplay {
-    border:black;
+    border:2px solid black;
     border-radius: 25%;
+    padding: 10px;
+    
 }
 
 /*test*/

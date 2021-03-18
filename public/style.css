@@ -242,4 +242,9 @@ body {
     overflow-x: clip;
 }
 
+.commentDisplay {
+    border:black;
+    border-radius: 25%;
+}
+
 /*test*/

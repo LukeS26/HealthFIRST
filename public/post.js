@@ -114,11 +114,11 @@ function load(reply, number, user, cid) {
 }
 
 function openCommentField(el, cid) {
-	if(cid = null) {
+	if(cid == null) {
 		//REPLYING TO POST
 	} else {
 		//REPLYING TO COMMENT
-		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentFromSource(this.parentElement.childNodes[1])"> Submit </button> <button onClick="this.parent.remove()"> Cancel </button> </div>`
+		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeComment(${cid}, this.parentElement.childNodes[1].value)"> Submit </button> <button onClick="this.parent.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 	}
 }
@@ -128,20 +128,6 @@ function makeComment(commentId, body) {
 	fetch(fetchUrl, {
 		method: "POST",
 		body: JSON.stringify({ "reply_to_id":{"$oid": commentId}, "body": body, "post_id": id}),
-		mode: "cors",
-		headers: {
-			"Content-type": "application/json; charset=UTF-8",
-			"Authorization": getCookie("token"),
-			"Origin": "http://157.230.233.218"
-		}
-	});
-}
-
-function makeCommentFromSource(source) {
-	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
-	fetch(fetchUrl, {
-		method: "POST",
-		body: JSON.stringify({ "reply_to_id":{"$oid": source.ge}, "body": source.value, "post_id": id}),
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",

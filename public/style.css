@@ -57,13 +57,12 @@
 .headerRight {
     position: absolute;
     margin: auto;
-    padding-top: 10px;
-    padding-left: 15px;
 }
 .headerRight * {
     text-decoration: none;
     color: white;
     display: inline-block;
+    padding-left: 10px;
 }
 
 .posts {

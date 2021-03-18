@@ -56,13 +56,13 @@
 
 .headerRight {
     position: absolute;
-    vertical-align: middle;
 }
 .headerRight * {
     text-decoration: none;
     color: white;
     display: inline-block;
     padding-left: 10px;
+    vertical-align: middle;
 }
 
 .posts {

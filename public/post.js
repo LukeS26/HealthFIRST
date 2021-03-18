@@ -99,7 +99,7 @@ function formatReplies(replyArr) {
 
 function load(reply, number, user, cid) {
 	date = "DATE HERE"
-	let comment = `<div name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
+	let comment = `<div name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> <div id="options"> <button onClick='openCommentField(this, "${cid}")' style="left: 25px;position: relative;"> Reply </button> </div> </div> `
 	
 	let shell = document.getElementById("comments");
 
@@ -118,7 +118,7 @@ function openCommentField(el, cid) {
 		//REPLYING TO POST
 	} else {
 		//REPLYING TO COMMENT
-		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentFromSource('${cid}', this.parentElement.childNodes[1])"> Submit </button> <button onClick="this.parent.remove()"> Cancel </button> </div>`
+		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentFromSource(this.parentElement.childNodes[1])"> Submit </button> <button onClick="this.parent.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 	}
 }
@@ -137,11 +137,11 @@ function makeComment(commentId, body) {
 	});
 }
 
-function makeCommentFromSource(commentId, source) {
+function makeCommentFromSource(source) {
 	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
 	fetch(fetchUrl, {
 		method: "POST",
-		body: JSON.stringify({ "reply_to_id":{"$oid": commentId}, "body": source.value, "post_id": id}),
+		body: JSON.stringify({ "reply_to_id":{"$oid": source.ge}, "body": source.value, "post_id": id}),
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",

@@ -244,9 +244,9 @@ body {
 
 .commentDisplay {
     border:2px solid black;
-    border-radius: 25%;
+    border-radius: 25px;
     padding: 10px;
-    
+
 }
 
 /*test*/

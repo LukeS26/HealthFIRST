@@ -61,7 +61,6 @@
 
 .headerRight {
     position: absolute;
-    margin: 10px;
 }
 .headerRight * {
     text-decoration: none;

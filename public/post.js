@@ -114,7 +114,7 @@ function load(reply, number, user, cid) {
 }
 
 function openCommentField(el, cid) {
-	if (el.parentElement.parentElement.childElementCount > 1) {
+	if (el.parentElement.parentElement.childElementCount < 2) {
 		if (cid == null) {
 			//REPLYING TO POST
 			let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`

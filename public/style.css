@@ -61,7 +61,10 @@
 
 .headerRight {
     position: absolute;
+    padding: 10px;
+    margin-top: 0%;
 }
+
 .headerRight * {
     text-decoration: none;
     color: white;

@@ -114,7 +114,7 @@ function load(reply, number, user, cid) {
 }
 
 function openCommentField(el, cid) {
-	if(id = null) {
+	if(cid = null) {
 		//REPLYING TO POST
 	} else {
 		//REPLYING TO COMMENT

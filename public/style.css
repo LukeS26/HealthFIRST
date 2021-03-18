@@ -54,6 +54,7 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.linkHome {color:white}
 .linkHome:visited {color:#ffffff;} /* Visited link    */
 .linkHome:hover {color:#ffffff;}   /* Mouse over link */
 .linkHome:active {color:#ffffff;}

@@ -99,7 +99,7 @@ function formatReplies(replyArr) {
 
 function load(reply, number, user, id) {
 	date = "DATE HERE"
-	let comment = `<div name="${number}" id="${id}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> <div id="options"> <button onClick="openCommentField(id)" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
+	let comment = `<div name="${number}" id="${id}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> <div id="options"> <button onClick="openCommentField(this, id)" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
 	
 	let shell = document.getElementById("comments");
 
@@ -113,11 +113,13 @@ function load(reply, number, user, id) {
 	}
 }
 
-function openCommentField(id) {
+function openCommentField(el, id) {
 	if(id = null) {
 		//REPLYING TO POST
 	} else {
 		//REPLYING TO COMMENT
+		let commentField = `<div> <input placeholder="Comment" id="inputField${id}"> <button onClick="makeComment(${id}, this.parentElement.childNodes[1].value)"> Submit </button> <button onClick="this.parent.remove()"> Cancel </button> </div>`
+		el.parentElement.parentElement.innerHTML += commentField;
 	}
 }
 

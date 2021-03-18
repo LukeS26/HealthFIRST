@@ -54,6 +54,10 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.headerRight:visited {color:#ffffff;} /* Visited link    */
+.headerRight:hover {color:#ffffff;}   /* Mouse over link */
+.headerRight:active {color:#ffffff;}
+
 .headerRight {
     position: absolute;
 }
@@ -65,9 +69,7 @@
     margin-top: -50%;
 }
 
-.headerRight:visited {color:#ffffff;} /* Visited link    */
-.headerRight:hover {color:#ffffff;}   /* Mouse over link */
-.headerRight:active {color:#ffffff;}
+
 
 .posts {
     margin: auto;

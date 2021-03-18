@@ -120,7 +120,7 @@ function openCommentField(el, cid) {
 		el.parentElement.parentElement.innerHTML += commentField;
 
 		document.getElementById(`inputField${cid}`).focus();
-	} else if (el.parentElement.parentElement.childElementCount < 4) {
+	} else if (cid != null && el.parentElement.parentElement.childElementCount < 4) {
 		//REPLYING TO COMMENT
 		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;

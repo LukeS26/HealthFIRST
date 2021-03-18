@@ -119,13 +119,13 @@ function openCommentField(el, cid) {
 		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
-		el.parentElement.parentElement.childNodes[3].childNodes[1].focus();
+		document.getElementById(`inputField${cid}`).focus();
 	} else if (el.parentElement.parentElement.childElementCount < 4) {
 		//REPLYING TO COMMENT
 		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
-		el.parentElement.parentElement.childNodes[3].childNodes[1].focus();
+		document.getElementById(`inputField${cid}`).focus()';
 	}
 }
 

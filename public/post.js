@@ -99,7 +99,7 @@ function formatReplies(replyArr) {
 
 function load(reply, number, user, id) {
 	date = "DATE HERE"
-	let comment = `<div name="${number}" id="${id}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> </div> `
+	let comment = `<div name="${number}" id="${id}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> <div id="options"> <button onClick="openCommentField(id)"> Reply </button> </div> </div> `
 	
 	let shell = document.getElementById("comments");
 
@@ -110,6 +110,14 @@ function load(reply, number, user, id) {
 	} else {
 		//be on outside edge
 		shell.innerHTML += comment;
+	}
+}
+
+function openCommentField(id) {
+	if(id = null) {
+		//REPLYING TO POST
+	} else {
+		//REPLYING TO COMMENT
 	}
 }
 

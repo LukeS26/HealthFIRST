@@ -65,6 +65,11 @@
     margin-top: -50%;
 }
 
+.headerRight a {color:#ffffff;}         /* Unvisited link  */
+.headerRight a:visited {color:#ffffff;} /* Visited link    */
+.headerRight a:hover {color:#ffffff;}   /* Mouse over link */
+.headerRight a:active {color:#ffffff;}
+
 .posts {
     margin: auto;
     z-index: 0;

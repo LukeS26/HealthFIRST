@@ -55,15 +55,15 @@
 }
 
 .headerRight {
-    color: white;
     position: absolute;
     margin: auto;
     padding-top: 10px;
     padding-left: 15px;
-    display: inline-block;
 }
 .headerRight * {
     text-decoration: none;
+    color: white;
+    display: inline-block;
 }
 
 .posts {

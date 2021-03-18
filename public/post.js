@@ -1,9 +1,9 @@
 function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
+	var vars = {};
+	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+		vars[key] = value;
+	});
+	return vars;
 }
 
 
@@ -14,36 +14,36 @@ function getPost(url) {
 	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
-		.then( function(json) {
+		.then(function (json) {
 			displayPost(json);
 		})
-		.catch (function (error) {
-		console.log(error);
+		.catch(function (error) {
+			console.log(error);
 
-		return null;
-	});
+			return null;
+		});
 }
 
 function getComments(url) {
 	let fetchUrl = "http://157.230.233.218:8080/api/comments/" + url;
 	fetch(fetchUrl)
-	.then(res => res.json())
-	.then(function (json) {
-		console.log(json);
-		comments = json["comments"];
-		displayComments(comments);
-	});
+		.then(res => res.json())
+		.then(function (json) {
+			console.log(json);
+			comments = json["comments"];
+			displayComments(comments);
+		});
 }
 
 function getChildComments(comment) {
 	let returnComments = [];
 
-	for(let i = 0; i < comments.length; i++) {
-		if(comments[i]["reply_to_id"] != null) {
-			if(comments[i]["reply_to_id"]["$oid"] == comment["_id"]["$oid"]) {
+	for (let i = 0; i < comments.length; i++) {
+		if (comments[i]["reply_to_id"] != null) {
+			if (comments[i]["reply_to_id"]["$oid"] == comment["_id"]["$oid"]) {
 				returnComments.push(comments[i]);
 				let temp = getChildComments(comments[i]);
-				if(temp.length > 0) {
+				if (temp.length > 0) {
 					returnComments.push(temp);
 				}
 			}
@@ -56,18 +56,18 @@ function getChildComments(comment) {
 function displayComments() {
 	let commentsDisplay = [];
 
-	for(let i = 0; i < comments.length;) {
-		if(comments[i]["reply_to_id"] == null) {
+	for (let i = 0; i < comments.length;) {
+		if (comments[i]["reply_to_id"] == null) {
 			let temp = getChildComments(comments[i]);
 			commentsDisplay.push(comments[i]);
 			commentsDisplay.push(temp);
 		}
 		comments.shift()
-		
+
 	}
 
 	console.log(commentsDisplay);
-	
+
 	formatReplies(commentsDisplay);
 
 }
@@ -100,10 +100,10 @@ function formatReplies(replyArr) {
 function load(reply, number, user, cid) {
 	date = "DATE HERE"
 	let comment = `<div name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
-	
+
 	let shell = document.getElementById("comments");
 
-	if(number > 0) {
+	if (number > 0) {
 		//find number - 1, and be that elements child
 		let parentComment = document.getElementsByName(number - 1);
 		parentComment[parentComment.length - 1].innerHTML += comment;
@@ -114,14 +114,16 @@ function load(reply, number, user, cid) {
 }
 
 function openCommentField(el, cid) {
-	if(cid == null) {
-		//REPLYING TO POST
-		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
-		el.parentElement.parentElement.innerHTML += commentField;
-	} else {
-		//REPLYING TO COMMENT
-		let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
-		el.parentElement.parentElement.innerHTML += commentField;
+	if (el.parentElement.parentElement.childElementCount > 1) {
+		if (cid == null) {
+			//REPLYING TO POST
+			let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
+			el.parentElement.parentElement.innerHTML += commentField;
+		} else {
+			//REPLYING TO COMMENT
+			let commentField = `<div> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
+			el.parentElement.parentElement.innerHTML += commentField;
+		}
 	}
 }
 
@@ -129,7 +131,7 @@ function makeComment(commentId, body) {
 	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
 	fetch(fetchUrl, {
 		method: "POST",
-		body: JSON.stringify({ "reply_to_id":{"$oid": commentId}, "body": body, "post_id": id}),
+		body: JSON.stringify({ "reply_to_id": { "$oid": commentId }, "body": body, "post_id": id }),
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
@@ -143,7 +145,7 @@ function makeCommentOnPost(body) {
 	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
 	fetch(fetchUrl, {
 		method: "POST",
-		body: JSON.stringify({ "body": body, "post_id": id}),
+		body: JSON.stringify({ "body": body, "post_id": id }),
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",

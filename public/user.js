@@ -10,6 +10,8 @@ getProfile(user);
 
 
 function formatText(text) {
+	text = text.split(" ");
+	text = text.join("&nbsp;")
 	text = text.split("**");
 
 	for(let i = 0; i < text.length; i++) {
@@ -25,9 +27,6 @@ function formatText(text) {
 			text[i] = "<i>" + text[i] + "</i>"
 		}
 	}
-
-	text = text.join("").split(" ");
-	text.join("&nbsp;");
 	
 	return text.join("");
 }

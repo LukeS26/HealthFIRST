@@ -13,12 +13,12 @@ function formatText(text) {
 	text = text.split("**");
 
 	for (let i = 0; i < text.length; i++) {
-		if (tempVar[i] == "") {
+		if (text[i] == "") {
 			if (isOpen) {
 				isOpen = false;
-				tempVar[i] = "<i>"
+				text[i] = "<i>"
 			} else {
-				tempVar[i] = "</i>"
+				text[i] = "</i>"
 				isOpen = true;
 			}
 		}
@@ -27,12 +27,12 @@ function formatText(text) {
 	text = text.join("").split("*");
 
 	for (let i = 0; i < text.length; i++) {
-		if (tempVar[i] == "") {
+		if (text[i] == "") {
 			if (isOpen) {
 				isOpen = false;
-				tempVar[i] = "<b>"
+				text[i] = "<b>"
 			} else {
-				tempVar[i] = "</b>"
+				text[i] = "</b>"
 				isOpen = true;
 			}
 		}

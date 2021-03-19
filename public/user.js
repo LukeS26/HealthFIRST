@@ -15,12 +15,12 @@ function formatText(text) {
 	text = text.split("**");
 
 	for (let i = 0; i < text.length; i++) {
-		if (text[i] == "") {
+		if (text[i] == "" || text[i] == "*") {
 			if (!isOpen) {
 				isOpen = true;
-				text[i] = "<i>"
+				text[i] += "<i>"
 			} else {
-				text[i] = "</i>"
+				text[i] += "</i>"
 				isOpen = false;
 			}
 		}

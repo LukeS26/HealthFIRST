@@ -435,6 +435,9 @@ public class HttpServer {
                 Account userAccount = Account.fromDoc(existingUserAccountDoc);
                 Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
                                                                     // don't want to send pass
+                userAccountDoc.remove("first_name");
+                userAccountDoc.remove("last_name");
+                userAccountDoc.remove("email");
                 String accountJson = userAccountDoc.toJson();
 
                 ctx.result(accountJson);

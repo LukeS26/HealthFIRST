@@ -72,6 +72,10 @@ function displayComments() {
 
 }
 
+/**
+ * Sets the post fields to display a post
+ * @param vals json of post data
+ */
 function displayPost(vals) {
 	document.getElementById("title").innerHTML = vals.title;
 	document.getElementById("author").innerHTML = vals.author;
@@ -84,6 +88,11 @@ function displayPost(vals) {
 let num = -2;
 let display = "";
 
+
+/**
+ * Displays all comments on post, formatted correctly 
+ * @param replyArr Array of comments, with replies (EX. [CommentA, [CommentB, [], CommentB, [CommentC, []]]])
+ */
 function formatReplies(replyArr) {
 	num++;
 	if (Array.isArray(replyArr)) {
@@ -97,32 +106,36 @@ function formatReplies(replyArr) {
 	}
 }
 
+/** Displays a comment in the commentDisplayField 
+ * @param reply text to display
+ * @param number indent to offset by
+ * @param user Username of the author
+ * @param cid Id of the comment, used for replies
+*/
 function load(reply, number, user, cid) {
 	date = "DATE HERE"
 	let comment = `<div class="commentDisplay" name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
 
 	let shell = document.getElementById("comments");
 
-	// if (number > 0) {
-	// 	//find number - 1, and be that elements child
-	// 	let parentComment = document.getElementsByName(number - 1);
-	// 	parentComment[parentComment.length - 1].innerHTML += comment;
-	// } else {
-	// 	//be on outside edge
 	shell.innerHTML += comment;
-	// }
 }
 
+/**
+ * Opens the reply to comment/post field
+ * @param el Button that opens reply field
+ * @param cid Id of the comment
+ */
 function openCommentField(el, cid) {
 	if (cid == null && el.parentElement.parentElement.childElementCount < 2) {
 		//REPLYING TO POST
-		let commentField = `<div class="commentField"> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
+		let commentField = `<div class="commentInputField"> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
 		document.getElementById(`inputField${cid}`).focus();
 	} else if (cid != null && el.parentElement.parentElement.childElementCount < 4) {
 		//REPLYING TO COMMENT
-		let commentField = `<div class="commentField"> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
+		let commentField = `<div class="commentInputField"> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
 		document.getElementById(`inputField${cid}`).focus();

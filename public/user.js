@@ -26,5 +26,6 @@ function formatText(text) {
 		}
 	}
 
+	text = text.join("").split(" ").join("&nbsp;")
 	return text.join("");
 }

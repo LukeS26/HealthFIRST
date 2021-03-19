@@ -10,16 +10,18 @@ getProfile(user);
 
 
 function formatText(text) {
+	let isOpen = false;
+
 	text = text.split("**");
 
 	for (let i = 0; i < text.length; i++) {
 		if (text[i] == "") {
-			if (isOpen) {
-				isOpen = false;
+			if (!isOpen) {
+				isOpen = true;
 				text[i] = "<i>"
 			} else {
 				text[i] = "</i>"
-				isOpen = true;
+				isOpen = false;
 			}
 		}
 	}
@@ -28,12 +30,12 @@ function formatText(text) {
 
 	for (let i = 0; i < text.length; i++) {
 		if (text[i] == "") {
-			if (isOpen) {
-				isOpen = false;
+			if (!isOpen) {
+				isOpen = true;
 				text[i] = "<b>"
 			} else {
 				text[i] = "</b>"
-				isOpen = true;
+				isOpen = false;
 			}
 		}
 	}

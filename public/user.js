@@ -26,8 +26,10 @@ function formatText(text) {
 		}
 	}
 
+	isOpen = false;
+	console.log(text);
 	text = text.join("").split("*");
-
+	console.log(text);
 	for (let i = 0; i < text.length; i++) {
 		if (text[i] == "") {
 			if (!isOpen) {

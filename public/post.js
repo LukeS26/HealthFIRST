@@ -19,7 +19,6 @@ function getPost(url) {
 		})
 		.catch(function (error) {
 			console.log(error);
-
 			return null;
 		});
 }
@@ -66,10 +65,9 @@ function displayComments() {
 
 	}
 
-	console.log(commentsDisplay);
 
 	formatReplies(commentsDisplay);
-
+	document.getElementById("loadingPost").remove();
 }
 
 /**
@@ -82,6 +80,8 @@ function displayPost(vals) {
 	document.getElementById("author").href = "/user.html?" + vals.author;
 	document.getElementById("date").innerHTML = new Date(vals.date.$date).toLocaleString();
 	document.getElementById("body").innerHTML = formatText(vals.body);
+
+	document.getElementById("loadingPost").remove();
 }
 
 

@@ -38,13 +38,15 @@ public class Account extends DataSchema {
      * @return account formatted into a Document
      */
     public Document toDoc(boolean includeSecrets) {
-        Document userDoc = new Document("username", username).append("first_name", firstName)
-                .append("last_name", lastName).append("email", email).append("biography", bio)
+        Document userDoc = new Document("username", username).append("biography", bio)
                 .append("profile_picture_link", profilePictureLink);
 
         if (includeSecrets) {
             userDoc.append("password_hash", passwordHash);
             userDoc.append("token", token);
+            userDoc.append("first_name", firstName);
+            userDoc.append("last_name", lastName);
+            userDoc.append("email", email);
         }
 
         userDoc.append("permission_id", permissionID).append("badge_ids", badgeIDs);

@@ -25,7 +25,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import LukeS26.github.io.dataschema.Account;
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
-import LukeS26.github.io.dataschema.Token;
 import io.javalin.Javalin;
 
 public class HttpServer {
@@ -137,12 +136,11 @@ public class HttpServer {
                 return;
             }
 
-            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
-            if (tokenDoc == null) {
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
-            Token token = Token.fromDoc(tokenDoc);
 
             Comment comment = new Comment();
             // only accept ObjectId objects instead of strings to stay consistent, because I
@@ -156,7 +154,7 @@ public class HttpServer {
                 comment.replyToId = null;
             }
 
-            comment.author = format(token.username);
+            comment.author = format(userAccount.username);
             comment.body = format((String) doc.get("body"));
             comment.date = new Date();
 
@@ -219,15 +217,14 @@ public class HttpServer {
                 return;
             }
 
-            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
-            if (tokenDoc == null) {
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
-            Token token = Token.fromDoc(tokenDoc);
 
             Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
-            post.author = format(token.username);
+            post.author = format(userAccount.username);
             post.title = format((String) doc.get("title"));
             post.body = format((String) doc.get("body"));
 
@@ -275,15 +272,14 @@ public class HttpServer {
                 return;
             }
 
-            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
-            if (tokenDoc == null) {
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
-            Token token = Token.fromDoc(tokenDoc);
 
             Document post = mongoManager.findPost(ctx.splat(0));
-            if (!(format((String) post.get("author"))).equals(token.username)) {
+            if (!(format((String) post.get("author"))).equals(userAccount.username)) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
@@ -312,8 +308,8 @@ public class HttpServer {
                 return;
             }
 
-            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
-            if (tokenDoc == null) {
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
@@ -345,17 +341,11 @@ public class HttpServer {
                 // TODO: Check if setting profile pic link to something besides a link, etc.
 
                 // Checking if the username already exists
-                if (e.getKey().equals("username")) {
-                    Document existingUserDoc = mongoManager.findAccount((String) e.getValue());
-                    if (existingUserDoc != null) {
-                        ctx.status(HttpStatus.FORBIDDEN_403);
-                        return;
-                    }
-                }
                 changes.put(e.getKey(), e.getValue());
             }
 
-            mongoManager.updateAccount((String) tokenDoc.get("username"), changes);
+            // TODO: pass in account doc instead of username since we are finding it in this request already
+            mongoManager.updateAccount(userAccount.username, changes);
             ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
         });
 
@@ -397,31 +387,21 @@ public class HttpServer {
             userAccount.email = format((String) doc.get("email"));
             userAccount.bio = null;
             userAccount.profilePictureLink = null;
-
+            
             String receivedHash = (String) doc.get("password_hash");
-
+            
             String salt = BCrypt.gensalt(Settings.BCRYPT_LOG_ROUNDS);
             String finalPasswordHash = BCrypt.hashpw(receivedHash, salt);
-
+            
             userAccount.passwordHash = finalPasswordHash;
+            userAccount.token = Account.generateToken();
+
             userAccount.permissionID = 0;
             userAccount.badgeIDs = new ArrayList<Integer>();
 
             mongoManager.writeAccount(userAccount);
 
-            Document tokenDoc = mongoManager.findTokenForUser(userAccount.username);
-            String tokenJson;
-            if (tokenDoc != null) {
-                tokenDoc.remove("_id");
-                tokenJson = tokenDoc.toJson();
-
-            } else {
-                Token token = new Token(userAccount.username);
-                mongoManager.writeToken(token);
-                tokenJson = token.toDoc().toJson();
-            }
-
-            ctx.result(tokenJson);
+            ctx.result(userAccount.token);
             ctx.status(HttpStatus.CREATED_201);
         });
 
@@ -476,11 +456,7 @@ public class HttpServer {
             Account loginAccount = Account.fromDoc(loginAccountDoc);
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
-                Document tokenDoc = mongoManager.findTokenForUser(format((String) doc.get("username")));
-                tokenDoc.remove("_id");
-                String tokenJson = tokenDoc.toJson();
-
-                ctx.result(tokenJson);
+                ctx.result(loginAccount.token);
                 ctx.status(HttpStatus.OK_200);
 
             } else {
@@ -505,13 +481,12 @@ public class HttpServer {
                 return;
             }
 
-            Document tokenDoc = mongoManager.findToken(ctx.header("Authorization"));
-            if (tokenDoc != null) {
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount != null) {
                 ctx.status(HttpStatus.NO_CONTENT_204);
                 return;
             }
             ctx.status(HttpStatus.FORBIDDEN_403);
-
         });
         // #endregion
     }

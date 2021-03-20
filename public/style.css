@@ -86,7 +86,7 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-.makePost {
+.makePostContainer {
     /*Stack Overflow Prevent Highlighting */
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -95,9 +95,7 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 
-    position: fixed;
-    left:45%;
-    bottom: 5%;
+    align-self: center;
     background-color: #003CB3;
     color:white;
 }

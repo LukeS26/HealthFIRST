@@ -12,7 +12,7 @@ public class Settings {
    public static final String ACCOUNTS_COLLECTION_NAME = "Accounts";
    public static final String POSTS_COLLECTION_NAME = "Posts";
    public static final String COMMENTS_COLLECTION_NAME = "Comments";
-   public static final String TOKENS_COLLECTION_NAME = "Tokens";
+   // public static final String TOKENS_COLLECTION_NAME = "Tokens";
    
    public static final int HTTP_SERVER_PORT = 8080;
    

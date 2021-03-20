@@ -417,7 +417,6 @@ public class HttpServer {
 
             } else {
                 Token token = new Token(userAccount.username);
-                System.out.println("Writing token");
                 mongoManager.writeToken(token);
                 tokenJson = token.toDoc().toJson();
             }
@@ -476,11 +475,7 @@ public class HttpServer {
             }
             Account loginAccount = Account.fromDoc(loginAccountDoc);
 
-            System.out.println("Found account");
-
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
-                System.out.println("Correct password");
-
                 Document tokenDoc = mongoManager.findTokenForUser(format((String) doc.get("username")));
                 tokenDoc.remove("_id");
                 String tokenJson = tokenDoc.toJson();
@@ -491,7 +486,6 @@ public class HttpServer {
             } else {
                 ctx.status(HttpStatus.FORBIDDEN_403);
             }
-
         });
 
         app.post("/api/token/verify", ctx -> {

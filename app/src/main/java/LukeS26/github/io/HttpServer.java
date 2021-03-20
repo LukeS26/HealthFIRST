@@ -10,8 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 
@@ -258,9 +256,8 @@ public class HttpServer {
             ctx.header("Access-Control-Allow-Credentials", "true");
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
-            Document doc = null;
             try {
-                doc = Document.parse(ctx.body());
+                Document.parse(ctx.body());
 
             } catch (Exception e) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
@@ -338,13 +335,11 @@ public class HttpServer {
                  * ctx.status(HttpStatus.BAD_REQUEST_400); return; } }
                  */
 
-                // TODO: Check if setting profile pic link to something besides a link, etc.
-
                 // Checking if the username already exists
                 changes.put(e.getKey(), e.getValue());
             }
 
-            // TODO: pass in account doc instead of username since we are finding it in this request already
+            // TODO: Pass in account doc instead of username since we are finding it in this request already
             mongoManager.updateAccount(userAccount.username, changes);
             ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
         });
@@ -464,9 +459,8 @@ public class HttpServer {
         app.post("/api/token/verify", ctx -> {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
-            Document doc = null;
             try {
-                doc = Document.parse(ctx.body());
+                Document.parse(ctx.body());
 
             } catch (Exception e) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);

@@ -99,14 +99,14 @@
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 25px;
+    border: 2px solid;
 
-    transition-duration: 0.5s;
+    transition-duration: 0.15s;
 }
 
 .makePostContainer:hover {
     color: #003cb3;
     background: white;
-    border: 2px solid;
 
     cursor: pointer;
 }

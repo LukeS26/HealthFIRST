@@ -67,7 +67,7 @@ function displayComments() {
 
 
 	formatReplies(commentsDisplay);
-	document.getElementById("loadingPost").remove();
+	document.getElementById("loadingComments").remove();
 }
 
 /**

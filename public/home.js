@@ -76,6 +76,9 @@ function loadPage(page) {
 			displayPost(json["feed"][i], json["feed"][i]["_id"]["$oid"])
 		}
 	} );
+	if(document.getElementById("loadingPost")) {
+		document.getElementById("loadingPost").remove();
+	}
 }
 
 loadPage(0);

@@ -37,9 +37,9 @@ function loadProfile(json) {
 		document.getElementById("userPhoto").src = json.profile_picture_link;
 	}
 
-	document.getElementById("username") = json.username;
+	document.getElementById("username").innerHTML = json.username;
 
 	if(json.biography != null) {
-		document.getElementById("userBio") = formatText(json.biography);
+		document.getElementById("userBio").innerHTML = formatText(json.biography);
 	}
 }

@@ -75,10 +75,11 @@ function loadPage(page) {
 			//console.log(json["feed"][i]);
 			displayPost(json["feed"][i], json["feed"][i]["_id"]["$oid"])
 		}
+
+		if(document.getElementById("loadingPost")) {
+			document.getElementById("loadingPost").remove();
+		}
 	} );
-	if(document.getElementById("loadingPost")) {
-		document.getElementById("loadingPost").remove();
-	}
 }
 
 loadPage(0);

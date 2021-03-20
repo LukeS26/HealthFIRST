@@ -81,7 +81,7 @@ function displayPost(vals) {
 	document.getElementById("author").innerHTML = vals.author;
 	document.getElementById("author").href = "/user.html?" + vals.author;
 	document.getElementById("date").innerHTML = new Date(vals.date.$date).toLocaleString();
-	document.getElementById("body").innerHTML = vals.body;
+	document.getElementById("body").innerHTML = formatText(vals.body);
 }
 
 
@@ -114,7 +114,7 @@ function formatReplies(replyArr) {
 */
 function load(reply, number, user, cid) {
 	date = "DATE HERE"
-	let comment = `<div class="commentDisplay" name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${reply} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
+	let comment = `<div class="commentDisplay" name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${formatText(reply)} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
 
 	let shell = document.getElementById("comments");
 
@@ -168,6 +168,28 @@ function makeCommentOnPost(body) {
 			"Origin": "http://157.230.233.218"
 		}
 	});
+}
+
+function formatText(text) {
+	text = text.split(" ");
+	text = text.join("&nbsp;")
+	text = text.split("**");
+
+	for(let i = 0; i < text.length; i++) {
+		if(i % 2 != 0) {
+	  text[i] = "<b>" + text[i] + "</b>"
+	}
+	}
+
+	text = text.join("").split("*");
+
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<i>" + text[i] + "</i>"
+		}
+	}
+	
+	return text.join("");
 }
 
 getPost(id);

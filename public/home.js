@@ -49,7 +49,7 @@ function displayPost(post, id) {
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
 	html += `<a class='postAuthor' href='/user.html?${post.author}' >${post.author}</a>`;
 	html += `<h6 class='postDate'>${date}</h6>`
-	html += `<p class='postBody'>${body}</p> </div>`;
+	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
 
 	container.innerHTML += html;
 
@@ -98,4 +98,26 @@ function makePost(title, body) {
 			"Origin": "http://157.230.233.218"
 		}
 	});
+}
+
+function formatText(text) {
+	text = text.split(" ");
+	text = text.join("&nbsp;")
+	text = text.split("**");
+
+	for(let i = 0; i < text.length; i++) {
+		if(i % 2 != 0) {
+	  text[i] = "<b>" + text[i] + "</b>"
+	}
+	}
+
+	text = text.join("").split("*");
+
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<i>" + text[i] + "</i>"
+		}
+	}
+	
+	return text.join("");
 }

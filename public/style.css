@@ -96,9 +96,11 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 
-    position: absolute;
+    position: fixed;
     left:45%;
     bottom: 5%;
+    background-color: #003CB3;
+    color:white;
 }
 
 .posts {

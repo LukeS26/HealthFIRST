@@ -34,11 +34,11 @@ function formatText(text) {
 
 function loadProfile(json) {
 	if (json.profile_picture_link !== null && json.profile_picture_link !== "null") {
-		document.getElementById("userPhoto").src = profile_picture_link;
+		document.getElementById("userPhoto").src = json.profile_picture_link;
 	}
 
 	document.getElementById("username") = json.username;
-	
+
 	if(json.biography != null) {
 		document.getElementById("userBio") = formatText(json.biography);
 	}

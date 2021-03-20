@@ -176,7 +176,7 @@
     color: white;
     height: 60px;
     z-index: 2;
-    background-color: blue;
+    background-color: #0044CC;
 }
 #profileHeader img {
     position: relative;
@@ -191,7 +191,7 @@
     display: inline-block;
 }
 #profileHeader:hover {
-    background-color: darkblue;
+    background-color: #003CB3;
 }
 
 #profileHeaderStuff {
@@ -221,7 +221,7 @@ header {
     left: 0%;
     width: 100%;
     height: 60px;
-    background-color: blue;
+    background-color: #0044CC;
 }
 header > *:hover {
     cursor: pointer;

@@ -94,7 +94,8 @@ window.onscroll = function(ev) {
 
 function collectPostInfo() {
 	makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
-	//window.location.href = "/";
+	document.getElementById("posts").innerHTML = `<img src="gears_1_gray.gif" style="width:100px;" id="loadingPost">`;
+	loadPage(0);
 }
 
 function makePost(title, body) {

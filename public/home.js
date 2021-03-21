@@ -92,6 +92,10 @@ window.onscroll = function(ev) {
     }
 };
 
+function collectPostInfo() {
+	makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
+}
+
 function makePost(title, body) {
 	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",

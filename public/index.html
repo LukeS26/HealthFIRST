@@ -36,9 +36,9 @@
   <br><br><br>
   <div class="blur" id="popupBlur" onclick="togglePostPopup()">
     <div class="popup" id="post-popup">
-      <input placeholder="Title">
-      <textarea placeholder="Body"></textarea><br>
-      <button>Chat</button>
+      <input placeholder="Title" id="postTitle" onclick="togglePostPopup()">
+      <textarea placeholder="Body" id="postBody" onclick="togglePostPopup()"></textarea><br>
+      <button onclick="collectPostInfo()">Chat</button>
     </div>
   </div>
   <div id="posts" class="posts"><img src="gears_1_gray.gif" style="width:100px;" id="loadingPost"></div>

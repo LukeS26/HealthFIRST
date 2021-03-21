@@ -396,7 +396,7 @@ public class HttpServer {
 
             mongoManager.writeAccount(userAccount);
 
-            ctx.result(userAccount.token);
+            ctx.result(new Document("token", userAccount.token).toJson());
             ctx.status(HttpStatus.CREATED_201);
         });
 

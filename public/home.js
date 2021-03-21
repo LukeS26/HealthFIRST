@@ -49,7 +49,13 @@ function displayPost(post, id) {
 
 	let userImg = "";
 	if (post.author === getCookie("username")) {
-		userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${getCookie("imgUrl")}" height="30px" width="30px"></div>`
+		let cookie;
+		if (getCookie("imgUrl") !== null) {
+			cookie = getCookie("imgUrl");
+		} else {
+			cookie = "defaultPic.png";
+		}
+		userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${cookie}" height="30px" width="30px"></div>`;
 	}
 
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;

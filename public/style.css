@@ -164,11 +164,11 @@
     padding: 10px;
 }
 
-.postAuthorName {
+.postAuthor {
     color: black;
     text-decoration: none;
 }
-.postAuthorName:hover {
+.postAuthor:hover {
     text-decoration: underline;
 }
 

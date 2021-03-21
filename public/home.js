@@ -31,7 +31,7 @@ function getPosts(url) {
 		});
 }
 
-async function displayPost(post, id) {
+function displayPost(post, id) {
 
 	let html = "";
 	let container = document.createElement("div");
@@ -57,12 +57,12 @@ async function displayPost(post, id) {
 		}
 		userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${cookie}" height="30px" width="30px"></div>`;
 	} else {
-		await fetch(`http://157.230.233.218:8080/api/account/${post.author}`)
+		let url = "";
+		fetch(`http://157.230.233.218:8080/api/account/${post.author}`)
 			.then(res => res.json())
-			.then(function (json) {
-				userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
-				console.log(userImg);
-			});
+			.then(function (json) { url = json.profile_picture_link; console.log(json) });
+			while(url === "") {}
+			userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${url}" height="30px" width="30px"></div>`;
 	}
 
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;

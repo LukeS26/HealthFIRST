@@ -448,7 +448,8 @@ public class HttpServer {
             Account loginAccount = Account.fromDoc(loginAccountDoc);
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
-                ctx.result(loginAccount.token);
+                Document tokenDoc = new Document("token", loginAccount.token);
+                ctx.result(tokenDoc.toJson());
                 ctx.status(HttpStatus.OK_200);
 
             } else {

@@ -19,7 +19,7 @@
 		<div class="headerRight"> <a class="linkHome" href="/" style="color: white;"><span class="titleHome" style="color: white;">HealthFirst</span> </a> </div>
 		<div id="profileHeader" class="profileHeader" onclick="toggleOptions()">
 		  <div class="profileImage" style="height: 50px; width: 50px; overflow: hidden;">
-			<img id="headerImage" src="defaultPic.png" height="50px" width="50px"> 
+			<img alt="profile picture" id="headerImage" src="defaultPic.png" height="50px" width="50px"> 
 		  </div>
 		  <h2 id="usernameOutput"></h2>
 		</div>
@@ -38,10 +38,13 @@
 		<a id="author" class="postAuthor" href=""></a>
 		<h6 id="date" class="postAuthor"></h6>
 		<p id="body" class="postBody"></p>
-
+		<img src="gears_1.gif" style="width:100px;" id="loadingPost">
+		<div> <div id="options"> <button onClick="openCommentField(this, null)" style="left: 25px;position: relative;"> Reply </button> </div> </div>
 		<hr>
 
-		<div id="comments" class="commentField"></div>
+		<div id="comments" class="commentField">
+			<img src="gears_1.gif" style="width:100px;" id="loadingComments">
+		</div>
 	</div>
 
 	<script src="header.js"></script>

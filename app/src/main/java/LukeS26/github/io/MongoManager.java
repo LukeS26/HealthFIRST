@@ -14,7 +14,6 @@ import org.bson.types.ObjectId;
 import LukeS26.github.io.dataschema.Account;
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
-import LukeS26.github.io.dataschema.Token;
 
 public class MongoManager {
     private static MongoManager instance;
@@ -34,53 +33,7 @@ public class MongoManager {
         db = mongo.getDatabase(Settings.MONGO_DATABASE_NAME);
     }
 
-    // #region Authentication
-    public void writeToken(Token token) {
-        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
-        Document tokenDoc = token.toDoc();
-        tokenCollection.insertOne(tokenDoc);
-    }
-
-    /**
-     * Find a token in the database based on the hashed token (Used in requests
-     * where token is used in the authorization header)
-     * 
-     * @param token hashed token
-     * @return document with token if found, null if not found
-     */
-    public Document findToken(String token) {
-        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
-        try {
-            Document tokenDoc = tokenCollection.find(Filters.eq("token", token)).first();
-            if (tokenDoc != null) {
-                return tokenDoc;
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        return null;
-    }
-
-    public Document findTokenForUser(String username) {
-        MongoCollection<Document> tokenCollection = db.getCollection(Settings.TOKENS_COLLECTION_NAME);
-        try {
-            Document tokenDoc = tokenCollection.find(Filters.eq("username", username)).first();
-            if (tokenDoc != null) {
-                return tokenDoc;
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        return null;
-    }
-    // #endregion
-
     // #region Comments
-
     /**
      * Get all comments and replies to comments for the given post
      * 
@@ -190,6 +143,21 @@ public class MongoManager {
                 return accountDoc;
             }
 
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public Document findAccountByToken(String token) {
+        MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
+        try {
+            Document accountDoc = accountCollection.find(Filters.eq("token", token)).first();
+            if (accountDoc != null) {
+                return accountDoc;
+            }
+            
         } catch (Exception e) {
             System.out.println(e);
         }

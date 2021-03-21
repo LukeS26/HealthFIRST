@@ -61,6 +61,7 @@ function displayPost(post, id) {
 			.then(res => res.json())
 			.then(function (json) {
 				userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
+				console.log(userImg);
 			});
 	}
 

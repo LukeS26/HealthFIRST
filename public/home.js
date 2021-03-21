@@ -53,7 +53,7 @@ function displayPost(post, id) {
 	}
 
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
-	html += `<a class='postAuthor' href='/user.html?${post.author}' >${userImg} <span style="padding-left: 5px">${post.author}<span></a>`;
+	html += `<a class='postAuthor' href='/user.html?${post.author}' >${userImg}<span style="padding-left: 5px">${post.author}<span></a>`;
 	html += `<h6 class='postDate'>${date}</h6>`
 	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
 

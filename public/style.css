@@ -215,6 +215,35 @@
     color: black;
 }
 
+#post-popup input {
+    width: 90%;
+    height: 50px;
+    font-size: 30px;
+    padding: 2px 5px 2px 5px;
+    margin-top: 10px;
+}
+#post-popup textarea {
+    width: 90%;
+    height: 200px;
+    margin-top: 20px;
+    padding: 5px;
+    font-family: Tahoma, sans-serif;
+    resize: none;
+}
+#post-popup button {
+    color: white;
+    background-color: blue;
+    height: 30px;
+    width: 30%;
+    border-color: blue;
+    margin: 20px;
+}
+#post-popup button:hover {
+    background-color: darkblue;
+    border-color: darkblue;
+    cursor: pointer;
+}
+
 header {
     position: absolute;
     top: 0%;

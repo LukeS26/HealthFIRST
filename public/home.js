@@ -1,6 +1,7 @@
 let postCount = 0;
 let open = [];
 let page = 0;
+let blurOpen = false;
 
 function getCookie(name) {
 	let cookieArr = document.cookie.split(";");
@@ -98,4 +99,26 @@ function makePost(title, body) {
 			"Origin": "http://157.230.233.218"
 		}
 	});
+}
+
+function togglePostPopup() {
+	let blur = document.getElementById("popupBlur");
+	if (!blurOpen) {
+		blur.style.display = "block";
+		blurColor = "rgba(211, 211, 211, 0.6)";
+		window.setTimeout(setBlurColor, 1);
+		blurOpen = true;
+		//document.getElementsByTagName("body")[0].style.filter = "blur(4px)";
+		//blur.style.filter = "none";
+	} else {
+		blur.style.backgroundColor = "rgba(211, 211, 211, 0)";
+		blur.style.display = "none";
+		blurOpen = false;
+		//document.getElementsByTagName("body")[0].style.filter = "none";
+	}
+}
+
+function setBlurColor() {
+	let blur = document.getElementById("popupBlur");
+	blur.style.backgroundColor = blurColor;
 }

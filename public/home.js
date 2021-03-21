@@ -113,7 +113,6 @@ window.onscroll = function(ev) {
 
 function collectPostInfo() {
 	makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
-	// window.location.reload();
 }
 
 function makePost(title, body) {
@@ -126,7 +125,7 @@ function makePost(title, body) {
 			"Authorization": getCookie("token"),
 			"Origin": "http://157.230.233.218"
 		}
-	});
+	}).then(window.location.reload());
 }
 
 function togglePostPopup() {

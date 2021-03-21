@@ -49,11 +49,11 @@ function displayPost(post, id) {
 
 	let userImg = "";
 	if (post.author === getCookie("username")) {
-		userImg = `<div class="profileImage" style="width: 20px; height: 20px; overflow: hidden;"><img src="${getCookie("imgUrl")}" height="20px" width="20px"></div>`
+		userImg = `<div class="profileImage" style="width: 20px; height: 20px; overflow: hidden; display: inline-block"><img src="${getCookie("imgUrl")}" height="20px" width="20px"></div>`
 	}
 
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
-	html += `<a class='postAuthor' href='/user.html?${post.author}' >${userImg}${post.author}</a>`;
+	html += `<a class='postAuthor' href='/user.html?${post.author}' >${userImg} ${post.author}</a>`;
 	html += `<h6 class='postDate'>${date}</h6>`
 	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
 

@@ -62,6 +62,7 @@ function displayPost(post, id) {
 			.then(function (json) {
 				userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picure_link}" height="30px" width="30px"></div>`;
 			});
+			window.setTimeout(() => {}, 500);
 			}
 
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;

@@ -32,8 +32,6 @@ function getPosts(url) {
 }
 
 function displayPost(post, id) {
-	console.log(post.profile_picture_link);
-
 	let html = "";
 	let container = document.createElement("div");
 	container.className = "postContainer";

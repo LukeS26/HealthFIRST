@@ -133,6 +133,9 @@
     border-radius: 100%;
     margin-top: 5px;
 }
+.profileImage img {
+    object-fit: cover;
+}
 
 .blur {
     width: 100%;

@@ -75,7 +75,7 @@ function displayPost(post, id) {
 
 		document.getElementById("posts").appendChild(container);
 		postCount++;
-	}, 500);
+	}, 1);
 }
 
 function loadPost(id) {

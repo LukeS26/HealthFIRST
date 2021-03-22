@@ -32,6 +32,7 @@ function getPosts(url) {
 }
 
 function displayPost(post, id) {
+	console.log(post);
 
 	let html = "";
 	let container = document.createElement("div");

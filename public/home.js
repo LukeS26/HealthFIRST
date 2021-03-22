@@ -60,21 +60,22 @@ function displayPost(post, id) {
 		fetch(`http://157.230.233.218:8080/api/account/${post.author}`)
 			.then(res => res.json())
 			.then(function (json) {
-				console.log(postCount);
 				document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picure_link}" height="30px" width="30px"></div>`;
 			});
 	}
 
-	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
-	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span id="postImg${postCount}">${userImg}</span><span style="padding-left: 5px">${post.author}<span></a>`;
-	html += `<h6 class='postDate'>${date}</h6>`
-	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
+	window.setTimeout(() => {
+		html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
+		html += `<a class='postAuthor' href='/user.html?${post.author}' ><span id="postImg${postCount}">${userImg}</span><span style="padding-left: 5px">${post.author}<span></a>`;
+		html += `<h6 class='postDate'>${date}</h6>`
+		html += `<p class='postBody'>${formatText(body)}</p> </div>`;
 
-	container.innerHTML += html;
+		container.innerHTML += html;
 
 
-	document.getElementById("posts").appendChild(container);
-	postCount++;
+		document.getElementById("posts").appendChild(container);
+		postCount++;
+	}, 500);
 }
 
 function loadPost(id) {

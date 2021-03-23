@@ -47,6 +47,7 @@ function displayPost(post, id) {
 	let date = dateRaw.toLocaleString();
 
 	let userImg = "";
+	let postNum = 0;
 	if (post.author === getCookie("username")) {
 		let cookie;
 		if (getCookie("imgUrl") !== null) {
@@ -60,17 +61,17 @@ function displayPost(post, id) {
 			.then(res => res.json())
 			.then(function (json) {
 				try {
-					document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
+					document.getElementById("postImg" + postNum).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
 				} catch (error) {
 					window.setTimeout(() => {
 						try {
-							document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
+							document.getElementById("postImg" + postNum).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
 						} catch (error) {
 							window.setTimeout(() => {
 								try {
-									document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
+									document.getElementById("postImg" + postNum).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
 								} catch (error) {
-									console.log("failed to load image for postImg" + postCount);
+									console.log("failed to load image for postImg" + postNum);
 								}
 							}, 100);
 						}
@@ -80,12 +81,13 @@ function displayPost(post, id) {
 	}
 
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
-	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span id="postImg${postCount}">${userImg}</span><span style="padding-left: 5px">${post.author}<span></a>`;
+	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span id="postImg${postNum}">${userImg}</span><span style="padding-left: 5px">${post.author}<span></a>`;
 	html += `<h6 class='postDate'>${date}</h6>`
 	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
 	container.innerHTML += html;
 	document.getElementById("posts").appendChild(container);
 	postCount++;
+	postNum++;
 }
 
 function loadPost(id) {

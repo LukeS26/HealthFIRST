@@ -59,23 +59,7 @@ function displayPost(post, id) {
 		fetch(`http://157.230.233.218:8080/api/account/${post.author}`)
 			.then(res => res.json())
 			.then(function (json) {
-				try {
-					document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
-				} catch (error) {
-					window.setTimeout(() => {
-						try {
-							document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
-						} catch (error) {
-							window.setTimeout(() => {
-								try {
-									document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
-								} catch (error) {
-									console.log("failed to load image for postImg" + postCount);
-								}
-							}, 1000);
-						}
-					}, 1000);
-				}
+				document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
 			});
 	}
 

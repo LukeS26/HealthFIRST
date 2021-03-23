@@ -128,7 +128,7 @@
 .postContainer:hover {
     cursor: pointer;
 }
-.postContainer:hover div img {
+.postContainer:hover img {
     display: block;
 }
 
@@ -178,6 +178,8 @@
 .postDots {
     display: none;
     float: right;
+    position: relative;
+    top: -10px
 }
 
 #updatePhotoButton {

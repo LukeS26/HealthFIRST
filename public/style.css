@@ -117,9 +117,6 @@
     width: 600px;
     padding-top: 10px;
 }
-.posts:hover > .postDots {
-    display: block;
-}
 
 .postContainer {
     border: 2px gray solid;
@@ -130,6 +127,9 @@
 }
 .postContainer:hover {
     cursor: pointer;
+}
+.postContainer:hover div img {
+    display: block;
 }
 
 .profileImage {

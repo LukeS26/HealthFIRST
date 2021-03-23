@@ -109,6 +109,18 @@ function collectPostInfo() {
 	makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
 }
 
+function deleteMe() {
+	fetch("http://157.230.233.218:8080/api/account", {
+		method: "DELETE",
+		mode: "cors",
+		headers: {
+			"Content-type": "application/json; charset=UTF-8",
+			"Authorization": getCookie("token"),
+			"Origin": "http://157.230.233.218"
+		}
+	});
+}
+
 function makePost(title, body) {
 	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",

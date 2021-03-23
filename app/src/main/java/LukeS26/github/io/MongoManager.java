@@ -33,6 +33,11 @@ public class MongoManager {
         db = mongo.getDatabase(Settings.MONGO_DATABASE_NAME);
     }
 
+    public void deleteComment(String commentID) {
+        MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
+        commentsCollection.updateOne(Filters.eq("_id", commentID), new Document("$set", new Document("author", "[Removed]").append("body", "[Removed]")));
+    }
+
     // #region Comments
     /**
      * Get all comments and replies to comments for the given post
@@ -73,7 +78,7 @@ public class MongoManager {
     // #region Posts
     public void deletePost(Document post) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
-        postCollection.findOneAndDelete(Filters.eq("_id", post.get("_id")));
+        postCollection.findOneAndUpdate(Filters.eq("_id", post.get("_id")), new Document("$set", new Document("title", "[Removed]").append("author", "[Removed]").append("body", "[Removed]")));
     }
 
     public void writePost(Post post) {

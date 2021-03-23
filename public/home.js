@@ -2,6 +2,7 @@ let postCount = 0;
 let open = [];
 let page = 0;
 let blurOpen = false;
+let postNum = 0;
 
 function getCookie(name) {
 	let cookieArr = document.cookie.split(";");
@@ -47,7 +48,6 @@ function displayPost(post, id) {
 	let date = dateRaw.toLocaleString();
 
 	let userImg = "";
-	let postNum = 0;
 	if (post.author === getCookie("username")) {
 		let cookie;
 		if (getCookie("imgUrl") !== null) {

@@ -133,7 +133,6 @@ public class MongoManager {
     }
 
     public void deleteAccount(String username) {
-        System.out.println("Deleting account " + username + "...");
         MongoCollection<Document> postsCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         MongoCollection<Document> accountsCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
@@ -141,8 +140,6 @@ public class MongoManager {
         postsCollection.updateMany(Filters.eq("author", username), new Document("$set", new Document("title", "[Removed]").append("author", "[Removed]").append("body", "[Removed]")));
         commentsCollection.updateMany(Filters.eq("author", username), new Document("$set", new Document("author", "[Removed]").append("body", "[Removed]")));
         accountsCollection.deleteOne(Filters.eq("username", username));
-
-        System.out.println("Finished deleting account " + username + ".");
     }
 
     /**

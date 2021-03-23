@@ -128,7 +128,7 @@ public class HttpServer {
             }
 
             Document commentDoc = mongoManager.findComment(ctx.splat(0));
-            if (!(format((String) commentDoc.get("author"))).equals(userAccount.username)) {
+            if (!(format((String) commentDoc.get("author"))).equals(userAccount.username) && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
@@ -313,7 +313,7 @@ public class HttpServer {
             }
 
             Document post = mongoManager.findPost(ctx.splat(0));
-            if (!(format((String) post.get("author"))).equals(userAccount.username)) {
+            if (!(format((String) post.get("author"))).equals(userAccount.username) && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
@@ -456,7 +456,7 @@ public class HttpServer {
             userAccount.passwordHash = finalPasswordHash;
             userAccount.token = Account.generateToken();
 
-            userAccount.permissionID = 0;
+            userAccount.permissionID = Utils.Permissions.USER.ordinal();
             userAccount.badgeIDs = new ArrayList<Integer>();
 
             mongoManager.writeAccount(userAccount);

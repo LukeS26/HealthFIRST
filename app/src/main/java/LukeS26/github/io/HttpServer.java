@@ -358,7 +358,7 @@ public class HttpServer {
                     return;
                 }
 
-                if (e.getKey().equals("username")) {
+                if (e.getKey().equals("username") || e.getKey().equals("permission_id") || e.getKey().equals("badge_ids")) {
                     continue;
                 }
 

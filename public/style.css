@@ -172,6 +172,14 @@
     text-decoration: underline;
 }
 
+.postDots {
+    display: none;
+    float: right;
+}
+.postDots:hover {
+    display: block;
+}
+
 #updatePhotoButton {
     margin: 20px;
     height: 50px;

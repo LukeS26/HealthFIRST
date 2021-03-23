@@ -103,6 +103,43 @@ public class HttpServer {
         });
 
         // #region Comments
+        app.patch("/api/comments/*", ctx -> {
+            ctx.header("Access-Control-Allow-Headers", "Authorization");
+            ctx.header("Access-Control-Allow-Credentials", "true");
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+            Document doc;
+            try {
+                doc = Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization") || doc.get("body") == null) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            Document commentDoc = mongoManager.findComment(ctx.splat(0));
+            if (!(format((String) commentDoc.get("author"))).equals(userAccount.username) && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            // Recreating document with just a body so that it can't contain other fields (author, date, etc.)
+            mongoManager.editComment((ObjectId) commentDoc.get("_id"), new Document("body", (String) doc.get("body")));
+
+            ctx.status(HttpStatus.OK_200);
+        });
+
         app.delete("/api/comments/*", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");

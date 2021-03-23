@@ -128,7 +128,7 @@
 .postContainer:hover {
     cursor: pointer;
 }
-.postContainer:hover div img {
+.postContainer:hover img {
     display: block;
 }
 

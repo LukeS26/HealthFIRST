@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 
@@ -321,6 +323,10 @@ public class HttpServer {
                     return;
                 }
 
+                if (e.getKey().equals("username")) {
+                    continue;
+                }
+
                 // Checking if using a link to an image
                 // TODO: Certain links don't work, removing for now
                 /*
@@ -365,6 +371,13 @@ public class HttpServer {
                 return;
             }
 
+            Pattern p = Pattern.compile("[^0-9a-zA-Z]+");
+            Matcher m = p.matcher((String) doc.get("username"));
+            if (m.find()) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
             // Checking if account already exists with that username
             Document accountDoc = mongoManager.findAccount((String) doc.get("username"));
             if (accountDoc != null) {
@@ -396,7 +409,7 @@ public class HttpServer {
 
             mongoManager.writeAccount(userAccount);
 
-            ctx.result(userAccount.token);
+            ctx.result(new Document("token", userAccount.token).toJson());
             ctx.status(HttpStatus.CREATED_201);
         });
 
@@ -448,7 +461,8 @@ public class HttpServer {
             Account loginAccount = Account.fromDoc(loginAccountDoc);
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
-                ctx.result(loginAccount.token);
+                Document tokenDoc = new Document("token", loginAccount.token);
+                ctx.result(tokenDoc.toJson());
                 ctx.status(HttpStatus.OK_200);
 
             } else {

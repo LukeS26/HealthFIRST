@@ -34,8 +34,15 @@
     </div>
   </header>
   <br><br><br>
-  <div id="posts" class="posts"> <img src="gears_1_gray.gif" style="width:100px;" id="loadingPost"> </div>
-  <div class="centerOnPage" style="display:flex; width:100%; justify-content: center; position: fixed; left:0; bottom: 2%;"> <div class="makePostContainer"> <h2 class="makePost" onClick="openPost()">New Post</h2> </div> </div>
+  <div class="blur" id="popupBlur" onclick="togglePostPopup()">
+    <div class="popup" id="post-popup">
+      <input placeholder="Title" id="postTitle" onclick="togglePostPopup()">
+      <textarea placeholder="Body" id="postBody" onclick="togglePostPopup()"></textarea><br>
+      <button onclick="collectPostInfo()">Chat</button>
+    </div>
+  </div>
+  <div id="posts" class="posts"><img src="gears_1_gray.gif" style="width:100px;" id="loadingPost"></div>
+  <div class="centerOnPage" style="display:flex; width:100%; justify-content: center; position: fixed; left:0; bottom: 2%;"><div class="makePostContainer" onclick="togglePostPopup()"><h2 class="makePost">New Post</h2></div></div>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>-->
     <script src="header.js"></script>
     <script src="home.js"></script>

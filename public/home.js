@@ -110,8 +110,8 @@ function collectPostInfo() {
 	makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
 }
 
-function deleteMe() {
-	fetch("http://157.230.233.218:8080/api/account", {
+function deleteAccount(username) {
+	fetch("http://157.230.233.218:8080/api/account/" + username, {
 		method: "DELETE",
 		mode: "cors",
 		headers: {

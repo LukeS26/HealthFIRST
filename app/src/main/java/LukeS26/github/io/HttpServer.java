@@ -385,7 +385,7 @@ public class HttpServer {
             ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
         });
 
-        app.delete("/api/account", ctx -> {
+        app.delete("/api/account/*", ctx -> {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
             if (!ctx.headerMap().containsKey("Authorization")) {
@@ -393,8 +393,10 @@ public class HttpServer {
                 return;
             }
 
-            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
-            if (userAccount == null) {
+            Account userAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0)));
+            Account tokenAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            // if the deleter or the account to be deleted are null || you aren't deleting your own account and you aren't an admin
+            if (tokenAccount == null || userAccount == null || (!userAccount.username.equals(tokenAccount.username) && tokenAccount.permissionID != Utils.Permissions.MODERATOR.ordinal())) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }

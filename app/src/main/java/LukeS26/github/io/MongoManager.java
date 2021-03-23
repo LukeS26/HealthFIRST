@@ -122,10 +122,19 @@ public class MongoManager {
      * @param account the account to write
      */
     public void writeAccount(Account account) {
-        System.out.println("Writing account...");
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
         Document accountDoc = account.toDoc(true);
         accountCollection.insertOne(accountDoc);
+    }
+
+    public void deleteAccount(String username) {
+        System.out.println("Deleting account " + username + "...");
+        MongoCollection<Document> postsCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
+        MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
+
+        postsCollection.updateMany(Filters.eq("author", username), new Document("$set", new Document("title", "[Removed]").append("author", "[Removed]").append("body", "[Removed]")));
+        commentsCollection.updateMany(Filters.eq("author", username), new Document("$set", new Document("author", "[Removed]").append("body", "[Removed]")));
+        System.out.println("Finished deleting account " + username + ".");
     }
 
     /**
@@ -157,7 +166,7 @@ public class MongoManager {
             if (accountDoc != null) {
                 return accountDoc;
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }

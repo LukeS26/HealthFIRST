@@ -350,6 +350,23 @@ public class HttpServer {
             ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
         });
 
+        app.delete("/api/account", ctx -> {
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            mongoManager.deleteAccount(userAccount.username);
+        });
+
         /**
          * Create a new account
          */

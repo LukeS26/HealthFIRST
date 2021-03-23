@@ -103,6 +103,41 @@ public class HttpServer {
         });
 
         // #region Comments
+        app.delete("/api/comments/*", ctx -> {
+            ctx.header("Access-Control-Allow-Headers", "Authorization");
+            ctx.header("Access-Control-Allow-Credentials", "true");
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+            try {
+                Document.parse(ctx.body());
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            Document commentDoc = mongoManager.findComment(ctx.splat(0));
+            if (!(format((String) commentDoc.get("author"))).equals(userAccount.username)) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            mongoManager.deleteComment((String) commentDoc.get("_id"));
+
+            ctx.status(HttpStatus.OK_200);
+        });
+
         /**
          * Get all comments and comments on comments for a post
          */

@@ -46,26 +46,27 @@ function displayPost(post, id) {
 	let dateRaw = new Date(post.date.$date);
 	let date = dateRaw.toLocaleString();
 
-	let userImg = "";
-	if (post.author === getCookie("username")) {
-		let cookie;
-		if (getCookie("imgUrl") !== null) {
-			cookie = getCookie("imgUrl");
-		} else {
-			cookie = "defaultPic.png";
-		}
-		userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${cookie}" height="30px" width="30px"></div>`;
-	} else {
-		fetch(`http://157.230.233.218:8080/api/account/${post.author}`)
-			.then(res => res.json())
-			.then(function (json) {
-				document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
-			});
-	}
+	// let userImg = "";
+	// if (post.author === getCookie("username")) {
+	// 	let cookie;
+	// 	if (getCookie("imgUrl") !== null) {
+	// 		cookie = getCookie("imgUrl");
+	// 	} else {
+	// 		cookie = "defaultPic.png";
+	// 	}
+	// 	userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${cookie}" height="30px" width="30px"></div>`;
+	// } else {
+	// 	fetch(`http://157.230.233.218:8080/api/account/${post.author}`)
+	// 		.then(res => res.json())
+	// 		.then(function (json) {
+	// 			document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
+	// 		});
+	// }
 
 	html += `<img src="dots.png" width="50px" height="50px" class="postDots">`;
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
-	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span id="postImg${postCount}">${userImg}</span><span style="padding-left: 5px">${post.author}<span></a>`;
+	//<span id="postImg${postCount}">${userImg}</span>
+	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span style="padding-left: 5px">${post.author}<span></a>`;
 	html += `<h6 class='postDate'>${date}</h6>`
 	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
 	container.innerHTML += html;

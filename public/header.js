@@ -17,6 +17,7 @@ if (getCookie("imgUrl") !== null && getCookie("imgUrl") !== "null") {
 usernameOutput.innerHTML = username;
 document.getElementById("profileHeader").style.width = (username.length * 1.5 - (username.length * 2)) + "em";
 document.getElementById("profileHeaderStuff").style.width = document.getElementById("profileHeader").offsetWidth - 4 + "px";
+document.getElementById("profileLink").href += getCookie("username");
 
 function getCookie(name) {
 	let cookieArr = document.cookie.split(";");

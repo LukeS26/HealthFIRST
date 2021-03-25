@@ -18,6 +18,8 @@ public class Comment extends DataSchema {
 
     public Date date;
 
+    public boolean edited;
+
     /**
      * Same as Post.toDoc, this can't include the ID since this is used for new
      * posts that aren't in the database as well as posts already in the database
@@ -26,7 +28,7 @@ public class Comment extends DataSchema {
      */
     @Override
     public Document toDoc() {
-        Document commentDoc = new Document("post_id", postId).append("reply_to_id", replyToId).append("author", author).append("body", body).append("date", date);
+        Document commentDoc = new Document("post_id", postId).append("reply_to_id", replyToId).append("author", author).append("body", body).append("date", date).append("edited", edited);
         return commentDoc;
     }
 
@@ -38,6 +40,7 @@ public class Comment extends DataSchema {
         c.author = (String) doc.get("author");
         c.body = (String) doc.get("body");
         c.date = (Date) doc.get("date");
+        c.edited = (boolean) doc.get("edited");
 
         return c;
     }

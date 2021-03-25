@@ -37,13 +37,13 @@ function generateHTML(info) {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px">`;
 	}
 
-	profileContent += "<div>Username: " + json.username + "</div><br>";
-	profileContent += "<div>Email: " + json.email + "<br>";
-	profileContent += "<div>First Name: " + json.first_name + "<br>";
-	profileContent += "<div>Last Name: " + json.last_name + "<br>";
-	//profileContent += json.profile_picture_link + "<br>";
-	//profileContent += json.permission_id + "<br>";
-	//profileContent += json.badge_ids + "<br>";
+	profileContent += "<div>Username: " + info.username + "</div><br>";
+	profileContent += "<div>Email: " + info.email + "<br>";
+	profileContent += "<div>First Name: " + info.first_name + "<br>";
+	profileContent += "<div>Last Name: " + info.last_name + "<br>";
+	//profileContent += info.profile_picture_link + "<br>";
+	//profileContent += info.permission_id + "<br>";
+	//profileContent += info.badge_ids + "<br>";
 
 	profileOut.innerHTML = profileContent;
 }

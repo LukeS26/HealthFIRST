@@ -128,7 +128,7 @@
 .postContainer:hover {
     cursor: pointer;
 }
-.postContainer:hover img {
+.postContainer:hover span {
     display: block;
 }
 
@@ -175,11 +175,29 @@
     text-decoration: underline;
 }
 
-.postDots {
-    display: none;
+.postOptions {
     float: right;
+    padding: 10px 5px;
     position: relative;
-    top: -10px
+    top: -8px;
+    display: none;
+}
+.postOptions:hover > .postToolTip {
+    opacity: 1;
+}
+
+.postToolTip {
+    background-color: lightgray;
+    border-radius: 10%;
+    font-size: 10px;
+    padding: 5px;
+    position: absolute;
+    left: -6px;
+    top: -15px;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.1s linear 0.5s;
 }
 
 #updatePhotoButton {

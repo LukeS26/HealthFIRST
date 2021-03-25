@@ -63,7 +63,14 @@ function displayPost(post, id) {
 			});
 	}
 
-	html += `<img src="dots.png" width="50px" height="50px" class="postDots">`;
+	html += `<span class="postOptions">`;
+	html += `<div class="postToolTip">Delete</div>`;
+	html += `<img src="trash-can.png" width="20px" height="20px">`;
+	html += `</span>`;
+	html += `<span class="postOptions">`;
+	html += `<div class="postToolTip">Edit</div>`;
+	html += `<img src="pencil.png" width="20px" height="20px">`;
+	html += `</span>`;
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
 	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span id="postImg${postCount}">${userImg}</span><span style="padding-left: 5px">${post.author}<span></a>`;
 	html += `<h6 class='postDate'>${date}</h6>`

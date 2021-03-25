@@ -37,10 +37,10 @@ function generateHTML(info) {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px">`;
 	}
 
-	profileContent += "<div>Username: " + info.username + "</div><br>";
-	profileContent += "<div>Email: " + info.email + "<br>";
-	profileContent += "<div>First Name: " + info.first_name + "<br>";
-	profileContent += "<div>Last Name: " + info.last_name + "<br>";
+	profileContent += "<div>Username: " + info.username + "</div>";
+	profileContent += "<div>Email: " + info.email + "</div>";
+	profileContent += "<div>First Name: " + info.first_name + "</div>";
+	profileContent += "<div>Last Name: " + info.last_name + "</div>";
 	//profileContent += info.profile_picture_link + "<br>";
 	//profileContent += info.permission_id + "<br>";
 	//profileContent += info.badge_ids + "<br>";

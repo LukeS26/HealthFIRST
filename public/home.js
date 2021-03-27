@@ -142,9 +142,8 @@ function makePost(title, body) {
 			"Authorization": getCookie("token"),
 			"Origin": "http://157.230.233.218"
 		}
-		.then(res => {
-			window.location.reload();
-		})
+	}).then(res => {
+		window.location.reload();
 	});
 }
 

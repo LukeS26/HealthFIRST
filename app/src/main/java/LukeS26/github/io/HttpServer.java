@@ -272,7 +272,7 @@ public class HttpServer {
         app.post("/api/posts", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");
-            ctx.header("Access-Control-Allow-Origin", "https://" + Settings.WEBSITE_URL);
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
             Document doc = null;
             try {

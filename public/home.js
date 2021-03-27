@@ -143,6 +143,12 @@ function makePost(title, body) {
 			"Origin": "http://157.230.233.218"
 		}
 	})
+	.then(res => {
+		console.log(res);
+	})
+	.catch(err => {
+		console.error(err);
+	})
 }
 
 function togglePostPopup() {

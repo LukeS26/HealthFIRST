@@ -35,7 +35,7 @@ public class MongoManager {
 
     public void editComment(ObjectId originalID, Document bsonUpdate) {
         MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
-        commentsCollection.findOneAndUpdate(Filters.eq("_id", originalID), new Document("$set", bsonUpdate);
+        commentsCollection.findOneAndUpdate(Filters.eq("_id", originalID), new Document("$set", bsonUpdate));
     }
 
     public void deleteComment(String commentID) {
@@ -83,7 +83,7 @@ public class MongoManager {
     // #region Posts
     public void editPost(ObjectId originalID, Document bsonUpdate) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
-        postCollection.findOneAndUpdate(Filters.eq("_id", originalID), new Document("$set", bsonUpdate);
+        postCollection.findOneAndUpdate(Filters.eq("_id", originalID), new Document("$set", bsonUpdate));
     }
 
     public void deletePost(Document post) {

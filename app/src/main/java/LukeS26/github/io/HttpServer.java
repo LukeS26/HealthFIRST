@@ -525,6 +525,28 @@ public class HttpServer {
             }
         });
 
+        app.get("/api/account", ctx -> {
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Document accountDoc = mongoManager.findAccountByToken(ctx.header("Authorization"));
+            if (accountDoc == null) {
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
+            accountDoc.remove("_id");
+            accountDoc.remove("password_hash");
+            accountDoc.remove("token");
+
+            ctx.result(accountDoc.toJson());
+            ctx.status(HttpStatus.OK_200);
+        });
+
         /**
          * Getting an account token + verifying username+pass
          */

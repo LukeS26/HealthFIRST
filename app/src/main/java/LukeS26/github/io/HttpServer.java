@@ -302,9 +302,10 @@ public class HttpServer {
 
             post.date = new Date();
 
-            mongoManager.writePost(post);
+            Document postDoc = post.toDoc();
+            mongoManager.writePostDoc(postDoc);
 
-            ctx.result((String) doc.get("_id"));
+            ctx.result((String) postDoc.get("_id"));
             ctx.status(HttpStatus.CREATED_201);
         });
 

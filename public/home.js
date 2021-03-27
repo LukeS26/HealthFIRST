@@ -118,7 +118,6 @@ window.onscroll = function(ev) {
 
 function collectPostInfo() {
 	makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
-	window.location.reload();
 }
 
 function deleteAccount(username) {

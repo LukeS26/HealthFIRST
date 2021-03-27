@@ -99,6 +99,11 @@ public class MongoManager {
         postCollection.insertOne(postDoc);
     }
 
+    public void writePostDoc(Document doc) {
+        MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
+        postCollection.insertOne(doc);
+    }
+
     public Document findPost(String postID) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
@@ -131,6 +136,30 @@ public class MongoManager {
         return null;
     }
     // #endregion
+
+    // #region Challenges
+    public Document findChallengeById(int challengeId) {
+        MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
+        try {
+            return challengesCollection.find(Filters.eq("challenge_id", challengeId)).first();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public void completeChallenge(int challengeId, Account account) {
+        account.badgeIDs.add(challengeId);
+
+        Document updateDoc = new Document();
+        updateDoc.remove("_id");
+        updateDoc.put("badge_ids", account.badgeIDs);
+
+        MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
+        accountCollection.updateOne(Filters.eq("username", account.username), new Document("$set", updateDoc));
+    }
+    // //#endregion
 
     // #region Accounts
     /**

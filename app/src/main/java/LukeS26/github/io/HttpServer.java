@@ -101,6 +101,27 @@ public class HttpServer {
                 }
             }
         });
+        // #region Challenges
+        app.post("/api/challenges/complete/*", ctx -> {
+            ctx.header("Access-Control-Allow-Headers", "Authorization");
+            ctx.header("Access-Control-Allow-Credentials", "true");
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
+            mongoManager.completeChallenge(Integer.parseInt(ctx.splat(0)), userAccount);
+            ctx.status(HttpStatus.NO_CONTENT_204);
+        });
+        // #endregion
 
         // #region Comments
         app.patch("/api/comments/*", ctx -> {

@@ -25,6 +25,7 @@ public class Account extends DataSchema {
 
     public int permissionID;
     public List<Integer> badgeIDs; // Can be null/empty
+    // TODO: Add signup date
 
     /**
      * Convert the Account object to a org.bson.Document

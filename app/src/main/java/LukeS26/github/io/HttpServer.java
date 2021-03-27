@@ -152,6 +152,11 @@ public class HttpServer {
                 return;
             }
 
+            if (((String) doc.get("body")).length() > Settings.MAX_COMMENT_BODY_LENGTH) {
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                return;
+            }
+
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
@@ -241,6 +246,11 @@ public class HttpServer {
                 return;
             }
 
+            if (((String) doc.get("body")).length() > Settings.MAX_COMMENT_BODY_LENGTH) {
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                return;
+            }
+
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
@@ -322,6 +332,16 @@ public class HttpServer {
             if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("title")
                     || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (((String) doc.get("title")).length() > Settings.MAX_POST_TITLE_LENGTH) {
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                return;
+            }
+
+            if (((String) doc.get("body")).length() > Settings.MAX_POST_BODY_LENGTH) {
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
                 return;
             }
 
@@ -513,6 +533,11 @@ public class HttpServer {
             Matcher m = p.matcher((String) doc.get("username"));
             if (m.find()) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (((String) doc.get("username")).length() > Settings.MAX_USERNAME_LENGTH) {
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
                 return;
             }
 

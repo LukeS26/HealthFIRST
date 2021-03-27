@@ -13,6 +13,11 @@ public class Settings {
    public static final String POSTS_COLLECTION_NAME = "Posts";
    public static final String COMMENTS_COLLECTION_NAME = "Comments";
    public static final String CHALLENGES_COLLECTION_NAME = "Challenges";
+
+   public static final int MAX_USERNAME_LENGTH = 20;
+   public static final int MAX_POST_TITLE_LENGTH = 40;
+   public static final int MAX_POST_BODY_LENGTH = 3000;
+   public static final int MAX_COMMENT_BODY_LENGTH = 1500;
    
    public static final int HTTP_SERVER_PORT = 8080;
    

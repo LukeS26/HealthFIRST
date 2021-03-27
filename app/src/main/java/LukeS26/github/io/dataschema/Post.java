@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 
 public class Post extends DataSchema {
     public ObjectId id;
+    
     public String author;
     public String title;
     public String body;

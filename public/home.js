@@ -63,14 +63,16 @@ function displayPost(post, id) {
 	// 		});
 	// }
 
-	html += `<span class="postOptions">`;
-	html += `<div class="postToolTip">Delete</div>`;
-	html += `<img src="trash-can.png" width="20px" height="20px">`;
-	html += `</span>`;
-	html += `<span class="postOptions">`;
-	html += `<div class="postToolTip">Edit</div>`;
-	html += `<img src="pencil.png" width="20px" height="20px">`;
-	html += `</span>`;
+	if (post.author === getCookie("username")) {
+		html += `<span class="postOptions">`;
+		html += `<div class="postToolTip">Delete</div>`;
+		html += `<img src="trash-can.png" width="20px" height="20px">`;
+		html += `</span>`;
+		html += `<span class="postOptions">`;
+		html += `<div class="postToolTip">Edit</div>`;
+		html += `<img src="pencil.png" width="20px" height="20px">`;
+		html += `</span>`;
+	}
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
 	//<span id="postImg${postCount}">${userImg}</span>
 	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span style="padding-left: 5px">${post.author}<span></a>`;

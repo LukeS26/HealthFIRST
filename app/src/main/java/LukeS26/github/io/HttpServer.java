@@ -75,6 +75,9 @@ public class HttpServer {
     }
 
     public void start() {
+        /**
+         * Checking for suspicious requests
+         */
         app.before(ctx -> {
             for (String s : suspiciousEndpoints) {
                 if (ctx.fullUrl().contains(s)) {
@@ -102,6 +105,9 @@ public class HttpServer {
             }
         });
         // #region Challenges
+        /**
+         * Complete a challenge
+         */
         app.post("/api/challenges/complete/*", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");
@@ -124,6 +130,9 @@ public class HttpServer {
         // #endregion
 
         // #region Comments
+        /**
+         * Edit a comment
+         */
         app.patch("/api/comments/*", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");
@@ -161,6 +170,9 @@ public class HttpServer {
             ctx.status(HttpStatus.OK_200);
         });
 
+        /**
+         * Delete a comment
+         */
         app.delete("/api/comments/*", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");
@@ -272,6 +284,9 @@ public class HttpServer {
         // #endregion
 
         // #region Posts
+        /**
+         * Get a post feed offset by the page number
+         */
         app.get("/api/posts/feed", ctx -> {
             int pageNum = 1;
             try {
@@ -348,6 +363,9 @@ public class HttpServer {
             ctx.status(HttpStatus.OK_200);
         });
 
+        /**
+         * Delete a post
+         */
         app.delete("/api/posts/*", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");
@@ -385,6 +403,9 @@ public class HttpServer {
         // #endregion
 
         // #region Accounts
+        /**
+         * Update an account
+         */
         app.patch("/api/account", ctx -> {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
@@ -445,6 +466,9 @@ public class HttpServer {
             ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
         });
 
+        /**
+         * Delete an account
+         */
         app.delete("/api/account/*", ctx -> {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
@@ -547,6 +571,9 @@ public class HttpServer {
             }
         });
 
+        /**
+         * Get more sensitive account information
+         */
         app.get("/api/account", ctx -> {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
@@ -606,6 +633,9 @@ public class HttpServer {
             }
         });
 
+        /**
+         * Verify that a token is linked to an account
+         */
         app.post("/api/token/verify", ctx -> {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
@@ -632,6 +662,9 @@ public class HttpServer {
         // #endregion
     }
 
+    /**
+     * Replacing characters to prevent escaping strings in a post title, body, etc.
+     */
     public String format(String str) {
         str = str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;").replace(":", "&#58;").replace("\"",
                 "&#34;");

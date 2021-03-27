@@ -304,7 +304,7 @@ public class HttpServer {
 
             mongoManager.writePost(post);
 
-            ctx.result(((ObjectId) doc.get("_id")).toString());
+            ctx.result((String) doc.get("_id"));
             ctx.status(HttpStatus.CREATED_201);
         });
 

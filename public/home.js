@@ -148,6 +148,7 @@ function makePost(title, body) {
 			body: body,
 			title: title,
 			author: getCookie("username"),
+			date: 0
 		}
 		displayPost(postData, text);
 	})

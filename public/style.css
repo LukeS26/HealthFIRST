@@ -340,4 +340,27 @@ body {
     overflow-wrap: anywhere;
 }
 
+.challengeButton {
+    color: white;
+    background-color: #04C;
+    border: 2px solid #04C;
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.challengeButton:hover {
+    color:#0044CC;
+    border-color: #0044CC;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.challengeContainer {
+    border: 2px gray solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
 /*test*/

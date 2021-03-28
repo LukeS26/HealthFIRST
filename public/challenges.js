@@ -15,9 +15,9 @@ function displayChallenge(title, body, date, id) {
 	html += `<h3> ${title} </h3>`;
 	html += `<p> End: ${dateFormatted} </p>`
 	html += `<p> ${body} </p>`;
-	html += `<button onClick="finishChallenge('${id}')"> Complete Challenge </button>`
+	html += `<button class="challengeButton" onClick="finishChallenge('${id}')"> Complete Challenge </button>`
 
-	shell.innerHTML += `<div class="postContainer"> ${html} </div>`
+	shell.innerHTML += `<div class="challengeContainer"> ${html} </div>`
 }
 
 function finishChallenge(id) {

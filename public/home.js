@@ -42,7 +42,6 @@ function displayPost(post, id, top) {
 	if (body.length === 500) {
 		body += "...";
 	}
-	console.log(post.date.$date);
 	let dateRaw = new Date(post.date.$date);
 	let date = dateRaw.toLocaleString();
 

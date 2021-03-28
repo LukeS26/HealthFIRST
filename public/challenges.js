@@ -8,7 +8,7 @@ function getChallenges(page) {
 }
 
 function displayChallenge(title, body, date) {
-	let dateFormatted = new Date(date).toISOString;
+	let dateFormatted = new Date(date).toLocaleString();
 	let shell = document.getElementById("challenges");
 	let html = "";
 	

@@ -144,7 +144,12 @@ function makePost(title, body) {
 	})
 	.then(res => res.text())
 	.then(text => {
-		console.log(text);
+		let postData = {
+			body: body,
+			title: title,
+			author: getCookie("username"),
+		}
+		displayPost(postData, text);
 	})
 	.catch(err => {
 		console.error(err);

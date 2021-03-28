@@ -128,7 +128,7 @@ public class MongoManager {
         MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
         try {
             // TODO: For some reason this is making 0 and 1 equal
-            FindIterable<Document> challengeDocs = challengesCollection.find().sort(Sorts.ascending("challenge_id"))
+            FindIterable<Document> challengeDocs = challengesCollection.find().sort(Sorts.descending("challenge_id"))
                     .skip(Settings.CHALLENGES_PER_PAGE * pageNumber).limit(Settings.CHALLENGES_PER_PAGE);
             if (challengeDocs != null) {
                 return challengeDocs;

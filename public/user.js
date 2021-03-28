@@ -43,6 +43,6 @@ function loadProfile(json) {
 		document.getElementById("userBio").innerHTML = formatText(json.biography);
 	}
 
-	let badges = [...new Set(badges)]
+	let badges = [...new Set(json.badge_ids)]
 	console.log(badges);
 }

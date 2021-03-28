@@ -143,7 +143,7 @@ function makePost(title, body) {
 		}
 	})
 	.then(res => {
-		console.log(res);
+		console.log(res.text());
 	})
 	.catch(err => {
 		console.error(err);

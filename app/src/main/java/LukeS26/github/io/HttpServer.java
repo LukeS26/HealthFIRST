@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -23,6 +24,7 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.mindrot.jbcrypt.BCrypt;
 
 import LukeS26.github.io.dataschema.Account;
+import LukeS26.github.io.dataschema.Challenge;
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
 import io.javalin.Javalin;
@@ -72,6 +74,15 @@ public class HttpServer {
             e.printStackTrace();
         }
         System.out.println("Finished loading GZip bomb.");
+
+        Challenge c = new Challenge();
+        c.challengeId = 1;
+        c.title = "Weekly Challenge #1";
+        c.body = "At least 30 minutes of walking, running, or biking each day\nFive sets of ten push-ups, sit-ups, and squats each day";
+        c.startDate = new Date();
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2021, 3, 30);
+        c.endDate = endDate.getTime();
     }
 
     public void start() {

@@ -12,6 +12,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import LukeS26.github.io.dataschema.Account;
+import LukeS26.github.io.dataschema.Challenge;
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
 
@@ -158,6 +159,12 @@ public class MongoManager {
 
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
         accountCollection.updateOne(Filters.eq("username", account.username), new Document("$set", updateDoc));
+    }
+
+    public void writeChallenge(Challenge challenge) {
+        MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
+        Document challengeDoc = challenge.toDoc();
+        challengesCollection.insertOne(challengeDoc);
     }
     // //#endregion
 

@@ -39,3 +39,12 @@ if (getCookie("accepted") !== "true") {
 		console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	});
 }
+
+if (getCookie("level") === null) {
+	fetch("http://healthfirst4342.tk:8080/api/account/" + getCookie("username"))
+	.then(res => res.json())
+	.then(json => {
+		document.cookie = `level=${json.permission_id}`;
+	})
+	.catch(err => console.error(err));
+}

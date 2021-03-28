@@ -155,6 +155,10 @@ public class HttpServer {
         });
 
         app.get("/api/challenges/feed", ctx -> {
+            ctx.header("Access-Control-Allow-Headers", "Authorization");
+            ctx.header("Access-Control-Allow-Credentials", "true");
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
             int pageNum = 1;
             try {
                 pageNum = Integer.parseInt(ctx.queryParam("page"));

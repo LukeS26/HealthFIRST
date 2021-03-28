@@ -13,7 +13,7 @@ function displayChallenge(title, body, date, id) {
 	let html = "";
 	
 	html += `<h3> ${title} </h3>`;
-	html += `<p> End: ${dateFormatted} </p>`
+	html += `<p> Ends ${dateFormatted} </p>`
 	html += `<p> ${body} </p>`;
 	html += `<button class="challengeButton" onClick="finishChallenge('${id}')"> Complete Challenge </button>`
 

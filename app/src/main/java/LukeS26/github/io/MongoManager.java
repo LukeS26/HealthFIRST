@@ -171,7 +171,7 @@ public class MongoManager {
 
     public Document findCurrentChallenge() {
         MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
-        return challengesCollection.find().first();
+        return challengesCollection.find().sort(Sorts.descending("date")).first();
     }
 
     public void completeChallenge(int challengeId, Account account) {

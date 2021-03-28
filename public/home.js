@@ -22,7 +22,7 @@ function getPosts(url) {
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then(function (json) {
-			displayPost(json, url);
+			displayPost(json, url, false);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -31,7 +31,7 @@ function getPosts(url) {
 		});
 }
 
-function displayPost(post, id) {
+function displayPost(post, id, top) {
 	let html = "";
 	let container = document.createElement("div");
 	container.className = "postContainer";
@@ -79,7 +79,11 @@ function displayPost(post, id) {
 	html += `<h6 class='postDate'>${date}</h6>`
 	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
 	container.innerHTML += html;
-	document.getElementById("posts").appendChild(container);
+	if (top) {
+		document.getElementById("posts").prepend(container);
+	} else {
+		document.getElementById("posts").appendChild(container);
+	}
 	postCount++;
 }
 
@@ -97,7 +101,7 @@ function loadPage(page) {
 
 		for(let i = 0; i < json["feed"].length; i++) {
 			//console.log(json["feed"][i]);
-			displayPost(json["feed"][i], json["feed"][i]["_id"]["$oid"])
+			displayPost(json["feed"][i], json["feed"][i]["_id"]["$oid"], false)
 		}
 
 		if(document.getElementById("loadingPost")) {
@@ -150,7 +154,7 @@ function makePost(title, body) {
 			author: getCookie("username"),
 			date: 0
 		}
-		displayPost(postData, text);
+		displayPost(postData, text, true);
 	})
 	.catch(err => {
 		console.error(err);

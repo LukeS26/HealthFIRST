@@ -3,7 +3,7 @@ let blurColor;
 let blurOpen = false;
 let imgUrl = "";
 
-let url = "http://157.230.233.218:8080/api/account/";
+let url = "http://157.230.233.218:8080/api/account";
 fetch(url, {
 	method: "GET",
 	mode: "cors",

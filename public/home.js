@@ -18,7 +18,7 @@ function getCookie(name) {
 }
 
 function getPosts(url) {
-	let fetchUrl = "http://healthfirst4342.tk:8080/api/posts/" + url;
+	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then(function (json) {
@@ -55,7 +55,7 @@ function displayPost(post, id, top) {
 	// 	}
 	// 	userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${cookie}" height="30px" width="30px"></div>`;
 	// } else {
-	// 	fetch(`http://healthfirst4342.tk:8080/api/account/${post.author}`)
+	// 	fetch(`http://157.230.233.218:8080/api/account/${post.author}`)
 	// 		.then(res => res.json())
 	// 		.then(function (json) {
 	// 			document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
@@ -94,7 +94,7 @@ function loadPost(id) {
 //getPosts("602878639903f175355bd339");
 
 function loadPage(page) {
-	fetch("http://healthfirst4342.tk:8080/api/posts/feed?page=" + page)
+	fetch("http://157.230.233.218:8080/api/posts/feed?page=" + page)
 	.then(res => res.json())
 	.then(function(json) { 
 
@@ -123,26 +123,26 @@ function collectPostInfo() {
 }
 
 function deleteAccount(username) {
-	fetch("http://healthfirst4342.tk:8080/api/account/" + username, {
+	fetch("http://157.230.233.218:8080/api/account/" + username, {
 		method: "DELETE",
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://healthfirst4342.tk"
+			"Origin": "http://157.230.233.218"
 		}
 	});
 }
 
 function makePost(title, body) {
-	fetch("http://healthfirst4342.tk:8080/api/posts", {
+	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
 		body: JSON.stringify({"title":title, "body": body}),
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://healthfirst4342.tk"
+			"Origin": "http://157.230.233.218"
 		}
 	})
 	.then(res => res.text())

@@ -42,7 +42,8 @@ public class MongoManager {
 
     public void deleteComment(String commentID) {
         MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
-        commentsCollection.updateOne(Filters.eq("_id", commentID), new Document("$set", new Document("author", "[Removed]").append("body", "[Removed]")));
+        commentsCollection.updateOne(Filters.eq("_id", commentID),
+                new Document("$set", new Document("author", "[Removed]").append("body", "[Removed]")));
     }
 
     // #region Comments
@@ -91,7 +92,8 @@ public class MongoManager {
 
     public void deletePost(Document post) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
-        postCollection.findOneAndUpdate(Filters.eq("_id", post.get("_id")), new Document("$set", new Document("title", "[Removed]").append("author", "[Removed]").append("body", "[Removed]")));
+        postCollection.findOneAndUpdate(Filters.eq("_id", post.get("_id")), new Document("$set",
+                new Document("title", "[Removed]").append("author", "[Removed]").append("body", "[Removed]")));
     }
 
     public void writePost(Post post) {
@@ -114,6 +116,23 @@ public class MongoManager {
             }
 
         } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public FindIterable<Document> getChallengeFeed(int pageNumber) {
+        MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
+        try {
+            // TODO: For some reason this is making 0 and 1 equal
+            FindIterable<Document> challengeDocs = challengesCollection.find().sort(Sorts.descending("date"))
+                    .skip(Settings.CHALLENGES_PER_PAGE * pageNumber).limit(Settings.CHALLENGES_PER_PAGE);
+            if (challengeDocs != null) {
+                return challengeDocs;
+            }
+
+        } catch (Exception e) {
             System.out.println(e);
         }
 
@@ -190,8 +209,10 @@ public class MongoManager {
         MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         MongoCollection<Document> accountsCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
 
-        postsCollection.updateMany(Filters.eq("author", username), new Document("$set", new Document("title", "[Removed]").append("author", "[Removed]").append("body", "[Removed]")));
-        commentsCollection.updateMany(Filters.eq("author", username), new Document("$set", new Document("author", "[Removed]").append("body", "[Removed]")));
+        postsCollection.updateMany(Filters.eq("author", username), new Document("$set",
+                new Document("title", "[Removed]").append("author", "[Removed]").append("body", "[Removed]")));
+        commentsCollection.updateMany(Filters.eq("author", username),
+                new Document("$set", new Document("author", "[Removed]").append("body", "[Removed]")));
         accountsCollection.deleteOne(Filters.eq("username", username));
     }
 

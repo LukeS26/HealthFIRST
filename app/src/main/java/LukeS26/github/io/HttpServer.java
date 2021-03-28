@@ -153,6 +153,21 @@ public class HttpServer {
             ctx.result(challengeDoc.toJson());
             ctx.status(HttpStatus.OK_200);
         });
+
+        app.get("/api/challenges/feed", ctx -> {
+            int pageNum = 1;
+            try {
+                pageNum = Integer.parseInt(ctx.queryParam("page"));
+
+            } catch (Exception e) {
+            }
+
+            FindIterable<Document> feed = mongoManager.getChallengeFeed(pageNum);
+            Document feedDoc = new Document("feed", feed);
+
+            ctx.result(feedDoc.toJson());
+            ctx.status(HttpStatus.OK_200);
+        });
         // #endregion
 
         // #region Comments

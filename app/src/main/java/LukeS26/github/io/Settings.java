@@ -26,4 +26,5 @@ public class Settings {
    public static final String BOMB_LOCATION = "/root/LukeS26.github.io/response.gzip";
 
    public static final int POSTS_PER_PAGE = 10;
+   public static final int CHALLENGES_PER_PAGE = 5;
 }

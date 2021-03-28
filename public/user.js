@@ -43,6 +43,18 @@ function loadProfile(json) {
 		document.getElementById("userBio").innerHTML = formatText(json.biography);
 	}
 
-	let badges = [...new Set(json.badge_ids)]
-	console.log(badges);
+	let badges = [...new Set(json.badge_ids)];
+	
+	for(let i = 0; i < badges.length; i++) {
+		document.getElementById("badges").innerHTML += `<img src="${getImg(id)}" width="20px" height="20px">`;
+	}
+}
+
+function getImg(id) {
+	switch(id) {
+		case 0:
+			return "/badges/nature1.png";
+		case 1:
+			return "/badges/exercise1.png";
+	}
 }

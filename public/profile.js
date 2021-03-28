@@ -3,8 +3,16 @@ let blurColor;
 let blurOpen = false;
 let imgUrl = "";
 
-let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
-fetch(url)
+let url = "http://157.230.233.218:8080/api/account/";
+fetch(url, {
+	method: "GET",
+	mode: "cors",
+	headers: {
+		"Content-type": "application/json; charset=UTF-8",
+		"Authorization": getCookie("token"),
+		"Origin": "http://healthfirst4342.tk/"
+	}
+})
 		.then(res => res.json())
 		.then(json => {
 			generateHTML(json);

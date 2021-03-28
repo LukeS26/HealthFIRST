@@ -1,5 +1,5 @@
 function getProfile(name) {
-	fetch(`http://157.230.233.218:8080/api/account/${name}`)
+	fetch(`http://healthfirst4342.tk:8080/api/account/${name}`)
 		.then(res => res.json())
 		.then(function (json) { loadProfile(json) });
 }

@@ -11,7 +11,7 @@ let id = getUrlVars()["id"];
 let comments = [];
 
 function getPost(url) {
-	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
+	let fetchUrl = "http://healthfirst4342.tk:8080/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then(function (json) {
@@ -24,7 +24,7 @@ function getPost(url) {
 }
 
 function getComments(url) {
-	let fetchUrl = "http://157.230.233.218:8080/api/comments/" + url;
+	let fetchUrl = "http://healthfirst4342.tk:8080/api/comments/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then(function (json) {
@@ -143,7 +143,7 @@ function openCommentField(el, cid) {
 }
 
 function makeComment(commentId, body) {
-	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
+	let fetchUrl = "http://healthfirst4342.tk:8080/api/comments/";
 	fetch(fetchUrl, {
 		method: "POST",
 		body: JSON.stringify({ "reply_to_id": { "$oid": commentId }, "body": body, "post_id": id }),
@@ -151,13 +151,13 @@ function makeComment(commentId, body) {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://157.230.233.218"
+			"Origin": "http://healthfirst4342.tk"
 		}
 	});
 }
 
 function makeCommentOnPost(body) {
-	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
+	let fetchUrl = "http://healthfirst4342.tk:8080/api/comments/";
 	fetch(fetchUrl, {
 		method: "POST",
 		body: JSON.stringify({ "body": body, "post_id": id }),
@@ -165,7 +165,7 @@ function makeCommentOnPost(body) {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://157.230.233.218"
+			"Origin": "http://healthfirst4342.tk"
 		}
 	});
 }

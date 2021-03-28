@@ -74,15 +74,6 @@ public class HttpServer {
             e.printStackTrace();
         }
         System.out.println("Finished loading GZip bomb.");
-
-        Challenge c = new Challenge();
-        c.challengeId = 1;
-        c.title = "Weekly Challenge #1";
-        c.body = "At least 30 minutes of walking, running, or biking each day\nFive sets of ten push-ups, sit-ups, and squats each day";
-        c.startDate = new Date();
-        Calendar endDate = Calendar.getInstance();
-        endDate.set(2021, 3, 30);
-        c.endDate = endDate.getTime();
     }
 
     public void start() {

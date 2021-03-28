@@ -55,7 +55,7 @@ function displayPost(post, id, top) {
 	// 	}
 	// 	userImg = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${cookie}" height="30px" width="30px"></div>`;
 	// } else {
-	// 	fetch(`http://healthfirst4342.tk:8080/api/account/${post.author}`)
+	// 	fetch(`http://157.230.233.218:8080/api/account/${post.author}`)
 	// 		.then(res => res.json())
 	// 		.then(function (json) {
 	// 			document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
@@ -129,7 +129,7 @@ function deleteAccount(username) {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://healthfirst4342.tk"
+			"Origin": "http://157.230.233.218"
 		}
 	});
 }
@@ -142,7 +142,7 @@ function makePost(title, body) {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://healthfirst4342.tk"
+			"Origin": "http://157.230.233.218"
 		}
 	})
 	.then(res => res.text())

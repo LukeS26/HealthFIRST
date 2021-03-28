@@ -129,7 +129,7 @@ function deleteAccount(username) {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://157.230.233.218"
+			"Origin": "http://healthfirst4342.tk/"
 		}
 	});
 }
@@ -142,7 +142,7 @@ function makePost(title, body) {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://157.230.233.218"
+			"Origin": "http://healthfirst4342.tk/"
 		}
 	})
 	.then(res => res.text())

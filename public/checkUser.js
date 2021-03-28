@@ -16,7 +16,7 @@ if (getCookie("accepted") !== "true") {
 	let data = {}
 	let currToken = getCookie("token");
 
-	fetch("http://157.230.233.218:8080/api/token/verify", {
+	fetch("http://healthfirst4342.tk:8080/api/token/verify", {
 		method: "POST",
 		body: JSON.stringify(data),
 		mode: "cors",

@@ -1,5 +1,7 @@
 package LukeS26.github.io;
 
+import java.util.List;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -174,6 +176,7 @@ public class MongoManager {
         return challengesCollection.find().sort(Sorts.descending("date")).first();
     }
 
+    @SuppressWarnings("unchecked")
     public void completeChallenge(int challengeId, Account account) {
         account.badgeIDs.add(challengeId);
 
@@ -182,6 +185,15 @@ public class MongoManager {
         updateDoc.put("badge_ids", account.badgeIDs);
 
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
+        Document accountDoc = accountCollection.find(Filters.eq("username", account.username)).first();
+        if (accountDoc == null) {
+            return;
+        }
+
+        if (((List<Integer>) accountDoc.get("badge_ids")).contains(challengeId)) {
+            return;
+        }
+
         accountCollection.updateOne(Filters.eq("username", account.username), new Document("$set", updateDoc));
     }
 

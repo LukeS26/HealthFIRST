@@ -142,8 +142,9 @@ function makePost(title, body) {
 			"Origin": "http://157.230.233.218"
 		}
 	})
-	.then(res => {
-		console.log(res.text());
+	.then(res => res.text())
+	.then(text => {
+		console.log(text);
 	})
 	.catch(err => {
 		console.error(err);

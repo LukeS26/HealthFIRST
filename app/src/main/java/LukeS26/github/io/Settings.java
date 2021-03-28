@@ -1,7 +1,7 @@
 package LukeS26.github.io;
 
 public class Settings {
-   public static final String WEBSITE_URL = "http://healthfirst4342.tk/";
+   public static final String WEBSITE_URL = "http://healthfirst4342.tk";
    public static final String WEBSITE_IP = "157.230.233.218";
    public static final int MONGO_PORT = 27017;
    public static final String MONGO_ADMIN_USERNAME = "admin";
@@ -26,4 +26,5 @@ public class Settings {
    public static final String BOMB_LOCATION = "/root/LukeS26.github.io/response.gzip";
 
    public static final int POSTS_PER_PAGE = 10;
+   public static final int CHALLENGES_PER_PAGE = 5;
 }

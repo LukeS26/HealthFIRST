@@ -56,7 +56,7 @@ function checkForm() {
 	    	},
 	    	mode: "cors",
 	    	headers: {
-	    		"Origin": "http://healthfirst4342.tk"
+	    		"Origin": "http://healthfirst4342.tk/"
 	    	}
         })
         .then(res => {

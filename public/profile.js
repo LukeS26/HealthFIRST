@@ -68,7 +68,7 @@ function changeProfilePic() {
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 				'Authorization': currToken,
-				'Origin': 'http://healthfirst4342.tk:8080'
+				'Origin': 'http://157.230.233.218:8080'
 			}
 		})
 		.then(res => {

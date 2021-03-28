@@ -151,7 +151,7 @@ function makeComment(commentId, body) {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://healthfirst4342.tk"
+			"Origin": "http://healthfirst4342.tk/"
 		}
 	});
 }
@@ -165,7 +165,7 @@ function makeCommentOnPost(body) {
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
 			"Authorization": getCookie("token"),
-			"Origin": "http://healthfirst4342.tk"
+			"Origin": "http://healthfirst4342.tk/"
 		}
 	});
 }

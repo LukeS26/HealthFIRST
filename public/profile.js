@@ -3,7 +3,7 @@ let blurColor;
 let blurOpen = false;
 let imgUrl = "";
 
-let url = "http://healthfirst4342.tk:8080/api/account/" + getCookie("username");
+let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
 fetch(url)
 		.then(res => res.json())
 		.then(json => {
@@ -61,7 +61,7 @@ function changeProfilePic() {
 		};
 		let currToken = getCookie("token");
 	
-		fetch("http://healthfirst4342.tk:8080/api/account/", {
+		fetch("http://157.230.233.218:8080/api/account/", {
 			method: "PATCH",
 			body: JSON.stringify(data),
 			mode: "cors",

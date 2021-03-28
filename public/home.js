@@ -18,7 +18,7 @@ function getCookie(name) {
 }
 
 function getPosts(url) {
-	let fetchUrl = "http://healthfirst4342.tk:8080/api/posts/" + url;
+	let fetchUrl = "http://157.230.233.218:8080/api/posts/" + url;
 	fetch(fetchUrl)
 		.then(res => res.json())
 		.then(function (json) {
@@ -94,7 +94,7 @@ function loadPost(id) {
 //getPosts("602878639903f175355bd339");
 
 function loadPage(page) {
-	fetch("http://healthfirst4342.tk:8080/api/posts/feed?page=" + page)
+	fetch("http://157.230.233.218:8080/api/posts/feed?page=" + page)
 	.then(res => res.json())
 	.then(function(json) { 
 
@@ -123,7 +123,7 @@ function collectPostInfo() {
 }
 
 function deleteAccount(username) {
-	fetch("http://healthfirst4342.tk:8080/api/account/" + username, {
+	fetch("http://157.230.233.218:8080/api/account/" + username, {
 		method: "DELETE",
 		mode: "cors",
 		headers: {
@@ -135,7 +135,7 @@ function deleteAccount(username) {
 }
 
 function makePost(title, body) {
-	fetch("http://healthfirst4342.tk:8080/api/posts", {
+	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
 		body: JSON.stringify({"title":title, "body": body}),
 		mode: "cors",

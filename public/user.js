@@ -44,9 +44,10 @@ function loadProfile(json) {
 	}
 
 	let badges = [...new Set(json.badge_ids)];
-	
+	badges.sort();
+
 	for(let i = 0; i < badges.length; i++) {
-		document.getElementById("badges").innerHTML += `<img src="${getImg(badges[i])}" width="30px" height="30px">`;
+		document.getElementById("badges").innerHTML += `<img src="${getImg(badges[i])}" alt="${getTitle(getTitle(badges[i]))}" title="${getTitle(badges[i])}" width="30px" height="30px">`;
 	}
 }
 
@@ -56,5 +57,14 @@ function getImg(id) {
 			return "/badges/nature1.png";
 		case 1:
 			return "/badges/exercise1.png";
+	}
+}
+
+function getTitle(id) {
+	switch(id) {
+		case 0:
+			return "Walked 30 Minutes";
+		case 1:
+			return "Squats, Situps, and Pushups";
 	}
 }

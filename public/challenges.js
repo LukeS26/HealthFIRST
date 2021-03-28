@@ -16,7 +16,7 @@ function displayChallenge(title, body, date) {
 	html += `<p> End: ${dateFormatted} </p>`
 	html += `<p> ${body} </p>`;
 
-	shell += `<div class="postContainer"> ${html} </div>`
+	shell.innerHTML += `<div class="postContainer"> ${html} </div>`
 }
 
 let page = 0;

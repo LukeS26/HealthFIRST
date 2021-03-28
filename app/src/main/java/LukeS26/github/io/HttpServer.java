@@ -130,18 +130,6 @@ public class HttpServer {
             ctx.status(HttpStatus.NO_CONTENT_204);
         });
 
-        app.get("/api/challenges/*", ctx -> {
-            ctx.header("Access-Control-Allow-Headers", "Authorization");
-            ctx.header("Access-Control-Allow-Credentials", "true");
-            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
-
-            Document challengeDoc = mongoManager.findChallengeById(Integer.parseInt(ctx.splat(0)));
-            challengeDoc.remove("_id");
-
-            ctx.result(challengeDoc.toJson());
-            ctx.status(HttpStatus.OK_200);
-        });
-
         app.get("/api/challenges", ctx -> {
             ctx.header("Access-Control-Allow-Headers", "Authorization");
             ctx.header("Access-Control-Allow-Credentials", "true");

@@ -150,6 +150,11 @@ public class MongoManager {
         return null;
     }
 
+    public Document findCurrentChallenge() {
+        MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
+        return challengesCollection.find().first();
+    }
+
     public void completeChallenge(int challengeId, Account account) {
         account.badgeIDs.add(challengeId);
 

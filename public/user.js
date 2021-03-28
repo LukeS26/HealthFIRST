@@ -47,7 +47,7 @@ function loadProfile(json) {
 	badges.sort();
 
 	for(let i = 0; i < badges.length; i++) {
-		document.getElementById("badges").innerHTML += `<img src="${getImg(badges[i])}" alt="${getTitle(getTitle(badges[i]))}" title="${getTitle(badges[i])}" width="30px" height="30px">`;
+		document.getElementById("badges").innerHTML += `<img src="${getImg(badges[i])}" alt="${getTitle(badges[i])}" title="${getTitle(badges[i])}" width="30px" height="30px">`;
 	}
 }
 

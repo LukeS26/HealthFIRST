@@ -154,6 +154,8 @@ function makePost(title, body) {
 			date: {$date: new Date().getTime()}
 		}
 		displayPost(postData, text, true);
+		document.getElementById("postTitle").value = "";
+		document.getElementById("postBody").value = "";
 	})
 	.catch(err => {
 		console.error(err);

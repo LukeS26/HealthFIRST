@@ -39,3 +39,8 @@ if (getCookie("accepted") !== "true") {
 		console.log("Request failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	});
 }
+
+fetch("http://healthfirst4342.tk:8080/api/account/" + getCookie("username"))
+.then(res => res.json())
+.then(json => console.log(json))
+.catch(err => console.error(err));

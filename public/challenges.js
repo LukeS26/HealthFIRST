@@ -2,7 +2,7 @@ function getChallenges(page) {
 	fetch(`http://157.230.233.218:8080/api/challenges/feed?page=${page}`)
 	.then(res => res.json()).then(function(json) {
 		for(let i = 0; i < json["feed"].length; i++) {
-			displayChallenge(json["feed"][i]["title"], json["feed"][i]["body"], json["feed"][i]["end_date"], json["feed"][i]["_id"]["$oid"]);
+			displayChallenge(json["feed"][i]["title"], json["feed"][i]["body"], json["feed"][i]["end_date"], json["feed"][i]["challenge_id"]);
 		}
 	});
 }

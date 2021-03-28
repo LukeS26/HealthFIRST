@@ -44,6 +44,6 @@ function loadProfile(json) {
 	}
 
 	let badges = sort(json.badge_ids);
-	let badges = [...new Set(badges)]
+	badges = [...new Set(badges)]
 	console.log(badges);
 }

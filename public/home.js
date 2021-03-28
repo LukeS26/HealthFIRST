@@ -42,7 +42,6 @@ function displayPost(post, id, top) {
 	if (body.length === 500) {
 		body += "...";
 	}
-	console.log(post.date.$date);
 	let dateRaw = new Date(post.date.$date);
 	let date = dateRaw.toLocaleString();
 
@@ -152,7 +151,7 @@ function makePost(title, body) {
 			body: body,
 			title: title,
 			author: getCookie("username"),
-			date: 0
+			date: new Date().getTime()
 		}
 		displayPost(postData, text, true);
 	})

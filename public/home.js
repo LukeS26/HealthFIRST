@@ -151,7 +151,7 @@ function makePost(title, body) {
 			body: body,
 			title: title,
 			author: getCookie("username"),
-			date: new Date().getTime()
+			date: {$date: new Date().getTime()}
 		}
 		displayPost(postData, text, true);
 	})

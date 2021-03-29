@@ -206,6 +206,7 @@ function setBlurColor() {
 
 }
 function formatText(text) {
+	text = text.split("\n").join("<br>");
 	text = text.split(" ");
 	text = text.join("&nbsp;")
 	text = text.split("**");

@@ -74,12 +74,12 @@ function displayComments() {
  * Sets the post fields to display a post
  * @param vals json of post data
  */
-async function displayPost(vals) {
+function displayPost(vals) {
 	document.getElementById("title").innerHTML = vals.title;
 	document.getElementById("author").innerHTML = vals.author;
 	document.getElementById("author").href = "/user.html?" + vals.author;
 	document.getElementById("date").innerHTML = new Date(vals.date.$date).toLocaleString();
-	document.getElementById("body").innerHTML = await formatText(vals.body);
+	document.getElementById("body").innerHTML = formatText(vals.body);
 
 	document.getElementById("loadingPost").remove();
 }
@@ -112,9 +112,9 @@ function formatReplies(replyArr) {
  * @param user Username of the author
  * @param cid Id of the comment, used for replies
 */
-async function load(reply, number, user, cid) {
+function load(reply, number, user, cid) {
 	date = "DATE HERE"
-	let comment = `<div class="commentDisplay" name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${await formatText(reply)} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
+	let comment = `<div class="commentDisplay" name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${formatText(reply)} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative;"> Reply </button> </div> </div> `
 
 	let shell = document.getElementById("comments");
 
@@ -181,30 +181,30 @@ function makeCommentOnPost(body) {
 }
 
 async function formatText(text) {
-	let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
-	let json = await response.text();
+	// let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
+	// let json = await response.text();
 
-	return json;
-	// text = text.split("\n").join("<br>");
-	// text = text.split(" ");
-	// text = text.join("&nbsp;")
-	// text = text.split("**");
+	// return json;
+	text = text.split("\n").join("<br>");
+	text = text.split(" ");
+	text = text.join("&nbsp;")
+	text = text.split("**");
 
-	// for (let i = 0; i < text.length; i++) {
-	// 	if (i % 2 != 0) {
-	// 		text[i] = "<b>" + text[i] + "</b>"
-	// 	}
-	// }
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<b>" + text[i] + "</b>"
+		}
+	}
 
-	// text = text.join("").split("*");
+	text = text.join("").split("*");
 
-	// for (let i = 0; i < text.length; i++) {
-	// 	if (i % 2 != 0) {
-	// 		text[i] = "<i>" + text[i] + "</i>"
-	// 	}
-	// }
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<i>" + text[i] + "</i>"
+		}
+	}
 
-	// return text.join("");
+	return text.join("");
 }
 
 getPost(id);

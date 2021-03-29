@@ -31,7 +31,7 @@ function getPosts(url) {
 		});
 }
 
-async function displayPost(post, id, top) {
+function displayPost(post, id, top) {
 	let html = "";
 	let container = document.createElement("div");
 	container.className = "postContainer";
@@ -76,7 +76,7 @@ async function displayPost(post, id, top) {
 	//<span id="postImg${postCount}">${userImg}</span>
 	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span style="padding-left: 5px">${post.author}<span></a>`;
 	html += `<h6 class='postDate'>${date}</h6>`
-	html += `<p class='postBody'>${await formatText(body)}</p> </div>`;
+	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
 	container.innerHTML += html;
 	if (top) {
 		document.getElementById("posts").prepend(container);
@@ -206,31 +206,31 @@ function setBlurColor() {
 
 }
 
-async function formatText(text) {
-	let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
-	let json = await response.text();
+function formatText(text) {
+	// let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
+	// let json = await response.text();
 
-	return json;
-	// text = text.split("\n").join("<br>");
-	// text = text.split(" ");
-	// text = text.join("&nbsp;")
-	// text = text.split("**");
+	// return json;
+	text = text.split("\n").join("<br>");
+	text = text.split(" ");
+	text = text.join("&nbsp;")
+	text = text.split("**");
 
-	// for (let i = 0; i < text.length; i++) {
-	// 	if (i % 2 != 0) {
-	// 		text[i] = "<b>" + text[i] + "</b>"
-	// 	}
-	// }
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<b>" + text[i] + "</b>"
+		}
+	}
 
-	// text = text.join("").split("*");
+	text = text.join("").split("*");
 
-	// for (let i = 0; i < text.length; i++) {
-	// 	if (i % 2 != 0) {
-	// 		text[i] = "<i>" + text[i] + "</i>"
-	// 	}
-	// }
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<i>" + text[i] + "</i>"
+		}
+	}
 
-	// return text.join("");
+	return text.join("");
 }
 
 /*

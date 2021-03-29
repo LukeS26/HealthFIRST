@@ -1,5 +1,6 @@
 package LukeS26.github.io;
 
+import java.util.Date;
 import java.util.List;
 
 import com.mongodb.MongoClient;
@@ -191,6 +192,17 @@ public class MongoManager {
         }
 
         if (((List<Integer>) accountDoc.get("badge_ids")).contains(challengeId)) {
+            return;
+        }
+
+
+        MongoCollection<Document> challengeCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
+        Document challengeDoc = challengeCollection.find(Filters.eq("challenge_id", challengeId)).first();
+        if (challengeDoc == null) {
+            return;
+        }
+
+        if (((Date) challengeDoc.get("end_date")).before(new Date())) {
             return;
         }
 

@@ -205,3 +205,14 @@ function formatText(text) {
 	
 	return text.join("");
 }
+
+/* 
+function foo() {
+
+    // your function code here
+
+    setTimeout(foo, 5000);
+}
+
+foo();
+*/

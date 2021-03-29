@@ -363,6 +363,29 @@ body {
     background-color: white;
 }
 
+.challengeButtonFinished {
+    color: white;
+    background-color: #04C;
+    border: 2px solid #04C;
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.challengeButtonFinished:hover {
+    color:#0044CC;
+    border-color: #0044CC;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.challengeContainerFinished {
+    border: 2px gray solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
 .badges {
     padding: 5px;
 }

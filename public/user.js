@@ -54,11 +54,11 @@ function loadProfile(json) {
 function getImg(id) {
 	switch(id) {
 		case -1:
-			return "dev.png"
+			return "developer.png"
 		case 0:
-			return "nature1.png";
+			return "nature0.png";
 		case 1:
-			return "exercise1.png";
+			return "exercise0.png";
 	}
 }
 

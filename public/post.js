@@ -180,7 +180,7 @@ function makeCommentOnPost(body) {
 	}
 }
 
-function formatText(text) {
+async function formatText(text) {
 	let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
 	let json = await response.text();
 

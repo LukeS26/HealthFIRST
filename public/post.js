@@ -181,26 +181,28 @@ function makeCommentOnPost(body) {
 }
 
 function formatText(text) {
-	text = text.split("\n").join("<br>");
-	text = text.split(" ");
-	text = text.join("&nbsp;")
-	text = text.split("**");
+	fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } ).then(res => res.text()).then(function(json) {return (json)})
 
-	for (let i = 0; i < text.length; i++) {
-		if (i % 2 != 0) {
-			text[i] = "<b>" + text[i] + "</b>"
-		}
-	}
+	// text = text.split("\n").join("<br>");
+	// text = text.split(" ");
+	// text = text.join("&nbsp;")
+	// text = text.split("**");
 
-	text = text.join("").split("*");
+	// for (let i = 0; i < text.length; i++) {
+	// 	if (i % 2 != 0) {
+	// 		text[i] = "<b>" + text[i] + "</b>"
+	// 	}
+	// }
 
-	for (let i = 0; i < text.length; i++) {
-		if (i % 2 != 0) {
-			text[i] = "<i>" + text[i] + "</i>"
-		}
-	}
+	// text = text.join("").split("*");
 
-	return text.join("");
+	// for (let i = 0; i < text.length; i++) {
+	// 	if (i % 2 != 0) {
+	// 		text[i] = "<i>" + text[i] + "</i>"
+	// 	}
+	// }
+
+	// return text.join("");
 }
 
 getPost(id);

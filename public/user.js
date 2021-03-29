@@ -47,21 +47,25 @@ function loadProfile(json) {
 	badges.sort();
 
 	for(let i = 0; i < badges.length; i++) {
-		document.getElementById("badges").innerHTML += `<img src="${getImg(badges[i])}" alt="${getTitle(badges[i])}" title="${getTitle(badges[i])}" width="30px" height="30px">`;
+		document.getElementById("badges").innerHTML += `<img src="/badges/${getImg(badges[i])}" alt="${getTitle(badges[i])}" title="${getTitle(badges[i])}" width="30px" height="30px">`;
 	}
 }
 
 function getImg(id) {
 	switch(id) {
+		case -1:
+			return "dev.png"
 		case 0:
-			return "/badges/nature1.png";
+			return "nature1.png";
 		case 1:
-			return "/badges/exercise1.png";
+			return "exercise1.png";
 	}
 }
 
 function getTitle(id) {
 	switch(id) {
+		case -1:
+			return "Developer";
 		case 0:
 			return "Walked 30 Minutes";
 		case 1:

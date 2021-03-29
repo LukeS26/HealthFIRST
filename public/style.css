@@ -365,17 +365,10 @@ body {
 
 .challengeButtonFinished {
     color: white;
-    background-color: #04C;
-    border: 2px solid #04C;
+    background-color: #4A4A4A;
+    border: 2px solid #4A4A4A;
     padding: 10px;
     border-radius: 25px;
-}
-
-.challengeButtonFinished:hover {
-    color:#0044CC;
-    border-color: #0044CC;
-    background-color: #FFFFFF;
-    cursor: pointer;
 }
 
 .challengeContainerFinished {
@@ -383,7 +376,7 @@ body {
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 20px;
-    background-color: white;
+    background-color: #cfcfcf;
 }
 
 .badges {

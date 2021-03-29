@@ -129,13 +129,13 @@ function load(reply, number, user, cid) {
 function openCommentField(el, cid) {
 	if (cid == null && el.parentElement.parentElement.childElementCount < 2) {
 		//REPLYING TO POST
-		let commentField = `<div class="commentInputField"> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
+		let commentField = `<div class="commentInputField"> <input placeholder="Comment" id="inputField${cid}"> <div id="commentTooLong" class="error">Your comment is over 1500 characters long</div><br> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
 		document.getElementById(`inputField${cid}`).focus();
 	} else if (cid != null && el.parentElement.parentElement.childElementCount < 4) {
 		//REPLYING TO COMMENT
-		let commentField = `<div class="commentInputField"> <input placeholder="Comment" id="inputField${cid}"> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
+		let commentField = `<div class="commentInputField"> <input placeholder="Comment" id="inputField${cid}"> <div id="commentTooLong${cid}" class="error">Your comment is over 1500 characters long</div><br> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value); this.parentElement.remove()"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
 		document.getElementById(`inputField${cid}`).focus();
@@ -143,31 +143,41 @@ function openCommentField(el, cid) {
 }
 
 function makeComment(commentId, body) {
-	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
-	fetch(fetchUrl, {
-		method: "POST",
-		body: JSON.stringify({ "reply_to_id": { "$oid": commentId }, "body": body, "post_id": id }),
-		mode: "cors",
-		headers: {
-			"Content-type": "application/json; charset=UTF-8",
-			"Authorization": getCookie("token"),
-			"Origin": "http://healthfirst4342.tk/"
-		}
-	});
+	if (body.length <= 1500) {
+		document.getElementById(`commentTooLong${commentId}`).style.display = "none";
+		let fetchUrl = "http://157.230.233.218:8080/api/comments/";
+		fetch(fetchUrl, {
+			method: "POST",
+			body: JSON.stringify({ "reply_to_id": { "$oid": commentId }, "body": body, "post_id": id }),
+			mode: "cors",
+			headers: {
+				"Content-type": "application/json; charset=UTF-8",
+				"Authorization": getCookie("token"),
+				"Origin": "http://healthfirst4342.tk/"
+			}
+		});
+	} else {
+		document.getElementById(`commentTooLong${commentId}`).style.display = "block";
+	}
 }
 
 function makeCommentOnPost(body) {
-	let fetchUrl = "http://157.230.233.218:8080/api/comments/";
-	fetch(fetchUrl, {
-		method: "POST",
-		body: JSON.stringify({ "body": body, "post_id": id }),
-		mode: "cors",
-		headers: {
-			"Content-type": "application/json; charset=UTF-8",
-			"Authorization": getCookie("token"),
-			"Origin": "http://healthfirst4342.tk/"
-		}
-	});
+	if (body.length <= 1500) {
+		document.getElementById("commentTooLong").style.display = "none";
+		let fetchUrl = "http://157.230.233.218:8080/api/comments/";
+		fetch(fetchUrl, {
+			method: "POST",
+			body: JSON.stringify({ "body": body, "post_id": id }),
+			mode: "cors",
+			headers: {
+				"Content-type": "application/json; charset=UTF-8",
+				"Authorization": getCookie("token"),
+				"Origin": "http://healthfirst4342.tk/"
+			}
+		});
+	} else {
+		document.getElementById("commentTooLong").style.display = "block";
+	}
 }
 
 function formatText(text) {
@@ -175,10 +185,10 @@ function formatText(text) {
 	text = text.join("&nbsp;")
 	text = text.split("**");
 
-	for(let i = 0; i < text.length; i++) {
-		if(i % 2 != 0) {
-	  text[i] = "<b>" + text[i] + "</b>"
-	}
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<b>" + text[i] + "</b>"
+		}
 	}
 
 	text = text.join("").split("*");
@@ -188,7 +198,7 @@ function formatText(text) {
 			text[i] = "<i>" + text[i] + "</i>"
 		}
 	}
-	
+
 	return text.join("");
 }
 

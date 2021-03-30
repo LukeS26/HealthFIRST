@@ -129,13 +129,13 @@ function load(reply, number, user, cid) {
 function openCommentField(el, cid) {
 	if (cid == null && el.parentElement.parentElement.childElementCount < 2) {
 		//REPLYING TO POST
-		let commentField = `<div class="commentInputField"> <input placeholder="Comment" id="inputField${cid}"> <div id="commentTooLong" class="error">Your comment is over 1500 characters long</div><br> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value, this.parentElement);"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
+		let commentField = `<div class="commentInputField"> <textarea placeholder="Comment" class="commentField id="inputField${cid}"> </textarea> <div id="commentTooLong" class="error">Your comment is over 1500 characters long</div><br> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value, this.parentElement);"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
 		document.getElementById(`inputField${cid}`).focus();
 	} else if (cid != null && el.parentElement.parentElement.childElementCount < 4) {
 		//REPLYING TO COMMENT
-		let commentField = `<div class="commentInputField"> <input placeholder="Comment" id="inputField${cid}"> <div id="commentTooLong${cid}" class="error">Your comment is over 1500 characters long</div><br> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value, this.parentElement);"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
+		let commentField = `<div class="commentInputField"> <textarea placeholder="Comment" class="commentField" id="inputField${cid}"> </textarea> <div id="commentTooLong${cid}" class="error">Your comment is over 1500 characters long</div><br> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value, this.parentElement);"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
 		document.getElementById(`inputField${cid}`).focus();

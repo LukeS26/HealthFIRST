@@ -418,3 +418,9 @@ body {
     width: 50%;
     margin-left: 25px;
 }
+
+.commentField {
+    width: 852px;
+    height: 50px;
+    border-radius: 5px;
+}

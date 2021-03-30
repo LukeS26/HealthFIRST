@@ -1,5 +1,6 @@
 .coolForm{
     text-align: center;
+    justify-content: center;
 }
 .coolForm div{
     margin: auto;
@@ -23,15 +24,16 @@
 .coolForm input:focus ~ .line {
     width: 254px;
 }
+
 .coolFormCheckBox {
-    white-space: none;
+    width: 400px;
 }
-.coolFormCheckBox > * {
-    display: inline-block;
-    margin-left: -5%;
+.coolFormCheckBox * {
+    display: inline-flex;
+    justify-content: center;
 }
-.coolFormCheckBox div {
-    margin-left: -8%;
+.coolFormCheckBox input {
+    width: 40px;
 }
 
 .formLink {

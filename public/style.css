@@ -416,6 +416,5 @@ body {
 
 .repo-container {
     width: 50%;
-    left: 25px;
-    position: absolute;
+    margin-left: 25px;
 }

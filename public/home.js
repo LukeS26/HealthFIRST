@@ -62,12 +62,12 @@ function displayPost(post, id, top) {
 	// 		});
 	// }
 	if (post.author === getCookie("username") || getCookie("level") > 0) {
-		html += `<span onClick="deletePost(${id})" class="postOptions">`;
+		html += `<span onClick='deletePost("${id}")' class="postOptions">`;
 		html += `<div class="postToolTip">Delete</div>`;
 		html += `<img src="trash-can.png" width="20px" height="20px">`;
 		html += `</span>`;
 	}
-	
+
 	if (post.author === getCookie("username")) {
 		html += `<span class="postOptions">`;
 		html += `<div class="postToolTip">Edit</div>`;

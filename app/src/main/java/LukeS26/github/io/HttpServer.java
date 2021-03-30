@@ -309,7 +309,7 @@ public class HttpServer {
 
             mongoManager.writeCommentDoc(commentDoc);
             ctx.status(HttpStatus.CREATED_201);
-            ctx.result((String) commentDoc.get("_id"));
+            ctx.result(((ObjectId)commentDoc.get("_id")).toString());
         });
 
         /**

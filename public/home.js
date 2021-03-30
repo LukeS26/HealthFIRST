@@ -119,13 +119,13 @@ window.onscroll = function (ev) {
 };
 
 function collectPostInfo() {
-	let canPost = false;
+	let canPost = true;
+	let canPostBody = true;
 
 	if (document.getElementById("postTitle").value.length > 40) {
 		//too long of a title
 		document.getElementById("titleTooLong").style.display = "block";
 		canPost = false;
-		console.log("false")
 	} else {
 		document.getElementById("titleTooLong").style.display = "none";
 		canPost = true;
@@ -134,13 +134,13 @@ function collectPostInfo() {
 	if (document.getElementById("postBody").value.length > 3000) {
 		//too long of a title
 		document.getElementById("bodyTooLong").style.display = "block";
-		canPost = false;
+		canPostBody = false;
 	} else {
 		document.getElementById("bodyTooLong").style.display = "none";
-		canPost = true;
+		canPostBody = true;
 	}
 
-	if (canPost) {
+	if (canPost && canPostBody) {
 		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
 	} else {
 		togglePostPopup();

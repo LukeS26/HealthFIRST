@@ -45,7 +45,7 @@ function generateHTML(info) {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px">`;
 	}
 
-	profileContent += "<div>Username: " + formatText(info.username) + "</div>";
+	profileContent += "<div>Username: " + (info.username) + "</div>";
 	profileContent += "<div>Name: " + info.first_name + " " + info.last_name + "</div>";
 	profileContent += "<div>Email: " + info.email + "</div>";
 	//profileContent += info.profile_picture_link + "<br>";

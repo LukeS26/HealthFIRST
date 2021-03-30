@@ -61,17 +61,20 @@ function displayPost(post, id, top) {
 	// 			document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
 	// 		});
 	// }
-
-	if (post.author === getCookie("username")) {
-		html += `<span class="postOptions">`;
+	if (post.author === getCookie("username") || getCookie("level") > 0) {
+		html += `<span onClick="deletePost(${id})" class="postOptions">`;
 		html += `<div class="postToolTip">Delete</div>`;
 		html += `<img src="trash-can.png" width="20px" height="20px">`;
 		html += `</span>`;
+	}
+	
+	if (post.author === getCookie("username")) {
 		html += `<span class="postOptions">`;
 		html += `<div class="postToolTip">Edit</div>`;
 		html += `<img src="pencil.png" width="20px" height="20px">`;
 		html += `</span>`;
 	}
+
 	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
 	//<span id="postImg${postCount}">${userImg}</span>
 	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span style="padding-left: 5px">${post.author}<span></a>`;
@@ -247,3 +250,18 @@ function foo() {
 
 foo();
 */
+
+
+function deletePost(id) {
+	if (confirm("Are you sure? This action cannot be undone.")) {
+		fetch(`http://157.230.233.218:8080/api/posts/${id}`, {
+			method: "DELETE",
+			mode: "cors",
+			headers: {
+				"Content-type": "application/json; charset=UTF-8",
+				"Authorization": getCookie("token"),
+				"Origin": "http://healthfirst4342.tk/"
+			}
+		});
+	}
+}

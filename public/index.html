@@ -46,7 +46,7 @@
 
       <input placeholder="Title" id="postTitle">
       <textarea placeholder="Body" id="postBody" onclick="togglePostPopup()"></textarea><br>
-      <button onclick="collectPostInfo()">Chat</button>
+      <button onclick="collectPostInfo(); togglePostPopup()">Chat</button>
     </div>
   </div>
   <div id="posts" class="posts"><img src="gears_1_gray.gif" style="width:100px;" id="loadingPost"></div>

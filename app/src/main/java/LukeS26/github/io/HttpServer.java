@@ -426,14 +426,6 @@ public class HttpServer {
             ctx.header("Access-Control-Allow-Credentials", "true");
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
-            try {
-                Document.parse(ctx.body());
-
-            } catch (Exception e) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
-                return;
-            }
-
             if (!ctx.headerMap().containsKey("Authorization")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;

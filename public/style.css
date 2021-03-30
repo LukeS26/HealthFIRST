@@ -115,7 +115,7 @@
     margin: auto;
     z-index: 0;
     width: 600px;
-    padding-top: 10px;
+    padding-top: 45px;
 }
 
 .postContainer {
@@ -277,7 +277,7 @@
     padding: 10px;
 }
 #profileHeaderStuff a {
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
     text-decoration: none;
     color: black;
 }
@@ -363,7 +363,64 @@ body {
     background-color: white;
 }
 
+.challengeButtonFinished {
+    color: white;
+    background-color: #4A4A4A;
+    border: 2px solid #4A4A4A;
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.challengeContainerFinished {
+    border: 2px gray solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: #cfcfcf;
+}
+
 .badges {
     padding: 5px;
 }
-/*test*/
+
+.navigation {
+    position: absolute;
+    top: 60px;
+    background: #04C;
+    width: 100%;
+    left: 0;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navlinks {
+    margin: 50px;
+    color: #FFFFFF;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+    align-self: center;
+    scale: 1.75;
+    text-decoration: none;
+}
+
+.navlinks:hover {
+    cursor: pointer;
+    color: #c7c7c7;
+}
+
+.repo-container {
+    width: 50%;
+    margin-left: 25px;
+}
+
+.commentField {
+    width: 852px;
+    height: 50px;
+    border-radius: 5px;
+}

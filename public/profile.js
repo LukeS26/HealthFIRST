@@ -45,7 +45,7 @@ function generateHTML(info) {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px">`;
 	}
 
-	profileContent += "<div>Username: " + info.username + "</div>";
+	profileContent += "<div>Username: " + formatText(info.username) + "</div>";
 	profileContent += "<div>Name: " + info.first_name + " " + info.last_name + "</div>";
 	profileContent += "<div>Email: " + info.email + "</div>";
 	//profileContent += info.profile_picture_link + "<br>";
@@ -144,3 +144,10 @@ if( navigator.userAgent.match(/Android/i)
 	imgUrlInput.style.marginTop = "10px";
 	imgUrlInput.style.width = "90%";
 }
+
+// async function formatText(text) {
+// 	let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
+// 	let json = await response.text();
+
+// 	return json;
+// }

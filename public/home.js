@@ -95,31 +95,56 @@ function loadPost(id) {
 
 function loadPage(page) {
 	fetch("http://157.230.233.218:8080/api/posts/feed?page=" + page)
-	.then(res => res.json())
-	.then(function(json) { 
+		.then(res => res.json())
+		.then(function (json) {
 
-		for(let i = 0; i < json["feed"].length; i++) {
-			//console.log(json["feed"][i]);
-			displayPost(json["feed"][i], json["feed"][i]["_id"]["$oid"], false)
-		}
+			for (let i = 0; i < json["feed"].length; i++) {
+				//console.log(json["feed"][i]);
+				displayPost(json["feed"][i], json["feed"][i]["_id"]["$oid"], false)
+			}
 
-		if(document.getElementById("loadingPost")) {
-			document.getElementById("loadingPost").remove();
-		}
-	} );
+			if (document.getElementById("loadingPost")) {
+				document.getElementById("loadingPost").remove();
+			}
+		});
 }
 
 loadPage(0);
 
-window.onscroll = function(ev) {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+window.onscroll = function (ev) {
+	if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
 		page++;
 		loadPage(page);
-    }
+	}
 };
 
 function collectPostInfo() {
-	makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
+	let canPost = true;
+	let canPostBody = true;
+
+	if (document.getElementById("postTitle").value.length > 40) {
+		//too long of a title
+		document.getElementById("titleTooLong").style.display = "block";
+		canPost = false;
+	} else {
+		document.getElementById("titleTooLong").style.display = "none";
+		canPost = true;
+	}
+
+	if (document.getElementById("postBody").value.length > 3000) {
+		//too long of a title
+		document.getElementById("bodyTooLong").style.display = "block";
+		canPostBody = false;
+	} else {
+		document.getElementById("bodyTooLong").style.display = "none";
+		canPostBody = true;
+	}
+
+	if (canPost && canPostBody) {
+		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
+	} else {
+		togglePostPopup();
+	}
 }
 
 function deleteAccount(username) {
@@ -137,7 +162,7 @@ function deleteAccount(username) {
 function makePost(title, body) {
 	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
-		body: JSON.stringify({"title":title, "body": body}),
+		body: JSON.stringify({ "title": title, "body": body }),
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json; charset=UTF-8",
@@ -145,21 +170,21 @@ function makePost(title, body) {
 			"Origin": "http://healthfirst4342.tk/"
 		}
 	})
-	.then(res => res.text())
-	.then(text => {
-		let postData = {
-			body: body,
-			title: title,
-			author: getCookie("username"),
-			date: {$date: new Date().getTime()}
-		}
-		displayPost(postData, text, true);
-		document.getElementById("postTitle").value = "";
-		document.getElementById("postBody").value = "";
-	})
-	.catch(err => {
-		console.error(err);
-	})
+		.then(res => res.text())
+		.then(text => {
+			let postData = {
+				body: body,
+				title: title,
+				author: getCookie("username"),
+				date: { $date: new Date().getTime() }
+			}
+			displayPost(postData, text, true);
+			document.getElementById("postTitle").value = "";
+			document.getElementById("postBody").value = "";
+		})
+		.catch(err => {
+			console.error(err);
+		})
 }
 
 function togglePostPopup() {
@@ -182,17 +207,23 @@ function togglePostPopup() {
 function setBlurColor() {
 	let blur = document.getElementById("popupBlur");
 	blur.style.backgroundColor = blurColor;
-	
+
 }
+
 function formatText(text) {
+	// let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
+	// let json = await response.text();
+	// return json;
+
+	text = text.split("\n").join("<br>");
 	text = text.split(" ");
 	text = text.join("&nbsp;")
 	text = text.split("**");
 
-	for(let i = 0; i < text.length; i++) {
-		if(i % 2 != 0) {
-	  text[i] = "<b>" + text[i] + "</b>"
-	}
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<b>" + text[i] + "</b>"
+		}
 	}
 
 	text = text.join("").split("*");
@@ -202,6 +233,17 @@ function formatText(text) {
 			text[i] = "<i>" + text[i] + "</i>"
 		}
 	}
-	
+
 	return text.join("");
 }
+
+/*
+function foo() {
+
+	// your function code here
+
+	setTimeout(foo, 5000);
+}
+
+foo();
+*/

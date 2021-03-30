@@ -1,5 +1,5 @@
 let username, password, repassword, firstName, lastName, email, check13;
-let filled = false, pass = false, age = false;
+let filled = false, pass = false, age = false, user = false;
 document.getElementById("check13").value = "off";
 
 function checkForm() {
@@ -38,10 +38,18 @@ function checkForm() {
         age = true;
     }
 
+    if(username.length <= 20) {
+        user = true;
+        document.getElementById("usernameTooLong").style.display = "none";
+    } else {
+        document.getElementById("usernameTooLong").style.display = "block";
+        user = false;
+    }
+
     let hashedPassword = stringToHash(password);
     let expires = "";
     //let expires = (new Date(Date.now() + 525600 * 60 * 1000 * 5)).toUTCString();
-    if (filled && pass && age) {
+    if (filled && pass && age && user) {
         let data = {"username": username,
                     "first_name": firstName,
                     "last_name": lastName,

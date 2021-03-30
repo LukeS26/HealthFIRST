@@ -3,16 +3,8 @@ let blurColor;
 let blurOpen = false;
 let imgUrl = "";
 
-let url = "http://157.230.233.218:8080/api/account";
-fetch(url, {
-	method: "GET",
-	mode: "cors",
-	headers: {
-		"Content-type": "application/json; charset=UTF-8",
-		"Authorization": getCookie("token"),
-		"Origin": "http://healthfirst4342.tk/"
-	}
-})
+let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
+fetch(url)
 		.then(res => res.json())
 		.then(json => {
 			generateHTML(json);
@@ -45,14 +37,16 @@ function generateHTML(info) {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px">`;
 	}
 
-	profileContent += "<div>Username: " + (info.username) + "</div>";
-	profileContent += "<div>Name: " + info.first_name + " " + info.last_name + "</div>";
-	profileContent += "<div>Email: " + info.email + "</div>";
-	//profileContent += info.profile_picture_link + "<br>";
-	//profileContent += info.permission_id + "<br>";
-	//profileContent += info.badge_ids + "<br>";
-
 	profileOut.innerHTML = profileContent;
+	/*
+	profileContent += json.username + "<br>";
+	profileContent += json.email + "<br>";
+	profileContent += json.first_name + "<br>";
+	profileContent += json.last_name + "<br>";
+	profileContent += json.profile_picture_link + "<br>";
+	profileContent += json.permission_id + "<br>";
+	profileContent += json.badge_ids + "<br>";
+	*/
 }
 
 function changeProfilePic() {
@@ -114,13 +108,13 @@ function togglePhotoPopup() {
 		blurColor = "rgba(211, 211, 211, 0.6)";
 		window.setTimeout(setBlurColor, 1);
 		blurOpen = true;
-		//document.getElementsByTagName("body")[0].style.filter = "blur(4px)";
+		document.getElementsByTagName("body")[0].style.filter = "blur(4px)";
 		//blur.style.filter = "none";
 	} else {
 		blur.style.backgroundColor = "rgba(211, 211, 211, 0)";
 		blur.style.display = "none";
 		blurOpen = false;
-		//document.getElementsByTagName("body")[0].style.filter = "none";
+		document.getElementsByTagName("body")[0].style.filter = "none";
 	}
 }
 
@@ -144,10 +138,3 @@ if( navigator.userAgent.match(/Android/i)
 	imgUrlInput.style.marginTop = "10px";
 	imgUrlInput.style.width = "90%";
 }
-
-// async function formatText(text) {
-// 	let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
-// 	let json = await response.text();
-
-// 	return json;
-// }

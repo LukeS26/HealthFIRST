@@ -140,6 +140,8 @@ function collectPostInfo() {
 
 	if (canPost) {
 		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
+	} else {
+		togglePostPopup();
 	}
 }
 
@@ -209,8 +211,8 @@ function setBlurColor() {
 function formatText(text) {
 	// let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
 	// let json = await response.text();
-
 	// return json;
+
 	text = text.split("\n").join("<br>");
 	text = text.split(" ");
 	text = text.join("&nbsp;")

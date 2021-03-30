@@ -264,7 +264,7 @@ function deletePost(id, postNum) {
 			}
 		});
 
-		let temp = document.getElementById(`post${postNum}`).children[1].children;
+		let temp = document.getElementById(`post${postNum}`).children[2].children;
 		temp[0].innerHTML = "[Removed]";
 		temp[1].innerHTML = "[Removed]";
 		temp[1].href = "/user.html?[Removed]";

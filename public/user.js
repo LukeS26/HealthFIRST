@@ -63,6 +63,8 @@ function getImg(id) {
 			return "nature0.png";
 		case 1:
 			return "exercise0.png";
+		case 2:
+			return "cheese.png"
 	}
 }
 
@@ -74,5 +76,7 @@ function getTitle(id) {
 			return "Walked 30 Minutes";
 		case 1:
 			return "Squats, Situps, and Pushups";
+		case 2:
+			return "Cheese"
 	}
 }

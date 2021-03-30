@@ -61,7 +61,7 @@ function displayPost(post, id, top) {
 	// 			document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
 	// 		});
 	// }
-	if (post.author === getCookie("username") || getCookie("level") > 0) {
+	if (post.author === getCookie("username") || getCookie("level") > 1) {
 		html += `<span onClick='deletePost("${id}", ${postCount})' class="postOptions">`;
 		html += `<div class="postToolTip">Delete</div>`;
 		html += `<img src="trash-can.png" width="20px" height="20px">`;
@@ -264,8 +264,11 @@ function deletePost(id, postNum) {
 				"Origin": "http://healthfirst4342.tk/"
 			}
 		});
-
-		let temp = document.getElementById(`post${postNum}`).children[2].children;
+		try {
+			let temp = document.getElementById(`post${postNum}`).children[2].children;
+		} catch {
+			let temp = document.getElementById(`post${postNum}`).children[1].children;
+		}
 		temp[0].innerHTML = "[Removed]";
 		temp[1].innerHTML = "[Removed]";
 		temp[1].href = "/user.html?[Removed]";

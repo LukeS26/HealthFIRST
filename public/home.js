@@ -182,6 +182,8 @@ function makePost(title, body) {
 				date: { $date: new Date().getTime() }
 			}
 			displayPost(postData, text, true);
+			document.getElementById("postTitle").value = "";
+			document.getElementById("postBody").value = "";
 		})
 		.catch(err => {
 			console.error(err);
@@ -202,8 +204,6 @@ function togglePostPopup() {
 		blur.style.backgroundColor = "rgba(211, 211, 211, 0)";
 		blur.style.display = "none";
 		blurOpen = false;
-		document.getElementById("postTitle").value = "";
-		document.getElementById("postBody").value = "";
 		//document.getElementsByTagName("body")[0].style.filter = "none";
 	}
 }

@@ -413,4 +413,9 @@ body {
     cursor: pointer;
     color: #c7c7c7;
 }
-/*test*/
+
+.repo-container {
+    width: 50%;
+    left: 25px;
+    position: absolute;
+}

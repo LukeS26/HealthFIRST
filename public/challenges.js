@@ -5,6 +5,10 @@ function getChallenges(page) {
 				displayChallenge(json["feed"][i]["title"], json["feed"][i]["body"], json["feed"][i]["end_date"]["$date"], json["feed"][i]["challenge_id"]);
 			}
 		});
+
+		if (document.getElementById("loadingChallenges")) {
+			document.getElementById("loadingChallenges").remove();
+		}
 }
 
 function displayChallenge(title, body, date, id) {

@@ -119,11 +119,13 @@ window.onscroll = function (ev) {
 };
 
 function collectPostInfo() {
-	let canPost = true;
+	let canPost = false;
+
 	if (document.getElementById("postTitle").value.length > 40) {
 		//too long of a title
 		document.getElementById("titleTooLong").style.display = "block";
 		canPost = false;
+		console.log("false")
 	} else {
 		document.getElementById("titleTooLong").style.display = "none";
 		canPost = true;

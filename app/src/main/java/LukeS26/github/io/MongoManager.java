@@ -268,7 +268,7 @@ public class MongoManager {
         Document accountDoc = null;
         try {
             if (ignoreCase) {
-                accountDoc = accountCollection.find(Filters.regex("username", Pattern.compile("(?i)" + username + "(?-i).*"))).first();
+                accountDoc = accountCollection.find(Filters.regex("username", Pattern.compile("^(?i)" + username + "(?-i)$"))).first();
 
             } else {
                 accountDoc = accountCollection.find(Filters.eq("username", username)).first();

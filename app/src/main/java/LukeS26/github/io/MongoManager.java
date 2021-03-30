@@ -125,6 +125,21 @@ public class MongoManager {
         return null;
     }
 
+    public FindIterable<Document> findPostsForUser(String username) {
+        MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
+        try {
+            FindIterable<Document> posts = postCollection.find(Filters.eq("username", username));
+            if (posts != null) {
+                return posts;
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
     public FindIterable<Document> getChallengeFeed(int pageNumber) {
         MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
         try {

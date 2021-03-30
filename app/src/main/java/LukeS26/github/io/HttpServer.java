@@ -609,6 +609,20 @@ public class HttpServer {
             ctx.status(HttpStatus.CREATED_201);
         });
 
+        app.get("/api/account/*/posts", ctx -> {
+            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0));
+            if (existingUserAccountDoc == null) {
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
+            FindIterable<Document> posts = mongoManager.findPostsForUser(ctx.splat(0));
+            Document postsDoc = new Document("posts", posts);
+
+            ctx.result(postsDoc.toJson());
+            ctx.status(HttpStatus.OK_200);
+        });
+
         /**
          * Get account information
          */

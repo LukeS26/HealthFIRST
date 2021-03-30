@@ -530,7 +530,7 @@ public class HttpServer {
                 return;
             }
 
-            Account userAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0)));
+            Account userAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0), false));
             Account tokenAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             // if the deleter or the account to be deleted are null || you aren't deleting your own account and you aren't an admin
             if (tokenAccount == null || userAccount == null || (!userAccount.username.equals(tokenAccount.username) && tokenAccount.permissionID != Utils.Permissions.MODERATOR.ordinal())) {
@@ -575,7 +575,7 @@ public class HttpServer {
             }
 
             // Checking if account already exists with that username
-            Document accountDoc = mongoManager.findAccount((String) doc.get("username"));
+            Document accountDoc = mongoManager.findAccount((String) doc.get("username"), false);
             if (accountDoc != null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
@@ -610,7 +610,7 @@ public class HttpServer {
         });
 
         app.get("/api/account/*/posts", ctx -> {
-            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0));
+            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0), false);
             if (existingUserAccountDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
@@ -627,7 +627,7 @@ public class HttpServer {
          * Get account information
          */
         app.get("/api/account/*", ctx -> {
-            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0));
+            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0), false);
             if (existingUserAccountDoc != null) {
                 Account userAccount = Account.fromDoc(existingUserAccountDoc);
                 Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
@@ -688,7 +688,7 @@ public class HttpServer {
                 return;
             }
 
-            Document loginAccountDoc = mongoManager.findAccount(format((String) doc.get("username")));
+            Document loginAccountDoc = mongoManager.findAccount(format((String) doc.get("username")), true);
             if (loginAccountDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;

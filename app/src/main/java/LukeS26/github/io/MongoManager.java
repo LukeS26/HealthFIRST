@@ -2,6 +2,7 @@ package LukeS26.github.io;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -262,19 +263,22 @@ public class MongoManager {
      * @return an org.bson.Document for the given username if found, null if not
      *         found
      */
-    public Document findAccount(String username) {
+    public Document findAccount(String username, boolean ignoreCase) {
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
+        Document accountDoc = null;
         try {
-            Document accountDoc = accountCollection.find(Filters.eq("username", username)).first();
-            if (accountDoc != null) {
-                return accountDoc;
+            if (ignoreCase) {
+                accountDoc = accountCollection.find(Filters.regex("username", Pattern.compile("(?i)" + username + "(?-i).*"))).first();
+
+            } else {
+                accountDoc = accountCollection.find(Filters.eq("username", username)).first();
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
 
-        return null;
+        return accountDoc;
     }
 
     public Document findAccountByToken(String token) {

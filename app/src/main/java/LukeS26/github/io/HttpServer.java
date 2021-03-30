@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -24,7 +23,6 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.mindrot.jbcrypt.BCrypt;
 
 import LukeS26.github.io.dataschema.Account;
-import LukeS26.github.io.dataschema.Challenge;
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
 import io.javalin.Javalin;
@@ -116,13 +114,13 @@ public class HttpServer {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
             if (!ctx.headerMap().containsKey("Authorization")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -180,8 +178,13 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") || doc.get("body") == null) {
+            if (doc.get("body") == null) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -192,20 +195,22 @@ public class HttpServer {
 
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
             Document commentDoc = mongoManager.findComment(ctx.splat(0));
-            if (!(format((String) commentDoc.get("author"))).equals(userAccount.username) && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
+            if (!(format((String) commentDoc.get("author"))).equals(userAccount.username)
+                    && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
 
-            // Recreating document with just a body so that it can't contain other fields (author, date, etc.)
+            // Recreating document with just a body so that it can't contain other fields
+            // (author, date, etc.)
             mongoManager.editComment((ObjectId) commentDoc.get("_id"), new Document("body", (String) doc.get("body")));
 
-            ctx.status(HttpStatus.OK_200);
+            ctx.status(HttpStatus.NO_CONTENT_204);
         });
 
         /**
@@ -225,25 +230,26 @@ public class HttpServer {
             }
 
             if (!ctx.headerMap().containsKey("Authorization")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
             Document commentDoc = mongoManager.findComment(ctx.splat(0));
-            if (!(format((String) commentDoc.get("author"))).equals(userAccount.username) && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
+            if (!(format((String) commentDoc.get("author"))).equals(userAccount.username)
+                    && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
 
             mongoManager.deleteComment((String) commentDoc.get("_id"));
 
-            ctx.status(HttpStatus.OK_200);
+            ctx.status(HttpStatus.NO_CONTENT_204);
         });
 
         /**
@@ -274,8 +280,13 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("post_id") || !doc.containsKey("body")) {
+            if (!doc.containsKey("post_id") || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -286,7 +297,7 @@ public class HttpServer {
 
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -296,7 +307,7 @@ public class HttpServer {
             comment.postId = new ObjectId((String) doc.get("post_id"));
 
             if (doc.get("reply_to_id") != null) {
-                comment.replyToId = (ObjectId)doc.get("reply_to_id");
+                comment.replyToId = (ObjectId) doc.get("reply_to_id");
 
             } else {
                 comment.replyToId = null;
@@ -309,7 +320,7 @@ public class HttpServer {
 
             mongoManager.writeCommentDoc(commentDoc);
             ctx.status(HttpStatus.CREATED_201);
-            ctx.result(((ObjectId)commentDoc.get("_id")).toString());
+            ctx.result(((ObjectId) commentDoc.get("_id")).toString());
         });
 
         /**
@@ -364,9 +375,13 @@ public class HttpServer {
                 return;
             }
 
-            if (!ctx.headerMap().containsKey("Authorization") || !doc.containsKey("title")
-                    || !doc.containsKey("body")) {
+            if (!doc.containsKey("title") || !doc.containsKey("body")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
+                return;
+            }
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -382,7 +397,7 @@ public class HttpServer {
 
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -396,7 +411,7 @@ public class HttpServer {
             Document postDoc = post.toDoc();
             mongoManager.writePostDoc(postDoc);
 
-            ctx.result(((ObjectId)postDoc.get("_id")).toString());
+            ctx.result(((ObjectId) postDoc.get("_id")).toString());
             ctx.status(HttpStatus.CREATED_201);
         });
 
@@ -427,25 +442,25 @@ public class HttpServer {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
             if (!ctx.headerMap().containsKey("Authorization")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
-                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
             Document post = mongoManager.findPost(ctx.splat(0));
-            if (!(format((String) post.get("author"))).equals(userAccount.username) && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
+            if (!(format((String) post.get("author"))).equals(userAccount.username)
+                    && userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
 
             mongoManager.deletePost(post);
-
-            ctx.status(HttpStatus.OK_200);
+            ctx.status(HttpStatus.NO_CONTENT_204);
         });
         // #endregion
 
@@ -466,7 +481,7 @@ public class HttpServer {
             }
 
             if (!ctx.headerMap().containsKey("Authorization")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -486,7 +501,8 @@ public class HttpServer {
                     return;
                 }
 
-                if (e.getKey().equals("username") || e.getKey().equals("permission_id") || e.getKey().equals("badge_ids")) {
+                if (e.getKey().equals("username") || e.getKey().equals("permission_id")
+                        || e.getKey().equals("badge_ids")) {
                     continue;
                 }
 
@@ -508,9 +524,10 @@ public class HttpServer {
                 changes.put(e.getKey(), e.getValue());
             }
 
-            // TODO: Pass in account doc instead of username since we are finding it in this request already
+            // TODO: Pass in account doc instead of username since we are finding it in this
+            // request already
             mongoManager.updateAccount(userAccount.username, changes);
-            ctx.status(HttpStatus.NO_CONTENT_204); // Used when not responding with content but it was successful
+            ctx.status(HttpStatus.NO_CONTENT_204);
         });
 
         /**
@@ -520,19 +537,26 @@ public class HttpServer {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
             if (!ctx.headerMap().containsKey("Authorization")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
             Account userAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0), false));
             Account tokenAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
-            // if the deleter or the account to be deleted are null || you aren't deleting your own account and you aren't an admin
-            if (tokenAccount == null || userAccount == null || (!userAccount.username.equals(tokenAccount.username) && tokenAccount.permissionID != Utils.Permissions.MODERATOR.ordinal())) {
+            // if the deleter or the account to be deleted are null || you aren't deleting
+            // your own account and you aren't an admin
+            if (tokenAccount == null || userAccount == null) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+            }
+
+            if (!userAccount.username.equals(tokenAccount.username)
+                    && tokenAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
 
             mongoManager.deleteAccount(userAccount.username);
+            ctx.status(HttpStatus.NO_CONTENT_204);
         });
 
         /**
@@ -585,12 +609,12 @@ public class HttpServer {
             userAccount.email = format((String) doc.get("email"));
             userAccount.bio = null;
             userAccount.profilePictureLink = null;
-            
+
             String receivedHash = (String) doc.get("password_hash");
-            
+
             String salt = BCrypt.gensalt(Settings.BCRYPT_LOG_ROUNDS);
             String finalPasswordHash = BCrypt.hashpw(receivedHash, salt);
-            
+
             userAccount.passwordHash = finalPasswordHash;
             userAccount.token = Account.generateToken();
 
@@ -622,19 +646,18 @@ public class HttpServer {
          */
         app.get("/api/account/*", ctx -> {
             Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0), false);
-            if (existingUserAccountDoc != null) {
-                Account userAccount = Account.fromDoc(existingUserAccountDoc);
-                Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
-                                                                    // don't want to send pass
-                String accountJson = userAccountDoc.toJson();
-
-                ctx.result(accountJson);
-                ctx.status(HttpStatus.OK_200);
-
-            } else {
-                // You could provide an error body here
+            if (existingUserAccountDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
             }
+            
+            Account userAccount = Account.fromDoc(existingUserAccountDoc);
+            Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
+                                                                // don't want to send pass
+            String accountJson = userAccountDoc.toJson();
+
+            ctx.result(accountJson);
+            ctx.status(HttpStatus.OK_200);
         });
 
         /**
@@ -644,13 +667,13 @@ public class HttpServer {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
             if (!ctx.headerMap().containsKey("Authorization")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
             Document accountDoc = mongoManager.findAccountByToken(ctx.header("Authorization"));
             if (accountDoc == null) {
-                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -684,13 +707,14 @@ public class HttpServer {
 
             Document loginAccountDoc = mongoManager.findAccount(format((String) doc.get("username")), true);
             if (loginAccountDoc == null) {
-                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
             Account loginAccount = Account.fromDoc(loginAccountDoc);
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
-                Document responseDoc = new Document("token", loginAccount.token).append("username", loginAccount.username);
+                Document responseDoc = new Document("token", loginAccount.token).append("username",
+                        loginAccount.username);
                 ctx.result(responseDoc.toJson());
                 ctx.status(HttpStatus.OK_200);
 
@@ -714,7 +738,7 @@ public class HttpServer {
             }
 
             if (!ctx.headerMap().containsKey("Authorization")) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
 
@@ -726,14 +750,25 @@ public class HttpServer {
             ctx.status(HttpStatus.FORBIDDEN_403);
         });
         // #endregion
+
+        // #region Followers
+        app.post("/api/follow/*", ctx -> {
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                return;
+            }
+        });
+        // #endregion
     }
 
     /**
      * Replacing characters to prevent escaping strings in a post title, body, etc.
      */
     public String format(String str) {
-        str = str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;").replace(":", "&#58;").replace("\"",
-                "&#34;");
+        str = str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("=", "&#61;")
+                .replace(":", "&#58;").replace("\"", "&#34;");
 
         return str;
     }

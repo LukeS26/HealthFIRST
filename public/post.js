@@ -114,7 +114,7 @@ function formatReplies(replyArr) {
 */
 function load(reply, number, user, cid) {
 	date = "DATE HERE"
-	let comment = `<div class="commentDisplay" name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${formatText(reply)} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative;"> <img src="reply.svg" alt="reply" width="25px" height="25px"> </button> </div> </div> `
+	let comment = `<div class="commentDisplay" name="${number}" id="${cid}" style="left: ${(30 * number) + 30}px; position: relative;" > <div style="display: flex;"> <a href="/user.html?${user}"> ${user} </a> <p style="width: 30%;position: relative;padding: 0 0 0 30px;margin: 0 0 0 0;"> ${date} </p> </div> <p> ${formatText(reply)} </p> <div id="options"> <button onClick="openCommentField(this, '${cid}')" style="left: 25px;position: relative; background: rgba(0,0,0,0); border: none;"> <img src="reply.svg" alt="reply" width="20px" height="20px"> </button> </div> </div> `
 
 	let shell = document.getElementById("comments");
 

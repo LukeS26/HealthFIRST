@@ -62,7 +62,7 @@ function displayPost(post, id, top) {
 	// 		});
 	// }
 	if (post.author === getCookie("username") || getCookie("level") > 0) {
-		html += `<span onClick='deletePost("${id}")' class="postOptions">`;
+		html += `<span onClick='deletePost("${id}", ${postCount})' class="postOptions">`;
 		html += `<div class="postToolTip">Delete</div>`;
 		html += `<img src="trash-can.png" width="20px" height="20px">`;
 		html += `</span>`;
@@ -252,7 +252,7 @@ foo();
 */
 
 
-function deletePost(id) {
+function deletePost(id, postNum) {
 	if (confirm("Are you sure? This action cannot be undone.")) {
 		fetch(`http://157.230.233.218:8080/api/posts/${id}`, {
 			method: "DELETE",
@@ -263,5 +263,11 @@ function deletePost(id) {
 				"Origin": "http://healthfirst4342.tk/"
 			}
 		});
+
+		let temp = document.getElementById(`post${postNum}`).children[1].children;
+		temp[0].innerHTML = "[Removed]";
+		temp[1].innerHTML = "[Removed]";
+		temp[1].href = "/user.html?[Removed]";
+		temp[3].innerHTML = "[Removed]"
 	}
 }

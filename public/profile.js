@@ -3,8 +3,16 @@ let blurColor;
 let blurOpen = false;
 let imgUrl = "";
 
-let url = "http://157.230.233.218:8080/api/account/" + getCookie("username");
-fetch(url)
+let url = "http://157.230.233.218:8080/api/account";
+fetch(url, {
+	method: "GET",
+	mode: "cors",
+	headers: {
+		"Content-type": "application/json; charset=UTF-8",
+		"Authorization": getCookie("token"),
+		"Origin": "http://healthfirst4342.tk/"
+	}
+})
 		.then(res => res.json())
 		.then(json => {
 			generateHTML(json);
@@ -37,10 +45,9 @@ function generateHTML(info) {
 		profileContent += `<img src="defaultPic.png" height="100px" width="100px">`;
 	}
 
-	profileContent += "<div>Username: " + info.username + "</div>";
+	profileContent += "<div>Username: " + (info.username) + "</div>";
+	profileContent += "<div>Name: " + info.first_name + " " + info.last_name + "</div>";
 	profileContent += "<div>Email: " + info.email + "</div>";
-	profileContent += "<div>First Name: " + info.first_name + "</div>";
-	profileContent += "<div>Last Name: " + info.last_name + "</div>";
 	//profileContent += info.profile_picture_link + "<br>";
 	//profileContent += info.permission_id + "<br>";
 	//profileContent += info.badge_ids + "<br>";
@@ -137,3 +144,10 @@ if( navigator.userAgent.match(/Android/i)
 	imgUrlInput.style.marginTop = "10px";
 	imgUrlInput.style.width = "90%";
 }
+
+// async function formatText(text) {
+// 	let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
+// 	let json = await response.text();
+
+// 	return json;
+// }

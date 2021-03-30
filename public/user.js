@@ -10,6 +10,10 @@ getProfile(user);
 
 
 function formatText(text) {
+	// let response = await fetch('https://api.github.com/markdown', {method:"POST", body: JSON.stringify({"text": text}) } );//.then(res => res.text()).then(function(json) {return (json)})
+	// let json = await response.text();
+
+	// return json;
 	text = text.split(" ");
 	text = text.join("&nbsp;")
 	text = text.split("**");
@@ -32,7 +36,7 @@ function formatText(text) {
 }
 
 
-function loadProfile(json) {
+async function loadProfile(json) {
 	if (json.profile_picture_link !== null && json.profile_picture_link !== "null") {
 		document.getElementById("userPhoto").src = json.profile_picture_link;
 	}
@@ -40,6 +44,35 @@ function loadProfile(json) {
 	document.getElementById("username").innerHTML = json.username;
 
 	if(json.biography != null) {
-		document.getElementById("userBio").innerHTML = formatText(json.biography);
+		document.getElementById("userBio").innerHTML = await formatText(json.biography);
+	}
+
+	let badges = [...new Set(json.badge_ids)];
+	badges.sort();
+
+	for(let i = 0; i < badges.length; i++) {
+		document.getElementById("badges").innerHTML += `<img class="badges" src="/badges/${getImg(badges[i])}" alt="${getTitle(badges[i])}" title="${getTitle(badges[i])}" width="30px" height="30px">`;
+	}
+}
+
+function getImg(id) {
+	switch(id) {
+		case -1:
+			return "developer.png"
+		case 0:
+			return "nature0.png";
+		case 1:
+			return "exercise0.png";
+	}
+}
+
+function getTitle(id) {
+	switch(id) {
+		case -1:
+			return "Developer";
+		case 0:
+			return "Walked 30 Minutes";
+		case 1:
+			return "Squats, Situps, and Pushups";
 	}
 }

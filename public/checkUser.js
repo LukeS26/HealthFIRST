@@ -16,14 +16,14 @@ if (getCookie("accepted") !== "true") {
 	let data = {}
 	let currToken = getCookie("token");
 
-	fetch("http://healthfirst4342.tk:8080/api/token/verify", {
+	fetch("http://157.230.233.218:8080/api/token/verify", {
 		method: "POST",
 		body: JSON.stringify(data),
 		mode: "cors",
 		headers: {
 			'Content-type': 'application/json; charset=UTF-8',
 			'Authorization': currToken,
-			'Origin': 'http://157.230.233.218:8080'
+			'Origin': 'http://healthfirst4342.tk'
 		}
 	})
 	.then(res => {
@@ -40,11 +40,11 @@ if (getCookie("accepted") !== "true") {
 	});
 }
 
-if (getCookie("level") === null) {
-	fetch("http://healthfirst4342.tk:8080/api/account/" + getCookie("username"))
+//if (getCookie("level") === null) {
+	fetch("http://157.230.233.218:8080/api/account/" + getCookie("username"))
 	.then(res => res.json())
 	.then(json => {
 		document.cookie = `level=${json.permission_id}`;
 	})
 	.catch(err => console.error(err));
-}
+//}

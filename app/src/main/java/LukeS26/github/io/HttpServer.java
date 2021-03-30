@@ -305,9 +305,11 @@ public class HttpServer {
             comment.author = format(userAccount.username);
             comment.body = format((String) doc.get("body"));
             comment.date = new Date();
+            Document commentDoc = comment.toDoc();
 
-            mongoManager.writeComment(comment);
+            mongoManager.writeCommentDoc(commentDoc);
             ctx.status(HttpStatus.CREATED_201);
+            ctx.result(((ObjectId)commentDoc.get("_id")).toString());
         });
 
         /**
@@ -424,14 +426,6 @@ public class HttpServer {
             ctx.header("Access-Control-Allow-Credentials", "true");
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
-            try {
-                Document.parse(ctx.body());
-
-            } catch (Exception e) {
-                ctx.status(HttpStatus.BAD_REQUEST_400);
-                return;
-            }
-
             if (!ctx.headerMap().containsKey("Authorization")) {
                 ctx.status(HttpStatus.BAD_REQUEST_400);
                 return;
@@ -530,7 +524,7 @@ public class HttpServer {
                 return;
             }
 
-            Account userAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0)));
+            Account userAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0), false));
             Account tokenAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             // if the deleter or the account to be deleted are null || you aren't deleting your own account and you aren't an admin
             if (tokenAccount == null || userAccount == null || (!userAccount.username.equals(tokenAccount.username) && tokenAccount.permissionID != Utils.Permissions.MODERATOR.ordinal())) {
@@ -575,7 +569,7 @@ public class HttpServer {
             }
 
             // Checking if account already exists with that username
-            Document accountDoc = mongoManager.findAccount((String) doc.get("username"));
+            Document accountDoc = mongoManager.findAccount((String) doc.get("username"), false);
             if (accountDoc != null) {
                 ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
@@ -609,11 +603,25 @@ public class HttpServer {
             ctx.status(HttpStatus.CREATED_201);
         });
 
+        app.get("/api/account/*/posts", ctx -> {
+            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0), false);
+            if (existingUserAccountDoc == null) {
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
+            FindIterable<Document> posts = mongoManager.findPostsForUser(ctx.splat(0));
+            Document postsDoc = new Document("posts", posts);
+
+            ctx.result(postsDoc.toJson());
+            ctx.status(HttpStatus.OK_200);
+        });
+
         /**
          * Get account information
          */
         app.get("/api/account/*", ctx -> {
-            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0));
+            Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0), false);
             if (existingUserAccountDoc != null) {
                 Account userAccount = Account.fromDoc(existingUserAccountDoc);
                 Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
@@ -674,7 +682,7 @@ public class HttpServer {
                 return;
             }
 
-            Document loginAccountDoc = mongoManager.findAccount(format((String) doc.get("username")));
+            Document loginAccountDoc = mongoManager.findAccount(format((String) doc.get("username")), true);
             if (loginAccountDoc == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
@@ -682,8 +690,8 @@ public class HttpServer {
             Account loginAccount = Account.fromDoc(loginAccountDoc);
 
             if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
-                Document tokenDoc = new Document("token", loginAccount.token);
-                ctx.result(tokenDoc.toJson());
+                Document responseDoc = new Document("token", loginAccount.token).append("username", loginAccount.username);
+                ctx.result(responseDoc.toJson());
                 ctx.status(HttpStatus.OK_200);
 
             } else {

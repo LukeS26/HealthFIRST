@@ -88,6 +88,7 @@ public class Account extends DataSchema {
         a.token = (String) doc.get("token");
         a.firstName = (String) doc.get("first_name");
         a.lastName = (String) doc.get("last_name");
+        a.bio = (String) doc.get("biography");
         a.profilePictureLink = (String) doc.get("profile_picture_link");
         a.permissionID = (int) doc.get("permission_id");
         a.badgeIDs = (List<Integer>) doc.get("badge_ids");

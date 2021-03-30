@@ -1,5 +1,9 @@
 package LukeS26.github.io;
 
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -65,6 +69,11 @@ public class MongoManager {
         commentCollection.insertOne(commentDoc);
     }
 
+    public void writeCommentDoc(Document commentDoc) {
+        MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
+        commentCollection.insertOne(commentDoc);
+    }
+
     public Document findComment(String commentID) {
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         try {
@@ -122,11 +131,26 @@ public class MongoManager {
         return null;
     }
 
+    public FindIterable<Document> findPostsForUser(String username) {
+        MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
+        try {
+            FindIterable<Document> posts = postCollection.find(Filters.eq("username", username));
+            if (posts != null) {
+                return posts;
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
     public FindIterable<Document> getChallengeFeed(int pageNumber) {
         MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
         try {
             // TODO: For some reason this is making 0 and 1 equal
-            FindIterable<Document> challengeDocs = challengesCollection.find().sort(Sorts.descending("date"))
+            FindIterable<Document> challengeDocs = challengesCollection.find().sort(Sorts.descending("challenge_id"))
                     .skip(Settings.CHALLENGES_PER_PAGE * pageNumber).limit(Settings.CHALLENGES_PER_PAGE);
             if (challengeDocs != null) {
                 return challengeDocs;
@@ -174,6 +198,7 @@ public class MongoManager {
         return challengesCollection.find().sort(Sorts.descending("date")).first();
     }
 
+    @SuppressWarnings("unchecked")
     public void completeChallenge(int challengeId, Account account) {
         account.badgeIDs.add(challengeId);
 
@@ -182,6 +207,26 @@ public class MongoManager {
         updateDoc.put("badge_ids", account.badgeIDs);
 
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
+        Document accountDoc = accountCollection.find(Filters.eq("username", account.username)).first();
+        if (accountDoc == null) {
+            return;
+        }
+
+        if (((List<Integer>) accountDoc.get("badge_ids")).contains(challengeId)) {
+            return;
+        }
+
+
+        MongoCollection<Document> challengeCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
+        Document challengeDoc = challengeCollection.find(Filters.eq("challenge_id", challengeId)).first();
+        if (challengeDoc == null) {
+            return;
+        }
+
+        if (((Date) challengeDoc.get("end_date")).before(new Date())) {
+            return;
+        }
+
         accountCollection.updateOne(Filters.eq("username", account.username), new Document("$set", updateDoc));
     }
 
@@ -223,19 +268,22 @@ public class MongoManager {
      * @return an org.bson.Document for the given username if found, null if not
      *         found
      */
-    public Document findAccount(String username) {
+    public Document findAccount(String username, boolean ignoreCase) {
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);
+        Document accountDoc = null;
         try {
-            Document accountDoc = accountCollection.find(Filters.eq("username", username)).first();
-            if (accountDoc != null) {
-                return accountDoc;
+            if (ignoreCase) {
+                accountDoc = accountCollection.find(Filters.regex("username", Pattern.compile("^(?i)" + username + "(?-i)$"))).first();
+
+            } else {
+                accountDoc = accountCollection.find(Filters.eq("username", username)).first();
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
 
-        return null;
+        return accountDoc;
     }
 
     public Document findAccountByToken(String token) {

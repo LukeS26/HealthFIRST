@@ -18,7 +18,6 @@
   <header>
     <div class="headerRight">
       <a href="/"><span class="titleHome">HealthFIRST</span></a>
-      <div><a href="/challenges.html">Challenges</a></div>
     </div>
     <div id="profileHeader" class="profileHeader" onclick="toggleOptions()">
       <div class="profileImage" style="height: 50px; width: 50px; overflow: hidden;">
@@ -34,9 +33,17 @@
       </div>
     </div>
   </header>
+  <div class="navigation" id="nav">  
+    <a class="navlinks" href="/"> Home </a> 
+    <a class="navlinks" href="/challenges.html">Challenges</a> 
+    <a class="navlinks" href="/about.html">About</a>
+  </div>
   <br><br><br>
   <div class="blur" id="popupBlur" onclick="togglePostPopup()">
     <div class="popup" id="post-popup">
+      <div id="titleTooLong" class="error">Your title is over 40 characters</div><br>
+      <div id="bodyTooLong" class="error">Your body is over 3000 characters</div><br>
+
       <input placeholder="Title" id="postTitle" onclick="togglePostPopup()">
       <textarea placeholder="Body" id="postBody" onclick="togglePostPopup()"></textarea><br>
       <button onclick="collectPostInfo()">Chat</button>

@@ -305,9 +305,11 @@ public class HttpServer {
             comment.author = format(userAccount.username);
             comment.body = format((String) doc.get("body"));
             comment.date = new Date();
+            Document commentDoc = comment.toDoc();
 
-            mongoManager.writeComment(comment);
+            mongoManager.writeCommentDoc(commentDoc);
             ctx.status(HttpStatus.CREATED_201);
+            ctx.result((String) commentDoc.get("_id"));
         });
 
         /**

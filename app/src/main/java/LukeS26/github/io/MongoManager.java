@@ -69,6 +69,11 @@ public class MongoManager {
         commentCollection.insertOne(commentDoc);
     }
 
+    public void writeCommentDoc(Document commentDoc) {
+        MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
+        commentCollection.insertOne(commentDoc);
+    }
+
     public Document findComment(String commentID) {
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         try {

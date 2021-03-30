@@ -752,13 +752,56 @@ public class HttpServer {
         // #endregion
 
         // #region Followers
-        app.post("/api/follow/*", ctx -> {
+        app.post("/api/following/*", ctx -> {
             ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
             if (!ctx.headerMap().containsKey("Authorization")) {
                 ctx.status(HttpStatus.UNAUTHORIZED_401);
                 return;
             }
+
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                return;
+            }
+
+            Account followAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0), false));
+            if (followAccount == null) {
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
+            userAccount.following.add(ctx.splat(0));
+            Document updateDoc = new Document("$set", new Document("following", userAccount.following));
+            mongoManager.updateAccount(userAccount.username, updateDoc);
+            ctx.status(HttpStatus.NO_CONTENT_204);
+        });
+
+        app.delete("/api/following/*", ctx -> {
+            ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+            if (!ctx.headerMap().containsKey("Authorization")) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                return;
+            }
+
+            Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+            if (userAccount == null) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                return;
+            }
+
+            Account unFollowAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0), false));
+            if (unFollowAccount == null) {
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
+            userAccount.following.remove(ctx.splat(0));
+            Document updateDoc = new Document("$set", new Document("following", userAccount.following));
+            mongoManager.updateAccount(userAccount.username, updateDoc);
+            ctx.status(HttpStatus.NO_CONTENT_204);
         });
         // #endregion
     }

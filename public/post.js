@@ -132,7 +132,7 @@ function openCommentField(el, cid) {
 		let commentField = `<div class="commentInputField"> <textarea placeholder="Comment" class="commentField id="inputField${cid}"> </textarea> <div id="commentTooLong" class="error">Your comment is over 1500 characters long</div><br> <button onClick="makeCommentOnPost(this.parentElement.childNodes[1].value, this.parentElement);"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`
 		el.parentElement.parentElement.innerHTML += commentField;
 
-		document.getElementById(`inputField${cid}`).focus();
+		document.getElementById(`inputFieldnull`).focus();
 	} else if (cid != null && el.parentElement.parentElement.childElementCount < 4) {
 		//REPLYING TO COMMENT
 		let commentField = `<div class="commentInputField"> <textarea placeholder="Comment" class="commentField" id="inputField${cid}"> </textarea> <div id="commentTooLong${cid}" class="error">Your comment is over 1500 characters long</div><br> <button onClick="makeComment('${cid}', this.parentElement.childNodes[1].value, this.parentElement);"> Submit </button> <button onClick="this.parentElement.remove()"> Cancel </button> </div>`

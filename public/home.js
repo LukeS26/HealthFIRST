@@ -272,3 +272,9 @@ function deletePost(id, postNum) {
 		temp[3].innerHTML = "[Removed]"
 	}
 }
+
+onclick = function() {
+	if (blurOpen) {
+		togglePostPopup();
+	}
+}

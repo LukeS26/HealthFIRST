@@ -820,6 +820,11 @@ public class HttpServer {
                 return;
             }
 
+            if (userAccount.following.contains(ctx.splat(0))) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                return;
+            }
+
             userAccount.following.add(ctx.splat(0));
             Document updateDoc = new Document("following", userAccount.following);
             mongoManager.updateAccount(userAccount.username, updateDoc);
@@ -848,6 +853,11 @@ public class HttpServer {
             Account unFollowAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0), false));
             if (unFollowAccount == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
+                return;
+            }
+
+            if (!userAccount.following.contains(ctx.splat(0))) {
+                ctx.status(HttpStatus.FORBIDDEN_403);
                 return;
             }
 

@@ -340,10 +340,6 @@
     color: black;
 }
 
-#profileOut {
-    transition: color linear 0.5s;
-}
-
 #post-popup input {
     width: 90%;
     height: 50px;

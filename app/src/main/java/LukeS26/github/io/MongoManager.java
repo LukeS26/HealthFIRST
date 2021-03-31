@@ -167,7 +167,7 @@ public class MongoManager {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
             // TODO: For some reason this is making 0 and 1 equal
-            FindIterable<Document> postDocs = postCollection.find().sort(Sorts.descending("date"))
+            FindIterable<Document> postDocs = postCollection.find(Filters.not(Filters.eq("author", "[Removed]"))).sort(Sorts.descending("date"))
                     .skip(Settings.POSTS_PER_PAGE * pageNumber).limit(Settings.POSTS_PER_PAGE);
             if (postDocs != null) {
                 return postDocs;

@@ -88,8 +88,6 @@ public class MongoManager {
 
         return null;
     }
-    // TODO: Allow editing of comments (might want to add a boolean for isEdited to
-    // show if it was edited like Discord)
     // #endregion
 
     // #region Posts

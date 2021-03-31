@@ -402,6 +402,7 @@ body {
     overflow-x: clip;
     overflow-wrap: anywhere;
     transition: background-color linear 0.5s;
+    transition: color linear 0.5s;
 }
 
 .challengeButton {

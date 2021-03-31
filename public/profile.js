@@ -2,6 +2,7 @@ let profileOut = document.getElementById("profileOut");
 let blurColor;
 let blurOpen = false;
 let imgUrl = "";
+let light = true;
 
 let url = "http://157.230.233.218:8080/api/account";
 fetch(url, {
@@ -152,13 +153,34 @@ if( navigator.userAgent.match(/Android/i)
 // 	return json;
 // }
 
+function toggleLightMode() {
+	if (light) {
+		darkMode();
+		light = false;
+	} else {
+		lightMode();
+		light = true;
+	}
+}
+
 function darkMode() {
 	let htmlBody = document.getElementsByTagName("body");
 	let header = document.getElementsByTagName("header")[0];
 	let profileHeader = document.getElementById("profileHeader");
 
 	htmlBody[0].style.backgroundColor = "rgb(25, 25, 25)";
+	htmlBody[0].style.color = "white";
 	header.style.backgroundColor = "#002672";
 	profileHeader.style.backgroundColor = "#002672";
-	profileOut.style.color = "white";
+}
+
+function lightMode() {
+	let htmlBody = document.getElementsByTagName("body");
+	let header = document.getElementsByTagName("header")[0];
+	let profileHeader = document.getElementById("profileHeader");
+
+	htmlBody[0].style.backgroundColor = "white";
+	htmlBody[0].style.color = "black";
+	header.style.backgroundColor = "#0044CC";
+	profileHeader.style.backgroundColor = "#0044CC";
 }

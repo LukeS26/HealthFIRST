@@ -109,6 +109,10 @@ function loadPage(page) {
 			if (document.getElementById("loadingPost")) {
 				document.getElementById("loadingPost").remove();
 			}
+
+			if (localStorage.getItem("light-mode") === "dark") {
+				darkMode();
+			}
 		});
 }
 

@@ -58,13 +58,13 @@ async function loadProfile(json) {
 function getImg(id) {
 	switch(id) {
 		case -1:
-			return "developer.png"
+			return "developer0.png"
 		case 0:
-			return "nature0.png";
+			return "nature1.png";
 		case 1:
-			return "exercise0.png";
+			return "exercise1.png";
 		case 2:
-			return "cheese.png"
+			return "cheese0.png"
 	}
 }
 

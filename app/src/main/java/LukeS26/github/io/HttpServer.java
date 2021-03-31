@@ -821,7 +821,7 @@ public class HttpServer {
             }
 
             userAccount.following.add(ctx.splat(0));
-            Document updateDoc = new Document("$set", new Document("following", userAccount.following));
+            Document updateDoc = new Document("following", userAccount.following);
             mongoManager.updateAccount(userAccount.username, updateDoc);
             ctx.status(HttpStatus.NO_CONTENT_204);
         });
@@ -852,7 +852,7 @@ public class HttpServer {
             }
 
             userAccount.following.remove(ctx.splat(0));
-            Document updateDoc = new Document("$set", new Document("following", userAccount.following));
+            Document updateDoc = new Document("following", userAccount.following);
             mongoManager.updateAccount(userAccount.username, updateDoc);
             ctx.status(HttpStatus.NO_CONTENT_204);
         });

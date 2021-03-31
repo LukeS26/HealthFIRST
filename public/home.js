@@ -279,3 +279,27 @@ function deletePost(id, postNum) {
 		temp[3].innerHTML = "[Removed]"
 	}
 }
+
+function darkMode() {
+	let htmlBody = document.getElementsByTagName("body");
+	let posts = document.getElementsByClassName("posts");
+	let postContainers = document.getElementsByClassName("postContainer");
+	let postAuthors = document.getElementsByClassName("postAuthor");
+	let header = document.getElementsByTagName("header")[0];
+	let profileHeader = document.getElementById("profileHeader");
+	let navigation = document.getElementsByClassName("navigation")[0];
+
+	htmlBody[0].style.backgroundColor = "rgb(25, 25, 25)";
+	header.style.backgroundColor = "#002672";
+	profileHeader.style.backgroundColor = "#002672";
+	navigation.style.backgroundColor = "#002672";
+	for (let i = 0; i < posts.length; i++) {
+		posts[i].style.color = "white";
+	}
+	for (let i = 0; i < postContainers.length; i++) {
+		postContainers[i].style.backgroundColor = "rgb(50, 50, 50)";
+	}
+	for (let i = 0; i < postAuthors.length; i++) {
+		postAuthors[i].style.color = "white";
+	}
+}

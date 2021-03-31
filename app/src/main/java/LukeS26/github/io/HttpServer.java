@@ -820,11 +820,6 @@ public class HttpServer {
                 return;
             }
 
-            // TODO: Remove this check after a while, this is just here for accounts that were made before following was implemented
-            if (userAccount.following == null) {
-                userAccount.following = new ArrayList<String>();
-            }
-
             userAccount.following.add(ctx.splat(0));
             Document updateDoc = new Document("$set", new Document("following", userAccount.following));
             mongoManager.updateAccount(userAccount.username, updateDoc);

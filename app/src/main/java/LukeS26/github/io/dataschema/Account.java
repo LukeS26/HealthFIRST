@@ -25,6 +25,7 @@ public class Account extends DataSchema {
 
     public int permissionID;
     public List<Integer> badgeIDs; // Can be null/empty
+    public List<String> following;
     // TODO: Add signup date
 
     /**
@@ -46,6 +47,7 @@ public class Account extends DataSchema {
             userDoc.append("first_name", firstName);
             userDoc.append("last_name", lastName);
             userDoc.append("email", email);
+            userDoc.append("following", following);
         }
 
         userDoc.append("permission_id", permissionID).append("badge_ids", badgeIDs);
@@ -68,7 +70,7 @@ public class Account extends DataSchema {
         Document userDoc = new Document("username", username).append("first_name", firstName)
                 .append("last_name", lastName).append("email", email).append("token", token).append("biography", bio)
                 .append("profile_picture_link", profilePictureLink).append("password_hash", passwordHash)
-                .append("permission_id", permissionID).append("badge_ids", badgeIDs);
+                .append("permission_id", permissionID).append("badge_ids", badgeIDs).append("following", following);
 
         return userDoc;
     }
@@ -92,6 +94,7 @@ public class Account extends DataSchema {
         a.profilePictureLink = (String) doc.get("profile_picture_link");
         a.permissionID = (int) doc.get("permission_id");
         a.badgeIDs = (List<Integer>) doc.get("badge_ids");
+        a.following = (List<String>) doc.get("following");
         // "Unchecked cast" problem when casting to List
         // https://stackoverflow.com/questions/1490134/java-type-safety-unchecked-cast
 

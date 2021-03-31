@@ -40,8 +40,16 @@
         <button onclick="changeProfilePic()" id="updatePhotoButton">Submit</button>
       </div>
     </div>
-    <div id="profileOut"></div>
     <button onclick="togglePhotoPopup()" style="margin-top: 20px">Change Photo</button>
+    <div id="profileOut"></div>
+    <br>
+    <div class="option">
+      <div>Dark Mode</div>
+      <label class="switch">
+        <input type="checkbox" onchange="darkMode()">
+        <div class="slider"></div>
+      </label>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="profile.js"></script>
     <script src="header.js"></script>

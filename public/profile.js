@@ -158,7 +158,7 @@ function darkMode() {
 	let profileHeader = document.getElementById("profileHeader");
 
 	htmlBody[0].style.backgroundColor = "rgb(25, 25, 25)";
+	htmlBody[0].style.color = "white";
 	header.style.backgroundColor = "#002672";
 	profileHeader.style.backgroundColor = "#002672";
-	profileOut.style.color = "white";
 }

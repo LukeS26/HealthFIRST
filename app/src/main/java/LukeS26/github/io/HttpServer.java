@@ -661,6 +661,7 @@ public class HttpServer {
 
             userAccount.permissionID = Utils.Permissions.USER.ordinal();
             userAccount.badgeIDs = new ArrayList<Integer>();
+            userAccount.following = new ArrayList<String>();
 
             mongoManager.writeAccount(userAccount);
 
@@ -817,6 +818,11 @@ public class HttpServer {
             if (followAccount == null) {
                 ctx.status(HttpStatus.NOT_FOUND_404);
                 return;
+            }
+
+            // TODO: Remove this check after a while, this is just here for accounts that were made before following was implemented
+            if (userAccount.following == null) {
+                userAccount.following = new ArrayList<String>();
             }
 
             userAccount.following.add(ctx.splat(0));

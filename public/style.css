@@ -145,7 +145,7 @@
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: 999;
+    z-index: 998;
     background-color: rgba(211, 211, 211, 0);
     transition: background-color 0.2s ease-in-out;
     display: none;
@@ -161,6 +161,8 @@
     background-color: white;
     text-align: center;
     box-shadow: 8px 8px gray;
+    display: none;
+    z-index: 999;
 }
 
 .commentDisplay {

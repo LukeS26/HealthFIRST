@@ -192,11 +192,13 @@ function makePost(title, body) {
 
 function togglePostPopup() {
 	let blur = document.getElementById("popupBlur");
+	let popup = document.getElementById("post-popup");
 	if (!blurOpen) {
 		blur.style.display = "block";
 		blurColor = "rgba(211, 211, 211, 0.6)";
 		window.setTimeout(setBlurColor, 1);
 		blurOpen = true;
+		popup.style.display = "block";
 		document.getElementById("postTitle").focus();
 		//document.getElementsByTagName("body")[0].style.filter = "blur(4px)";
 		//blur.style.filter = "none";
@@ -204,6 +206,7 @@ function togglePostPopup() {
 		blur.style.backgroundColor = "rgba(211, 211, 211, 0)";
 		blur.style.display = "none";
 		blurOpen = false;
+		popup.style.display = "none";
 		//document.getElementsByTagName("body")[0].style.filter = "none";
 	}
 }
@@ -270,11 +273,5 @@ function deletePost(id, postNum) {
 		temp[1].innerHTML = "[Removed]";
 		temp[1].href = "/user.html?[Removed]";
 		temp[3].innerHTML = "[Removed]"
-	}
-}
-
-onclick = function() {
-	if (blurOpen) {
-		togglePostPopup();
 	}
 }

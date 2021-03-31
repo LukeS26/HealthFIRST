@@ -32,8 +32,8 @@ public class Account extends DataSchema {
      * Convert the Account object to a org.bson.Document
      * 
      * @param includeSecrets whether to include the password salt/hash and token in the
-     *                        account (true when sending the account to the
-     *                        frontend, false when working when account in the
+     *                        account (false when sending the account to the
+     *                        frontend, true when working when account in the
      *                        backend)
      * @return account formatted into a Document
      */

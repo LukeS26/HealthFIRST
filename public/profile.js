@@ -157,9 +157,11 @@ function toggleLightMode() {
 	if (light) {
 		darkMode();
 		light = false;
+		localStorage.setItem("light-mode", "dark");
 	} else {
 		lightMode();
 		light = true;
+		localStorage.setItem("light-mode", "light");
 	}
 }
 
@@ -183,4 +185,8 @@ function lightMode() {
 	htmlBody[0].style.color = "black";
 	header.style.backgroundColor = "#0044CC";
 	profileHeader.style.backgroundColor = "#0044CC";
+}
+
+if (localStorage.getItem("light-mode") === "dark") {
+	darkMode();
 }

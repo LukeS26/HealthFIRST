@@ -268,10 +268,11 @@ function deletePost(id, postNum) {
 				"Origin": "http://healthfirst4342.tk/"
 			}
 		});
+		let temp;
 		try {
-			let temp = document.getElementById(`post${postNum}`).children[2].children;
+			temp = document.getElementById(`post${postNum}`).children[2].children;
 		} catch {
-			let temp = document.getElementById(`post${postNum}`).children[1].children;
+			temp = document.getElementById(`post${postNum}`).children[1].children;
 		}
 		temp[0].innerHTML = "[Removed]";
 		temp[1].innerHTML = "[Removed]";

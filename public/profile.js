@@ -151,3 +151,15 @@ if( navigator.userAgent.match(/Android/i)
 
 // 	return json;
 // }
+
+function darkMode() {
+	let htmlBody = document.getElementsByTagName("body");
+	let header = document.getElementsByTagName("header")[0];
+	let profileHeader = document.getElementById("profileHeader");
+	let navigation = document.getElementsByClassName("navigation")[0];
+
+	htmlBody[0].style.backgroundColor = "rgb(25, 25, 25)";
+	header.style.backgroundColor = "#002672";
+	profileHeader.style.backgroundColor = "#002672";
+	navigation.style.backgroundColor = "#002672";
+}

@@ -61,7 +61,7 @@ function displayPost(post, id, top) {
 	// 			document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
 	// 		});
 	// }
-	if (post.author === getCookie("username") || getCookie("level") > 0) {
+	if (post.author === getCookie("username") || getCookie("level") > 1) {
 		html += `<span onClick='deletePost("${id}", ${postCount})' class="postOptions">`;
 		html += `<div class="postToolTip">Delete</div>`;
 		html += `<img src="trash-can.png" width="20px" height="20px">`;
@@ -182,6 +182,7 @@ function makePost(title, body) {
 				date: { $date: new Date().getTime() }
 			}
 			displayPost(postData, text, true);
+			togglePostPopup();
 			document.getElementById("postTitle").value = "";
 			document.getElementById("postBody").value = "";
 		})
@@ -192,11 +193,13 @@ function makePost(title, body) {
 
 function togglePostPopup() {
 	let blur = document.getElementById("popupBlur");
+	let popup = document.getElementById("post-popup");
 	if (!blurOpen) {
 		blur.style.display = "block";
 		blurColor = "rgba(211, 211, 211, 0.6)";
 		window.setTimeout(setBlurColor, 1);
 		blurOpen = true;
+		popup.style.display = "block";
 		document.getElementById("postTitle").focus();
 		//document.getElementsByTagName("body")[0].style.filter = "blur(4px)";
 		//blur.style.filter = "none";
@@ -204,6 +207,7 @@ function togglePostPopup() {
 		blur.style.backgroundColor = "rgba(211, 211, 211, 0)";
 		blur.style.display = "none";
 		blurOpen = false;
+		popup.style.display = "none";
 		//document.getElementsByTagName("body")[0].style.filter = "none";
 	}
 }
@@ -264,8 +268,12 @@ function deletePost(id, postNum) {
 				"Origin": "http://healthfirst4342.tk/"
 			}
 		});
-
-		let temp = document.getElementById(`post${postNum}`).children[2].children;
+		let temp;
+		try {
+			temp = document.getElementById(`post${postNum}`).children[2].children;
+		} catch {
+			temp = document.getElementById(`post${postNum}`).children[1].children;
+		}
 		temp[0].innerHTML = "[Removed]";
 		temp[1].innerHTML = "[Removed]";
 		temp[1].href = "/user.html?[Removed]";
@@ -273,8 +281,26 @@ function deletePost(id, postNum) {
 	}
 }
 
-onclick = function() {
-	if (blurOpen) {
-		togglePostPopup();
+function darkMode() {
+	let htmlBody = document.getElementsByTagName("body");
+	let posts = document.getElementsByClassName("posts");
+	let postContainers = document.getElementsByClassName("postContainer");
+	let postAuthors = document.getElementsByClassName("postAuthor");
+	let header = document.getElementsByTagName("header")[0];
+	let profileHeader = document.getElementById("profileHeader");
+	let navigation = document.getElementsByClassName("navigation")[0];
+
+	htmlBody[0].style.backgroundColor = "rgb(25, 25, 25)";
+	header.style.backgroundColor = "#002672";
+	profileHeader.style.backgroundColor = "#002672";
+	navigation.style.backgroundColor = "#002672";
+	for (let i = 0; i < posts.length; i++) {
+		posts[i].style.color = "white";
+	}
+	for (let i = 0; i < postContainers.length; i++) {
+		postContainers[i].style.backgroundColor = "rgb(50, 50, 50)";
+	}
+	for (let i = 0; i < postAuthors.length; i++) {
+		postAuthors[i].style.color = "white";
 	}
 }

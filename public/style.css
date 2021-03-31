@@ -118,6 +118,7 @@
     z-index: 0;
     width: 600px;
     padding-top: 45px;
+    transition: color linear 0.5s;
 }
 
 .postContainer {
@@ -126,6 +127,7 @@
     padding: 5px;
     margin-bottom: 20px;
     background-color: white;
+    transition: background-color linear 0.5s;
 }
 .postContainer:hover {
     cursor: pointer;
@@ -145,7 +147,7 @@
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: 999;
+    z-index: 998;
     background-color: rgba(211, 211, 211, 0);
     transition: background-color 0.2s ease-in-out;
     display: none;
@@ -161,6 +163,8 @@
     background-color: white;
     text-align: center;
     box-shadow: 8px 8px gray;
+    display: none;
+    z-index: 999;
 }
 
 .commentDisplay {
@@ -174,6 +178,7 @@
     text-decoration: none;
     display: inline-block;
     padding-right: 20px;
+    transition: color linear 0.5s;
 }
 
 .postAuthor:hover {
@@ -249,6 +254,7 @@
     height: 60px;
     z-index: 2;
     background-color: #0044CC;
+    transition: background-color linear 0.5s;
 }
 #profileHeader img {
     position: relative;
@@ -285,6 +291,10 @@
     padding: 10px 20px 10px 20px;
     text-decoration: none;
     color: black;
+}
+
+#profileOut {
+    transition: color linear 0.5s;
 }
 
 #post-popup input {
@@ -324,6 +334,7 @@ header {
     height: 60px;
     background-color: #0044CC;
     z-index: 998;
+    transition: background-color linear 0.5s;
 }
 header > *:hover {
     cursor: pointer;
@@ -343,6 +354,7 @@ body {
     font-family: Tahoma, sans-serif;
     overflow-x: clip;
     overflow-wrap: anywhere;
+    transition: background-color linear 0.5s;
 }
 
 .challengeButton {
@@ -358,6 +370,7 @@ body {
     border-color: #0044CC;
     background-color: #FFFFFF;
     cursor: pointer;
+    transition: color linear 0.5s;
 }
 
 .challengeContainer {
@@ -398,6 +411,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color linear 0.5s;
 }
 
 .navlinks {

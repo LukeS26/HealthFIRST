@@ -64,7 +64,7 @@ function checkUser() {
 			}
 		})
 		.then(function (json) {
-			console.log(json);
+			//console.log(json);
 			token = json.token;
 			document.cookie = `token=${token}; expires=${expires}`;
 			document.cookie = `username=${json.username}; expires=${expires}`;

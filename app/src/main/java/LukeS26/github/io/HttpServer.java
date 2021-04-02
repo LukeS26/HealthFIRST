@@ -663,6 +663,8 @@ public class HttpServer {
             userAccount.badgeIDs = new ArrayList<Integer>();
             userAccount.following = new ArrayList<String>();
 
+            userAccount.signupDate = new Date();
+
             mongoManager.writeAccount(userAccount);
 
             ctx.result(new Document("token", userAccount.token).toJson());

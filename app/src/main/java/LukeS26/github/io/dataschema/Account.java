@@ -1,5 +1,6 @@
 package LukeS26.github.io.dataschema;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,8 @@ public class Account extends DataSchema {
     public int permissionID;
     public List<Integer> badgeIDs; // Can be null/empty
     public List<String> following;
+
+    public Date signupDate;
     // TODO: Add signup date
 
     /**
@@ -50,7 +53,7 @@ public class Account extends DataSchema {
             userDoc.append("following", following);
         }
 
-        userDoc.append("permission_id", permissionID).append("badge_ids", badgeIDs);
+        userDoc.append("permission_id", permissionID).append("badge_ids", badgeIDs).append("signup_date", signupDate);
 
         return userDoc;
     }
@@ -70,7 +73,7 @@ public class Account extends DataSchema {
         Document userDoc = new Document("username", username).append("first_name", firstName)
                 .append("last_name", lastName).append("email", email).append("token", token).append("biography", bio)
                 .append("profile_picture_link", profilePictureLink).append("password_hash", passwordHash)
-                .append("permission_id", permissionID).append("badge_ids", badgeIDs).append("following", following);
+                .append("permission_id", permissionID).append("badge_ids", badgeIDs).append("following", following).append("signup_date", signupDate);
 
         return userDoc;
     }
@@ -95,6 +98,7 @@ public class Account extends DataSchema {
         a.permissionID = (int) doc.get("permission_id");
         a.badgeIDs = (List<Integer>) doc.get("badge_ids");
         a.following = (List<String>) doc.get("following");
+        a.signupDate = (Date) doc.get("signup_date");
         // "Unchecked cast" problem when casting to List
         // https://stackoverflow.com/questions/1490134/java-type-safety-unchecked-cast
 

@@ -166,10 +166,12 @@ function toggleLightMode() {
 }
 
 function darkMode() {
+	let body = document.getElementsByTagName("body")[0];
 	let htmlBody = document.getElementsByTagName("body");
 	let header = document.getElementsByTagName("header")[0];
 	let profileHeader = document.getElementById("profileHeader");
 
+	body.style.transition = "linear 0.5s";
 	htmlBody[0].style.backgroundColor = "rgb(25, 25, 25)";
 	htmlBody[0].style.color = "white";
 	header.style.backgroundColor = "#002672";
@@ -177,16 +179,22 @@ function darkMode() {
 }
 
 function lightMode() {
+	let body = document.getElementsByTagName("body")[0];
 	let htmlBody = document.getElementsByTagName("body");
 	let header = document.getElementsByTagName("header")[0];
 	let profileHeader = document.getElementById("profileHeader");
 
+	body.style.transition = "linear 0.5s";
 	htmlBody[0].style.backgroundColor = "white";
 	htmlBody[0].style.color = "black";
 	header.style.backgroundColor = "#0044CC";
 	profileHeader.style.backgroundColor = "#0044CC";
 }
 
-if (localStorage.getItem("light-mode") === "dark") {
-	darkMode();
+if (localStorage.getItem("light-mode") === "light") {
+	document.getElementsByTagName("body")[0].style.backgroundColor = "white";
+	document.getElementById("lightModeSlider").innerHTML = `<input type="checkbox" onchange="toggleLightMode()"><div class="slider"></div>`;
+} else {
+	document.getElementById("lightModeSlider").innerHTML = `<input type="checkbox" onchange="toggleLightMode()" checked><div class="slider"></div>`;
+	light = false;
 }

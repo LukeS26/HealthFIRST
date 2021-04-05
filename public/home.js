@@ -64,14 +64,22 @@ function displayPost(post, id, top) {
 	if (post.author === getCookie("username") || getCookie("level") > 1) {
 		html += `<span onClick='deletePost("${id}", ${postCount})' class="postOptions">`;
 		html += `<div class="postToolTip">Delete</div>`;
-		html += `<img src="trash-can.png" width="20px" height="20px">`;
+		if (localStorage.getItem("light-mode") === "light") {
+			html += `<img src="trash-can.png" width="20px" height="20px">`;
+		} else {
+			html += `<img src="darkModeTrashCan.png" width="20px" height="20px"`;
+		}
 		html += `</span>`;
 	}
 
 	if (post.author === getCookie("username")) {
 		html += `<span class="postOptions">`;
 		html += `<div class="postToolTip">Edit</div>`;
-		html += `<img src="pencil.png" width="20px" height="20px">`;
+		if (localStorage.getItem("light-mode") === "light") {
+			html += `<img src="pencil.png" width="20px" height="20px">`;
+		} else {
+			html += `<img src="darkModePencil.png" width="20px" height="20px"`;
+		}
 		html += `</span>`;
 	}
 
@@ -281,6 +289,7 @@ function deletePost(id, postNum) {
 	}
 }
 
+/*
 function darkMode() {
 	let htmlBody = document.getElementsByTagName("body");
 	let posts = document.getElementsByClassName("posts");
@@ -304,3 +313,4 @@ function darkMode() {
 		postAuthors[i].style.color = "white";
 	}
 }
+*/

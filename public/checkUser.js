@@ -44,7 +44,7 @@ if (getCookie("accepted") !== "true") {
 	fetch("http://157.230.233.218:8080/api/account/" + getCookie("username"))
 	.then(res => res.json())
 	.then(json => {
-		document.cookie = `level=${json.permission_id}`;
+		document.cookie = `level=${json.permission_id}; SameSite=Lax`;
 	})
 	.catch(err => console.error(err));
 //}

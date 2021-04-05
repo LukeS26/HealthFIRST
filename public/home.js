@@ -78,7 +78,7 @@ function displayPost(post, id, top) {
 		if (localStorage.getItem("light-mode") === "light") {
 			html += `<img src="pencil.png" width="20px" height="20px">`;
 		} else {
-			html += `<img src="darkModePencil.png" width="20px" height="20px"`;
+			html += `<img src="darkModePencil.png" width="20px" height="20px">`;
 		}
 		html += `</span>`;
 	}

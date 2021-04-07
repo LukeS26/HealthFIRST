@@ -29,7 +29,6 @@ public class Account extends DataSchema {
     public List<String> following;
 
     public Date signupDate;
-    // TODO: Add signup date
 
     /**
      * Convert the Account object to a org.bson.Document

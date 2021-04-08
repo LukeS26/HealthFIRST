@@ -428,7 +428,7 @@ body {
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 20px;
-    background-color: white;
+    background-color: var(--post-background-color);
 }
 
 .challengeButtonFinished {

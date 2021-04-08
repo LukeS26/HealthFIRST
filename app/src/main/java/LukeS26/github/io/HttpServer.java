@@ -30,8 +30,8 @@ import io.javalin.Javalin;
 public class HttpServer {
     private static HttpServer instance;
     public MongoManager mongoManager;
-    private Javalin app;
-    private String[] suspiciousEndpoints;
+    private final Javalin app;
+    private final String[] suspiciousEndpoints;
     private byte[] gzipBytes;
 
     public static HttpServer getInstance() {
@@ -154,7 +154,7 @@ public class HttpServer {
             try {
                 pageNum = Integer.parseInt(ctx.queryParam("page"));
 
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
 
             FindIterable<Document> feed = mongoManager.getChallengeFeed(pageNum);
@@ -368,7 +368,7 @@ public class HttpServer {
             try {
                 pageNum = Integer.parseInt(ctx.queryParam("page"));
 
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
 
             FindIterable<Document> feed = mongoManager.getFeed(pageNum);
@@ -654,9 +654,7 @@ public class HttpServer {
             String receivedHash = (String) doc.get("password_hash");
 
             String salt = BCrypt.gensalt(Settings.BCRYPT_LOG_ROUNDS);
-            String finalPasswordHash = BCrypt.hashpw(receivedHash, salt);
-
-            userAccount.passwordHash = finalPasswordHash;
+            userAccount.passwordHash = BCrypt.hashpw(receivedHash, salt);
             userAccount.token = Account.generateToken();
 
             userAccount.permissionID = Utils.Permissions.USER.ordinal();

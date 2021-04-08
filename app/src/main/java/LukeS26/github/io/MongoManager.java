@@ -1,9 +1,9 @@
 package LukeS26.github.io;
 
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Pattern;
-
+import LukeS26.github.io.dataschema.Account;
+import LukeS26.github.io.dataschema.Challenge;
+import LukeS26.github.io.dataschema.Comment;
+import LukeS26.github.io.dataschema.Post;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -11,14 +11,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
-
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import LukeS26.github.io.dataschema.Account;
-import LukeS26.github.io.dataschema.Challenge;
-import LukeS26.github.io.dataschema.Comment;
-import LukeS26.github.io.dataschema.Post;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class MongoManager {
     private static MongoManager instance;
@@ -54,13 +52,12 @@ public class MongoManager {
     /**
      * Get all comments and replies to comments for the given post
      * 
-     * @param postID
-     * @return
+     * @param postID ID of comment to find
+     * @return FindIterable of located documents
      */
     public FindIterable<Document> findAllComments(String postID) {
         MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
-        FindIterable<Document> postComments = commentsCollection.find(Filters.eq("post_id", new ObjectId(postID)));
-        return postComments;
+        return commentsCollection.find(Filters.eq("post_id", new ObjectId(postID)));
     }
 
     public void writeComment(Comment comment) {

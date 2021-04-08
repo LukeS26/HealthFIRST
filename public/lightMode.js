@@ -9,4 +9,5 @@ if (localStorage.getItem("light-mode") === "dark") {
     r.style.setProperty("--profileHeader-background-color", "#002672");
     r.style.setProperty("--navigation-background-color", "#002672");
     r.style.setProperty("--challenges-header", "white");
+    r.style.setProperty("--finished-challenge-background-color", "rgb(50, 50, 50)");
 }

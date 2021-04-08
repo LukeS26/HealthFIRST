@@ -7,6 +7,7 @@
     --profileHeader-background-color: #0044CC;
     --navigation-background-color: #0044CC;
     --challenges-header: #2F2F2F;
+    --finished-challenge-background-color: #cfcfcf;
 }
 
 .coolForm{
@@ -444,7 +445,7 @@ body {
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 20px;
-    background-color: #cfcfcf;
+    background-color: var(--finished-challenge-background-color);
 }
 
 .badges {

@@ -109,7 +109,7 @@ function allowDrop(e) {
 }
 
 function togglePhotoPopup() {
-	let blur = document.getElementById("popupBlur");
+	let blur = document.getElementById("imagePopupContainer");
 	if (!blurOpen) {
 		blur.style.display = "block";
 		blurColor = "rgba(211, 211, 211, 0.6)";

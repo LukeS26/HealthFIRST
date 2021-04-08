@@ -198,7 +198,7 @@ function makePost(title, body) {
 }
 
 function togglePostPopup() {
-	let blur = document.getElementById("popupBlur");
+	let blur = document.getElementById("postPopupContainer");
 	let popup = document.getElementById("post-popup");
 	if (!blurOpen) {
 		blur.style.display = "block";

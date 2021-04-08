@@ -46,7 +46,7 @@
       <div id="bodyTooLong" class="error">Your body is over 3000 characters</div><br>
   
       <input placeholder="Title" id="postTitle" onclick="togglePostPopup()">
-      <textarea placeholder="Body" id="postBody" onclick="togglePostPopup()"></textarea><br>
+      <textarea placeholder="Body" id="postBody" onclick="togglePostPopup(); this.select()"></textarea><br>
       <button onclick="collectPostInfo()">Chat</button>
     </div>
   </div>

@@ -1,0 +1,30 @@
+package LukeS26.github.io;
+
+public class Settings_Template {
+	public static final String WEBSITE_URL = "";
+	public static final String WEBSITE_IP = "";
+	public static final int MONGO_PORT = 27017;
+	public static final String MONGO_ADMIN_USERNAME = "";
+	public static final String MONGO_ADMIN_PASSWORD = "";
+	public static final String MONGO_URI = "";
+
+	public static final String MONGO_DATABASE_NAME = "";
+	public static final String ACCOUNTS_COLLECTION_NAME = "";
+	public static final String POSTS_COLLECTION_NAME = "";
+	public static final String COMMENTS_COLLECTION_NAME = "";
+	public static final String CHALLENGES_COLLECTION_NAME = "";
+
+	public static final int MAX_USERNAME_LENGTH = 0;
+	public static final int MAX_POST_TITLE_LENGTH = 0;
+	public static final int MAX_POST_BODY_LENGTH = 0;
+	public static final int MAX_COMMENT_BODY_LENGTH = 0;
+
+	public static final int HTTP_SERVER_PORT = 0;
+
+	public static final int BCRYPT_LOG_ROUNDS = 0;
+
+	public static final String BOMB_LOCATION = "";
+
+	public static final int POSTS_PER_PAGE = 0;
+	public static final int CHALLENGES_PER_PAGE = 0;
+}

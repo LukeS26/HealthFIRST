@@ -8,6 +8,7 @@
     --navigation-background-color: #0044CC;
     --challenges-header: #2F2F2F;
     --finished-challenge-background-color: #cfcfcf;
+    --profile-header-hover: #003CB3;
 }
 
 .coolForm{
@@ -325,7 +326,7 @@
     display: inline-block;
 }
 #profileHeader:hover {
-    background-color: #003CB3;
+    background-color: var(--profile-header-hover);
 }
 
 #profileHeaderStuff {

@@ -3,7 +3,7 @@ package LukeS26.github.io;
 public class Settings_Template {
 	public static final String WEBSITE_URL = "";
 	public static final String WEBSITE_IP = "";
-	public static final int MONGO_PORT = 27017;
+	public static final int MONGO_PORT = 0;
 	public static final String MONGO_ADMIN_USERNAME = "";
 	public static final String MONGO_ADMIN_PASSWORD = "";
 	public static final String MONGO_URI = "";

@@ -20,8 +20,7 @@ import java.util.regex.Pattern;
 
 public class MongoManager {
     private static MongoManager instance;
-    private MongoClient mongo;
-    private MongoDatabase db;
+    private final MongoDatabase db;
 
     public static MongoManager getInstance() {
         if (instance == null) {
@@ -32,7 +31,7 @@ public class MongoManager {
     }
 
     private MongoManager() {
-        mongo = new MongoClient(new MongoClientURI(Settings.MONGO_URI));
+        MongoClient mongo = new MongoClient(new MongoClientURI(Settings.MONGO_URI));
         db = mongo.getDatabase(Settings.MONGO_DATABASE_NAME);
     }
 
@@ -198,7 +197,6 @@ public class MongoManager {
         account.badgeIDs.add(challengeId);
 
         Document updateDoc = new Document();
-        updateDoc.remove("_id");
         updateDoc.put("badge_ids", account.badgeIDs);
 
         MongoCollection<Document> accountCollection = db.getCollection(Settings.ACCOUNTS_COLLECTION_NAME);

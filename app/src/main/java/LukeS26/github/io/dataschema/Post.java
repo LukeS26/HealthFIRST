@@ -25,8 +25,7 @@ public class Post extends DataSchema {
      */
     @Override
     public Document toDoc() {
-        Document postDoc = new Document("author", author).append("title", title).append("body", body).append("date", date).append("edited", edited);
-        return postDoc;
+        return new Document("author", author).append("title", title).append("body", body).append("date", date).append("edited", edited);
     }
 
     public static Post fromDoc(Document doc) {

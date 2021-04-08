@@ -28,8 +28,7 @@ public class Comment extends DataSchema {
      */
     @Override
     public Document toDoc() {
-        Document commentDoc = new Document("post_id", postId).append("reply_to_id", replyToId).append("author", author).append("body", body).append("date", date).append("edited", edited);
-        return commentDoc;
+        return new Document("post_id", postId).append("reply_to_id", replyToId).append("author", author).append("body", body).append("date", date).append("edited", edited);
     }
 
     public static Comment fromDoc(Document doc) {

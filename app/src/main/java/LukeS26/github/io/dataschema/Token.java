@@ -27,8 +27,7 @@ public class Token extends DataSchema {
 
     @Override
     public Document toDoc() {
-        Document tokenDoc = new Document("token", tokenStr).append("username", username);
-        return tokenDoc;
+        return new Document("token", tokenStr).append("username", username);
     }
 
     public static Token fromDoc(Document doc) {

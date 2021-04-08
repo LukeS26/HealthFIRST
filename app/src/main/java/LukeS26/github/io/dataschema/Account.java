@@ -69,12 +69,10 @@ public class Account extends DataSchema {
      */
     @Override
     public Document toDoc() {
-        Document userDoc = new Document("username", username).append("first_name", firstName)
+        return new Document("username", username).append("first_name", firstName)
                 .append("last_name", lastName).append("email", email).append("token", token).append("biography", bio)
                 .append("profile_picture_link", profilePictureLink).append("password_hash", passwordHash)
                 .append("permission_id", permissionID).append("badge_ids", badgeIDs).append("following", following).append("signup_date", signupDate);
-
-        return userDoc;
     }
 
     /**

@@ -415,6 +415,10 @@ public class HttpServer {
                 return;
             }
 
+            if (((String) doc.get("title")).length() == 0 || ((String) doc.get("body")).length() == 0) {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+            }
+
             Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
             if (userAccount == null) {
                 ctx.status(HttpStatus.UNAUTHORIZED_401);

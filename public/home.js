@@ -89,6 +89,7 @@ function displayPost(post, id, top) {
 	html += `<h6 class='postDate'>${date}</h6>`;
 	body = formatText(body);
 	html += "<p class='postBody'>" + body + "</p></div>";
+	console.log(body);
 	container.innerHTML += html;
 	if (top) {
 		document.getElementById("posts").prepend(container);

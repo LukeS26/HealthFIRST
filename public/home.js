@@ -88,7 +88,7 @@ function displayPost(post, id, top) {
 	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span style="padding-left: 5px">${post.author}<span></a>`;
 	html += `<h6 class='postDate'>${date}</h6>`;
 	body = formatText(body);
-	html += "<p class='postBody'>" + body + "</p></div>";
+	html += "<div class='postBody'>" + body + "</div></div>";
 	console.log(body);
 	container.innerHTML += html;
 	if (top) {
@@ -249,10 +249,6 @@ function formatText(text) {
 	text = text.join("<");
 	text = text.split("&gt;");
 	text = text.join(">");
-	text = text.split("<div>");
-	text = text.join();
-	text = text.split("</div>");
-	text = text.join();
 	text = text.split("**");
 
 	for (let i = 0; i < text.length; i++) {

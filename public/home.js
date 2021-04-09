@@ -203,6 +203,9 @@ function editPost(id) {
 	let postBodyIn = document.getElementById("postBody");
 	
 	postTitleIn.value = post.getElementsByClassName("postOpen")[0].getElementsByClassName("postTitle")[0].innerHTML;
+	postBodyIn.value = post.getElementsByClassName("postOpen")[0].getElementsByClassName("postBody")[0].innerHTML;
+
+	togglePostPopup();
 }
 
 function togglePostPopup() {

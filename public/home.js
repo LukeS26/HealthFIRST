@@ -142,7 +142,7 @@ function collectPostInfo() {
 		canPost = true;
 	}
 
-	if (document.getElementById("postBody").value.length > 3000) {
+	if (document.getElementById("postBody").textContent.length > 3000) {
 		//too long of a title
 		document.getElementById("bodyTooLong").style.display = "block";
 		canPostBody = false;
@@ -152,7 +152,7 @@ function collectPostInfo() {
 	}
 
 	if (canPost && canPostBody) {
-		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").value);
+		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").innerHTML);
 	}
 }
 

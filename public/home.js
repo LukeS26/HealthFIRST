@@ -203,7 +203,7 @@ function editPost(id) {
 	let postBodyIn = document.getElementById("postBody");
 	
 	postTitleIn.value = post.getElementsByClassName("postOpen")[0].getElementsByClassName("postTitle")[0].textContent;
-	postBodyIn.value = post.getElementsByClassName("postOpen")[0].getElementsByClassName("postBody")[0].textContent;
+	postBodyIn.innerHTML = post.getElementsByClassName("postOpen")[0].getElementsByClassName("postBody")[0].innerHTML;
 
 	togglePostPopup();
 }
@@ -294,7 +294,7 @@ function deletePost(id, postNum) {
 		temp[0].innerHTML = "[Removed]";
 		temp[1].innerHTML = "[Removed]";
 		temp[1].href = "/user.html?[Removed]";
-		temp[3].innerHTML = "[Removed]"
+		temp[3].innerHTML = "[Removed]";
 	}
 }
 

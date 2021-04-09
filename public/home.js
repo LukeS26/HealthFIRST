@@ -243,11 +243,11 @@ function formatText(text) {
 	text = text.split("\n").join("<br>");
 	text = text.split(" ");
 	text = text.join("&nbsp;");
-	text = text.split("**");
-	text = text.split("a");
+	text = text.split("&lt;");
 	text = text.join("<");
 	text = text.split("&gt;");
 	text = text.join(">");
+	text = text.split("**");
 
 	for (let i = 0; i < text.length; i++) {
 		if (i % 2 != 0) {

@@ -86,8 +86,9 @@ function displayPost(post, id, top) {
 	html += `<div tabindex="0" class="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
 	//<span id="postImg${postCount}">${userImg}</span>
 	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span style="padding-left: 5px">${post.author}<span></a>`;
-	html += `<h6 class='postDate'>${date}</h6>`
-	html += `<p class='postBody'>${formatText(body)}</p> </div>`;
+	html += `<h6 class='postDate'>${date}</h6>`;
+	body = formatText(body);
+	html += `<p class='postBody'>${body}</p></div>`;
 	container.innerHTML += html;
 	if (top) {
 		document.getElementById("posts").prepend(container);

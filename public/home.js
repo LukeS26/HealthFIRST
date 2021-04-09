@@ -83,7 +83,7 @@ function displayPost(post, id, top) {
 		html += `</span>`;
 	}
 
-	html += `<div tabindex="0" id="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
+	html += `<div tabindex="0" class="postOpen" onclick="loadPost('${id}')"><h1 class='postTitle'>${post.title}</h1>`;
 	//<span id="postImg${postCount}">${userImg}</span>
 	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span style="padding-left: 5px">${post.author}<span></a>`;
 	html += `<h6 class='postDate'>${date}</h6>`
@@ -195,6 +195,14 @@ function makePost(title, body) {
 		.catch(err => {
 			console.error(err);
 		})
+}
+
+function editPost(id) {
+	let post = document.getElementById(id);
+	let postTitleIn = document.getElementById("postTitle");
+	let postBodyIn = document.getElementById("postBody");
+	
+	postTitleIn.value = post.getElementsByClassName("postOpen")[0].getElementsByClassName("postTitle")[0].text;
 }
 
 function togglePostPopup() {

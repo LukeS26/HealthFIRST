@@ -9,6 +9,7 @@
     --darker-text: #2F2F2F;
     --finished-challenge-background-color: #cfcfcf;
     --profile-header-hover: #003CB3;
+    --post-tool-tip-color: white;
 }
 
 .coolForm{
@@ -226,6 +227,7 @@
     text-align: center;
     opacity: 0;
     transition: opacity 0.1s linear 0.5s;
+    color: var(--post-tool-tip-color);
 }
 
 .switch {

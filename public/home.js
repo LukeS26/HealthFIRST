@@ -249,6 +249,8 @@ function formatText(text) {
 	text = text.join("<");
 	text = text.split("&gt;");
 	text = text.join(">");
+	text = text.split("div");
+	text = text.join("span");
 	text = text.split("**");
 
 	for (let i = 0; i < text.length; i++) {

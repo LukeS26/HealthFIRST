@@ -244,8 +244,10 @@ function formatText(text) {
 	text = text.split(" ");
 	text = text.join("&nbsp;");
 	text = text.split("**");
-	text = text.split("&lt;").join("<");
-	text = text.split("&gt;").join(">");
+	text = text.split("&lt;")
+	text = text.join("<");
+	text = text.split("&gt;")
+	text = text.join(">");
 
 	for (let i = 0; i < text.length; i++) {
 		if (i % 2 != 0) {

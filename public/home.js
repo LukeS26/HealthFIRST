@@ -88,7 +88,7 @@ function displayPost(post, id, top) {
 	html += `<a class='postAuthor' href='/user.html?${post.author}' ><span style="padding-left: 5px">${post.author}<span></a>`;
 	html += `<h6 class='postDate'>${date}</h6>`;
 	body = formatText(body);
-	html += `<p class='postBody'>${body}</p></div>`;
+	html += "<p class='postBody'>" + body + "</p></div>";
 	container.innerHTML += html;
 	if (top) {
 		document.getElementById("posts").prepend(container);

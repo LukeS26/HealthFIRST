@@ -365,14 +365,26 @@
     padding: 2px 5px 2px 5px;
     margin-top: 10px;
 }
-#post-popup textarea {
+#postBody {
     width: 90%;
     height: 200px;
     margin-top: 20px;
     padding: 5px;
+    border: 1px gray solid;
     font-family: Tahoma, sans-serif;
-    resize: none;
+    color: black;
+    text-align: left;
+    border-radius: 2px;
+    z-index: 2;
 }
+#postBody:focus {
+    border: 2px black solid;
+}
+#postBody:empty:before {
+    content: attr(data-placeholder);
+    color: gray;
+}
+
 #post-popup button {
     color: white;
     background-color: blue;

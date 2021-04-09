@@ -73,7 +73,7 @@ function displayPost(post, id, top) {
 	}
 
 	if (post.author === getCookie("username")) {
-		html += `<span class="postOptions" onclick="editPost("post${postCount}")">`;
+		html += `<span class="postOptions" onclick="editPost('post${postCount}')">`;
 		html += `<div class="postToolTip">Edit</div>`;
 		if (localStorage.getItem("light-mode") === "light") {
 			html += `<img src="pencil.png" width="20px" height="20px">`;

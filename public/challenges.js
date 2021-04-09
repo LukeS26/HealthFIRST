@@ -21,7 +21,7 @@ function displayChallenge(title, body, date, id) {
 
 	if (new Date(parseInt(date)).getTime() < new Date().getTime()) {
 		//grey out the box, and make the button not work
-		html += `<button class="challengeButtonFinished"> Challenge Completed </button>`
+		html += `<button class="challengeButtonFinished"> Challenge Ended </button>`
 
 		shell.innerHTML += `<div class="challengeContainerFinished"> ${html} </div>`
 	} else {

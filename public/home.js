@@ -154,7 +154,7 @@ function collectPostInfo() {
 	}
 
 	if (canPost && canPostBody) {
-		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").innerHTML.split("<div>").join("").split("</div>").join(""));
+		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").innerHTML.split("<div>").join("").split("</div>").join("").split("<br>").join("\n"));
 	}
 }
 

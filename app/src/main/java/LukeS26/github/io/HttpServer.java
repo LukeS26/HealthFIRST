@@ -302,6 +302,10 @@ public class HttpServer {
 			if (((String) doc.get("body")).length() > Settings.MAX_COMMENT_BODY_LENGTH) {
 				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
 				return;
+            }
+            
+            if (((String) doc.get("body")).length() == 0) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));

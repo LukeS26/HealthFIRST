@@ -276,6 +276,29 @@
     display: inline-block;
 }
 
+.center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.specialOption {
+    color: rgb(75, 75, 75);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: none;
+    text-align: center;
+}
+.specialOption:hover {
+    background-color: darkgray;
+}
+.specialOption i {
+    position: relative;
+    left: -2px;
+}
+
 #updatePhotoButton {
     margin: 20px;
     height: 50px;
@@ -370,11 +393,13 @@
     height: 200px;
     margin-top: 20px;
     padding: 5px;
-    border: 1px gray solid;
+    border-left: 1px gray solid;
+    border-right: 1px gray solid;
+    border-bottom: 1px gray solid;
     font-family: Tahoma, sans-serif;
     color: black;
     text-align: left;
-    border-radius: 2px;
+    border-radius: 0px 0px 2px 2px;
     z-index: 2;
 }
 #postBody:focus {
@@ -383,6 +408,21 @@
 #postBody:empty:before {
     content: attr(data-placeholder);
     color: gray;
+}
+
+#specialBar {
+    width: 90%;
+    height: 20px;
+    padding: 5px;
+    margin-top: 10px;
+    background-color: rgb(185, 185, 185);
+    position: relative;
+    top: 20px;
+    border-radius: 2px 2px 0px 0px;
+    border-top: 1px gray solid;
+    border-left: 1px gray solid;
+    border-right: 1px gray solid;
+    text-align: left;
 }
 
 #post-popup button {
@@ -513,4 +553,14 @@ body {
     width: 852px;
     height: 50px;
     border-radius: 5px;
+}
+
+.passVisibility {
+    width: 20px;
+    background: none;
+    border: none;
+}
+
+.passVisibility img {
+    width: 20px;
 }

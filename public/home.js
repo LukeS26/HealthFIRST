@@ -2,6 +2,8 @@ let postCount = 0;
 let open = [];
 let page = 0;
 let blurOpen = false;
+let bold = false, italics = false, underline = false;
+let prebody = "";
 
 function getCookie(name) {
 	let cookieArr = document.cookie.split(";");
@@ -154,7 +156,7 @@ function collectPostInfo() {
 	}
 
 	if (canPost && canPostBody) {
-		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").innerHTML);
+		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").innerHTML.split("<div>").join("").split("</div>").join("<br>").split("<br>").join("\n"));
 	}
 }
 
@@ -243,12 +245,8 @@ function formatText(text) {
 	// return json;
 
 	text = text.split("\n").join("<br>");
-	text = text.split(" ");
-	text = text.join("&nbsp;");
-	text = text.split("&lt;");
-	text = text.join("<");
-	text = text.split("&gt;");
-	text = text.join(">");
+	text = text.split(" ").join("&nbsp;");
+
 	text = text.split("**");
 
 	for (let i = 0; i < text.length; i++) {
@@ -266,6 +264,25 @@ function formatText(text) {
 	}
 
 	return text.join("");
+}
+
+function toggleBold() {
+	bold = true;
+	document.getElementById("postBody").innerHTML += "<b>";
+}
+
+function updatePostBodyInput() {
+	/*
+	let postBody = document.getElementById("postBody");
+
+	if (postBody.innerHTML !== prebody) {
+		for (let i = 0; i < postBody.innerHTML.length; i++) {
+			if (postBody.innerHTML[i] !== prebody[i]) {
+				
+			}
+		}
+	}
+	*/
 }
 
 /*

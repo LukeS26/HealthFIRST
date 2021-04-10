@@ -93,3 +93,15 @@ onkeydown = function (e) {
 		}
 	}
 }
+
+
+function toggleVisibility() {
+	let temp = document.getElementById("password");
+	if(temp.type == "") {
+		temp.type = "password";
+		document.getElementById("passVis").src="/images/eyecross.svg";
+	} else {
+		temp.type = "";
+		document.getElementById("passVis").src="/images/eye.svg";
+	}
+}

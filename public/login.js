@@ -27,6 +27,36 @@ function stringToHash(string) {
 	return string;
 }
 
+function testLogin(u, p) {
+	let data = {
+		"username": u,
+		"password": p
+	};
+	
+	fetch("http://157.230.233.218:8080/api/account/login", {
+		method: "POST",
+		body: JSON.stringify(data),
+		headers: {
+			"Content-type": "application/json; charset=UTF-8"
+		},
+		mode: "cors",
+		headers: {
+			"Origin": "http://healthfirst4342.tk/"
+		}
+	})
+		.then(res => {
+			if (!res.ok) {
+				console.log(`Error status: ${res.status}, message: ${await res.text()}`);
+				return res.text();
+			}
+			return res.json();
+		})
+		.then(function (json) {
+			console.log(json);
+		})
+		.catch(err => console.log(err));
+}
+
 function checkUser() {
 	let hashedPassword = stringToHash(password);
 	let data = {
@@ -53,10 +83,6 @@ function checkUser() {
 		}
 	})
 		.then(res => {
-			if (!res.ok) {
-				console.log(`Error status: ${res.status}, message: ${await res.text()}`);
-			}
-			
 			let code = res.status;
 			if (code === 404) {
 				document.getElementById("notFound").style.display = "block";

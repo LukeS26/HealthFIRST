@@ -6,3 +6,5 @@
 build
 
 app/src/main/java/LukeS26/github/io/Settings.java
+
+*.class

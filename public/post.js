@@ -194,7 +194,7 @@ function formatText(text) {
 
 	for (let i = 0; i < text.length; i++) {
 		if (i % 2 != 0) {
-			text[i] = "<b>" + text[i] + "</b>"
+			text[i] = "<b>" + text[i] + "</b>";
 		}
 	}
 
@@ -202,7 +202,7 @@ function formatText(text) {
 
 	for (let i = 0; i < text.length; i++) {
 		if (i % 2 != 0) {
-			text[i] = "<i>" + text[i] + "</i>"
+			text[i] = "<i>" + text[i] + "</i>";
 		}
 	}
 

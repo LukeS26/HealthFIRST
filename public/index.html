@@ -46,8 +46,15 @@
       <div id="bodyTooLong" class="error">Your body is over 3000 characters</div><br>
 
       <input placeholder="Title" id="postTitle">
-      <div style="display: flex; justify-content: center; width: 100%;">
-        <div id="postBody" contenteditable data-placeholder="Body"></div><br>
+      <div class="center">
+        <div id="specialBar">
+          <span class="specialOption" onclick="toggleBold()"><b>B</b></span>
+          <span class="specialOption" onclick="toggleItalics()"><i>I</i></span>
+          <span class="specialOption" onclick="toggleUnderline()"><u>U</u></span>
+        </div>
+      </div>
+      <div class="center">
+        <div id="postBody" contenteditable data-placeholder="Body" onchange="updatePostBodyInput()"></div><br>
       </div>
       <button onclick="collectPostInfo()">Chat</button>
     </div>

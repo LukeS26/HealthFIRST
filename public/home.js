@@ -243,12 +243,8 @@ function formatText(text) {
 	// return json;
 
 	text = text.split("\n").join("<br>");
-	text = text.split(" ");
-	text = text.join("&nbsp;");
-	text = text.split("&lt;");
-	text = text.join("<");
-	text = text.split("&gt;");
-	text = text.join(">");
+	text = text.split(" ").join("&nbsp;");
+
 	text = text.split("**");
 
 	for (let i = 0; i < text.length; i++) {

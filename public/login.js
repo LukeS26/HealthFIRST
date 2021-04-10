@@ -99,9 +99,9 @@ function toggleVisibility() {
 	let temp = document.getElementById("password");
 	if(temp.type == "text") {
 		temp.type = "password";
-		document.getElementById("passVis").src = "/images/eyecross.svg";
+		document.getElementById("passVis").src = "/images/eye.svg";
 	} else {
 		temp.type = "text";
-		document.getElementById("passVis").src = "/images/eye.svg";
+		document.getElementById("passVis").src = "/images/eyecross.svg";
 	}
 }

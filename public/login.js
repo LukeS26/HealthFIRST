@@ -53,6 +53,10 @@ function checkUser() {
 		}
 	})
 		.then(res => {
+			if (!res.ok) {
+				console.log(`Error status: ${res.status}, message: ${await res.text()}`);
+			}
+			
 			let code = res.status;
 			if (code === 404) {
 				document.getElementById("notFound").style.display = "block";

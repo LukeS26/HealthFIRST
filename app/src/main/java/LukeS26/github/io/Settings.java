@@ -1,7 +1,7 @@
 package LukeS26.github.io;
 
-public class Settings_Template {
-	public static final String WEBSITE_URL = "";
+public class Settings {
+    public static final String WEBSITE_URL = "";
 	public static final String WEBSITE_IP = "";
 	public static final int MONGO_PORT = 0;
 	public static final String MONGO_ADMIN_USERNAME = "";

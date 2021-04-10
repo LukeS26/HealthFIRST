@@ -560,3 +560,7 @@ body {
     background: none;
     border: none;
 }
+
+.passVisibility img {
+    width: 20px;
+}

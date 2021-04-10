@@ -143,7 +143,6 @@ public class MongoManager {
     public FindIterable<Document> getChallengeFeed(int pageNumber) {
         MongoCollection<Document> challengesCollection = db.getCollection(Settings.CHALLENGES_COLLECTION_NAME);
         try {
-            // TODO: For some reason this is making 0 and 1 equal
             FindIterable<Document> challengeDocs = challengesCollection.find().sort(Sorts.descending("challenge_id"))
                     .skip(Settings.CHALLENGES_PER_PAGE * pageNumber).limit(Settings.CHALLENGES_PER_PAGE);
             if (challengeDocs != null) {
@@ -160,7 +159,6 @@ public class MongoManager {
     public FindIterable<Document> getFeed(int pageNumber) {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
-            // TODO: For some reason this is making 0 and 1 equal
             FindIterable<Document> postDocs = postCollection.find(Filters.not(Filters.eq("author", "[Removed]"))).sort(Sorts.descending("date"))
                     .skip(Settings.POSTS_PER_PAGE * pageNumber).limit(Settings.POSTS_PER_PAGE);
             if (postDocs != null) {

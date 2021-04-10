@@ -302,6 +302,10 @@ public class HttpServer {
 			if (((String) doc.get("body")).length() > Settings.MAX_COMMENT_BODY_LENGTH) {
 				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
 				return;
+            }
+            
+            if (((String) doc.get("body")).length() == 0) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
@@ -527,26 +531,9 @@ public class HttpServer {
 					continue;
 				}
 
-				// Checking if using a link to an image
-				// TODO: Certain links don't work, removing for now
-				/*
-				 * if (e.getKey().equals("profile_picture_link")) { // Checks for http:// or
-				 * https://, has to be a valid site and have a file extension at the end
-				 * (https://site.com/image.png) // Since its checking an unlimited amount of
-				 * characters for the site name, it could be www.site.com or just site.com, it
-				 * doesn't matter
-				 *
-				 * Pattern p = Pattern.compile("^http[s]{0,1}:\\/\\/.*\\/.*\\.[a-zA-Z]{3,4}");
-				 * Matcher m = p.matcher((String) e.getValue()); if (!m.find()) {
-				 * ctx.status(HttpStatus.BAD_REQUEST_400); return; } }
-				 */
-
-				// Checking if the username already exists
 				changes.put(e.getKey(), e.getValue());
 			}
 
-			// TODO: Pass in account doc instead of username since we are finding it in this
-			// request already
 			mongoManager.updateAccount(userAccount.username, changes);
 			ctx.status(HttpStatus.NO_CONTENT_204);
 		});

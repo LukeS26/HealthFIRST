@@ -21,10 +21,13 @@
         <div id="notFound" class="error">Username or Password Incorrect</div><br>
         <div>
             <input id="username" placeholder="Username" type="username" required="true" autofocus maxlength="50">
-            <input id="password" placeholder="Password" type="password" required="true" maxlength="50">
             <div class="line"></div><br><br>
         </div>
-        
+        <div>
+            <input id="password" placeholder="Password" type="password" required="true" maxlength="50">
+            <button onclick="toggleVisibility()"> <img src="images/eye.svg" alt="Show password"> </button>
+            <div class="line"></div><br><br>
+        </div>
         <div class="coolFormCheckBox">
             <input id="keepLoggedIn" type="checkbox" name="keepLoggedIn">
             <div for="keepLoggedIn">Keep me logged in</div>

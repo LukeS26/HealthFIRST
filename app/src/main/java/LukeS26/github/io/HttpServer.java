@@ -776,7 +776,7 @@ public class HttpServer {
 			Document loginAccountDoc = mongoManager.findAccount(format((String) doc.get("username")), true);
 			if (loginAccountDoc == null) {
                 ctx.status(HttpStatus.UNAUTHORIZED_401);
-                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
+                ctx.result(Utils.USERNAME_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 			Account loginAccount = Account.fromDoc(loginAccountDoc);

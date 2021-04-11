@@ -396,6 +396,74 @@ public class HttpServer {
 			ctx.status(HttpStatus.OK_200);
 		});
 
+		// Edit a post
+		app.patch("/api/post/*", ctx -> {
+			ctx.header("Access-Control-Allow-Headers", "Authorization");
+			ctx.header("Access-Control-Allow-Credentials", "true");
+			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+			Document doc;
+			try {
+				doc = Document.parse(ctx.body());
+
+			} catch (Exception e) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
+				ctx.result(Utils.INVALID_JSON);
+				return;
+			}
+
+			if (doc.get("title") == null && doc.get("body") == null) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
+				ctx.result(Utils.INVALID_JSON);
+				return;
+			}
+
+			if (!ctx.headerMap().containsKey("Authorization")) {
+				ctx.status(HttpStatus.UNAUTHORIZED_401);
+				ctx.result(Utils.NO_TOKEN);
+				return;
+			}
+
+			if (((String) doc.get("body")).length() > Settings.MAX_COMMENT_BODY_LENGTH) {
+				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+				ctx.result(Utils.BODY_TOO_LONG);
+				return;
+			}
+
+			if (((String) doc.get("title")).length() > Settings.MAX_POST_TITLE_LENGTH) {
+				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+				ctx.result(Utils.BODY_TOO_LONG);
+				return;
+			}
+
+			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+			if (userAccount == null) {
+				ctx.status(HttpStatus.UNAUTHORIZED_401);
+				ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
+				return;
+			}
+
+			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.NO_PERMISSION_BANNED);
+				return;
+			}
+
+			Document postDoc = mongoManager.findPost(ctx.splat(0));
+			if (!(format((String) postDoc.get("author"))).equals(userAccount.username)
+					&& userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.NO_PERMISSION);
+				return;
+			}
+
+			// Recreating document with just a body so that it can't contain other fields
+			// (author, date, etc.)
+			mongoManager.editPost((ObjectId) postDoc.get("_id"), new Document("title", doc.get("title")).append("body", doc.get("body")));
+
+			ctx.status(HttpStatus.NO_CONTENT_204);
+		});
+
 		// Create a post
 		app.post("/api/posts", ctx -> {
 			ctx.header("Access-Control-Allow-Headers", "Authorization");

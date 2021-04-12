@@ -48,13 +48,13 @@
       <input placeholder="Title" id="postTitle">
       <div class="center">
         <div id="specialBar">
-          <span class="specialOption" onclick="toggleBold()"><b>B</b></span>
-          <span class="specialOption" onclick="toggleItalics()"><i>I</i></span>
-          <span class="specialOption" onclick="toggleUnderline()"><u>U</u></span>
+          <span class="specialOption" onclick="format('bold')"<b>B</b></span>
+          <span class="specialOption" onclick="format('italic')"><i>I</i></span>
+          <span class="specialOption" onclick="format('underline')"><u>U</u></span>
         </div>
       </div>
       <div class="center">
-        <div id="postBody" contenteditable data-placeholder="Body" onchange="updatePostBodyInput()"></div><br>
+        <div id="postBodyContainer"><span id="postBody" contenteditable data-placeholder="Body" onchange="updatePostBodyInput()"></span></div><br>
       </div>
       <button onclick="collectPostInfo()">Chat</button>
     </div>

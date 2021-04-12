@@ -177,7 +177,7 @@ function makePost(title, body) {
 	body = body.split("</b>").join("");
 	body = body.split("<i>").join("*");
 	body = body.split("</i>").join("");
-	body = body.split("<u>").join("__");
+	body = body.split("<u>").join("_");
 	body = body.split("</u>").join("");
 
 	fetch("http://157.230.233.218:8080/api/posts", {
@@ -270,7 +270,7 @@ function formatText(text) {
 		}
 	}
 
-	text.join("").split("__");
+	text.join("").split("_");
 
 	for (let i = 0; i < text.length; i++) {
 		if (i % 2 != 0) {

@@ -172,6 +172,10 @@ function deleteAccount(username) {
 }
 
 function makePost(title, body) {
+
+	body = body.split("<b>");
+	body = body.join("**");
+
 	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
 		body: JSON.stringify({ "title": title, "body": body }),

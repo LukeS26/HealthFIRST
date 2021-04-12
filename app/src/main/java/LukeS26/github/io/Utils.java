@@ -14,9 +14,10 @@ public class Utils {
     public static String INVALID_URL = "Invalid URL (missing or malformed information)";
     public static String INVALID_JSON = "Invalid JSON submitted.";
     public static String MISSING_BODY_VALUES = "Missing values in body";
-    public static String BODY_TOO_LONG = "Submitted body is too long. Body must be less than " + Settings.MAX_POST_BODY_LENGTH + " characters";
-    public static String TITLE_TOO_LONG = "Submitted title is too long. Title must be less than " + Settings.MAX_POST_TITLE_LENGTH + " characters";
-    public static String USERNAME_TOO_LONG = "Submitted username is too long. Username must be less than " + Settings.MAX_USERNAME_LENGTH + " characters";
+    public static String BODY_TOO_LONG = "Submitted body is too long. Body must be less than " + Settings.MAX_POST_BODY_LENGTH + " characters.";
+    public static String TITLE_TOO_LONG = "Submitted title is too long. Title must be less than " + Settings.MAX_POST_TITLE_LENGTH + " characters.";
+    public static String USERNAME_TOO_LONG = "Submitted username is too long. Username must be less than " + Settings.MAX_USERNAME_LENGTH + " characters.";
+    public static String PASSWORD_TOO_LONG = "Submitted password is too long. Password must be less than " + Settings.MAX_PASSWORD_LENGTH + " characters.";
     public static String BLANK_FIELD_SUBMITTED = "A submitted field was left blank.";
     public static String CANNOT_EDIT_FIELD = "A submitted field cannot be edited.";
     public static String INVALID_USERNAME_CHARACTERS = "A username must be alphanumeric (A-Z, 0-9)";

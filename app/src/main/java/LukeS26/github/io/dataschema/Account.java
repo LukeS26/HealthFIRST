@@ -1,13 +1,12 @@
 package LukeS26.github.io.dataschema;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
+import LukeS26.github.io.Settings;
 import org.bson.Document;
 import org.mindrot.jbcrypt.BCrypt;
 
-import LukeS26.github.io.Settings;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Used for interaction with MongoDB

@@ -726,6 +726,11 @@ public class HttpServer {
 				return;
 			}
 
+			if (((String) doc.get("password_hash")).length() > Settings.MAX_PASSWORD_LENGTH) {
+				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+				ctx.result(Utils.PASSWORD_TOO_LONG);
+			}
+
 			// Checking if account already exists with that username
 			Document accountDoc = mongoManager.findAccount((String) doc.get("username"), false);
 			if (accountDoc != null) {

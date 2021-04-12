@@ -173,10 +173,12 @@ function deleteAccount(username) {
 
 function makePost(title, body) {
 
-	body = body.split("<b>");
-	body = body.join("**");
-	body = body.split("</b>");
-	body = body.join("");
+	body = body.split("<b>").join("**");
+	body = body.split("</b>").join("");
+	body = body.split("<i>").join("*");
+	body = body.split("</i>").join("");
+	body = body.split("<u>").join("__");
+	body = body.split("</u>").join("");
 
 	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
@@ -265,6 +267,14 @@ function formatText(text) {
 	for (let i = 0; i < text.length; i++) {
 		if (i % 2 != 0) {
 			text[i] = "<i>" + text[i] + "</i>"
+		}
+	}
+
+	text.join("").split("__");
+
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<u>" + text[i] + "</u>"
 		}
 	}
 

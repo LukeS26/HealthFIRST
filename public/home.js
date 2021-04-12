@@ -278,6 +278,7 @@ function formatText(text) {
 		}
 	}
 
+	console.log(text); 
 	return text.join("");
 }
 

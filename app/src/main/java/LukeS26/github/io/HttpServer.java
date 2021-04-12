@@ -111,18 +111,21 @@ public class HttpServer {
 			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION);
 				return;
 			}
 
@@ -131,7 +134,8 @@ public class HttpServer {
 				ctx.status(HttpStatus.NO_CONTENT_204);
 
 			} catch (NullPointerException e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_URL);
 			}
 		});
 
@@ -179,40 +183,47 @@ public class HttpServer {
 				doc = Document.parse(ctx.body());
 
 			} catch (Exception e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (doc.get("body") == null) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			if (((String) doc.get("body")).length() > Settings.MAX_COMMENT_BODY_LENGTH) {
-				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.result(Utils.BODY_TOO_LONG);
 				return;
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION_BANNED);
 				return;
 			}
 
 			Document commentDoc = mongoManager.findComment(ctx.splat(0));
 			if (!(format((String) commentDoc.get("author"))).equals(userAccount.username)
 					&& userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION);
 				return;
 			}
 
@@ -233,30 +244,35 @@ public class HttpServer {
 				Document.parse(ctx.body());
 
 			} catch (Exception e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION);
 				return;
 			}
 
 			Document commentDoc = mongoManager.findComment(ctx.splat(0));
 			if (!(format((String) commentDoc.get("author"))).equals(userAccount.username)
 					&& userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION);
 				return;
 			}
 
@@ -269,7 +285,8 @@ public class HttpServer {
 		app.get("/api/comments/*", ctx -> {
 			FindIterable<Document> commentList = mongoManager.findAllComments(ctx.splat(0));
 			if (commentList == null) {
-				ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
 				return;
 			}
 
@@ -285,22 +302,26 @@ public class HttpServer {
 				doc = Document.parse(ctx.body());
 
 			} catch (Exception e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (!doc.containsKey("post_id") || !doc.containsKey("body")) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.MISSING_BODY_VALUES);
 				return;
 			}
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			if (((String) doc.get("body")).length() > Settings.MAX_COMMENT_BODY_LENGTH) {
-				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.result(Utils.BODY_TOO_LONG);
 				return;
             }
             
@@ -310,12 +331,14 @@ public class HttpServer {
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION_BANNED);
 				return;
 			}
 
@@ -345,7 +368,8 @@ public class HttpServer {
 		app.get("/api/comment/*", ctx -> {
 			Document commentDoc = mongoManager.findComment(ctx.splat(0));
 			if (commentDoc == null) {
-				ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
 				return;
 			}
 			String commentJson = commentDoc.toJson();
@@ -372,6 +396,74 @@ public class HttpServer {
 			ctx.status(HttpStatus.OK_200);
 		});
 
+		// Edit a post
+		app.patch("/api/post/*", ctx -> {
+			ctx.header("Access-Control-Allow-Headers", "Authorization");
+			ctx.header("Access-Control-Allow-Credentials", "true");
+			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
+
+			Document doc;
+			try {
+				doc = Document.parse(ctx.body());
+
+			} catch (Exception e) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
+				ctx.result(Utils.INVALID_JSON);
+				return;
+			}
+
+			if (doc.get("title") == null && doc.get("body") == null) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
+				ctx.result(Utils.INVALID_JSON);
+				return;
+			}
+
+			if (!ctx.headerMap().containsKey("Authorization")) {
+				ctx.status(HttpStatus.UNAUTHORIZED_401);
+				ctx.result(Utils.NO_TOKEN);
+				return;
+			}
+
+			if (((String) doc.get("body")).length() > Settings.MAX_COMMENT_BODY_LENGTH) {
+				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+				ctx.result(Utils.BODY_TOO_LONG);
+				return;
+			}
+
+			if (((String) doc.get("title")).length() > Settings.MAX_POST_TITLE_LENGTH) {
+				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+				ctx.result(Utils.BODY_TOO_LONG);
+				return;
+			}
+
+			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+			if (userAccount == null) {
+				ctx.status(HttpStatus.UNAUTHORIZED_401);
+				ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
+				return;
+			}
+
+			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.NO_PERMISSION_BANNED);
+				return;
+			}
+
+			Document postDoc = mongoManager.findPost(ctx.splat(0));
+			if (!(format((String) postDoc.get("author"))).equals(userAccount.username)
+					&& userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.NO_PERMISSION);
+				return;
+			}
+
+			// Recreating document with just a body so that it can't contain other fields
+			// (author, date, etc.)
+			mongoManager.editPost((ObjectId) postDoc.get("_id"), new Document("title", doc.get("title")).append("body", doc.get("body")));
+
+			ctx.status(HttpStatus.NO_CONTENT_204);
+		});
+
 		// Create a post
 		app.post("/api/posts", ctx -> {
 			ctx.header("Access-Control-Allow-Headers", "Authorization");
@@ -383,42 +475,50 @@ public class HttpServer {
 				doc = Document.parse(ctx.body());
 
 			} catch (Exception e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (!doc.containsKey("title") || !doc.containsKey("body")) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.MISSING_BODY_VALUES);
 				return;
 			}
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			if (((String) doc.get("title")).length() > Settings.MAX_POST_TITLE_LENGTH) {
-				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.result(Utils.TITLE_TOO_LONG);
 				return;
 			}
 
 			if (((String) doc.get("body")).length() > Settings.MAX_POST_BODY_LENGTH) {
-				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.result(Utils.BODY_TOO_LONG);
 				return;
 			}
 
 			if (((String) doc.get("title")).length() == 0 || ((String) doc.get("body")).length() == 0) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.BLANK_FIELD_SUBMITTED);
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION_BANNED);
 				return;
 			}
 
@@ -442,7 +542,8 @@ public class HttpServer {
 
 			Document postDoc = mongoManager.findPost(ctx.splat(0));
 			if (postDoc == null) {
-				ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
 				return;
 			}
 
@@ -459,25 +560,29 @@ public class HttpServer {
 			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION_BANNED);
 				return;
 			}
 
 			Document post = mongoManager.findPost(ctx.splat(0));
 			if (!(format((String) post.get("author"))).equals(userAccount.username)
 					&& userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION);
 				return;
 			}
 
@@ -496,23 +601,27 @@ public class HttpServer {
 				doc = Document.parse(ctx.body());
 
 			} catch (Exception e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION_BANNED);
 				return;
 			}
 
@@ -522,7 +631,8 @@ public class HttpServer {
 			for(Entry<String, Object> e : doc.entrySet()) {
 				// Check if the empty account has the given key before setting it
 				if (!blankAccount.containsKey(e.getKey())) {
-					ctx.status(HttpStatus.BAD_REQUEST_400);
+                    ctx.status(HttpStatus.BAD_REQUEST_400);
+                    ctx.result(Utils.CANNOT_EDIT_FIELD);
 					return;
 				}
 
@@ -543,7 +653,8 @@ public class HttpServer {
 			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
@@ -551,19 +662,28 @@ public class HttpServer {
 			Account tokenAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			// if the deleter or the account to be deleted are null || you aren't deleting
 			// your own account and you aren't an admin
-			if (tokenAccount == null || userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+			if (userAccount == null) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
+				return;
+            }
+            
+            if (tokenAccount == null) {
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION_BANNED);
 				return;
 			}
 
 			if (!userAccount.username.equals(tokenAccount.username)
 					&& tokenAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION);
 				return;
 			}
 
@@ -580,32 +700,42 @@ public class HttpServer {
 				doc = Document.parse(ctx.body());
 
 			} catch (Exception e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (!doc.containsKey("username") || !doc.containsKey("first_name") || !doc.containsKey("last_name")
 					|| !doc.containsKey("email") || !doc.containsKey("password_hash")) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.MISSING_BODY_VALUES);
 				return;
 			}
 
 			Pattern p = Pattern.compile("[^0-9a-zA-Z]+");
 			Matcher m = p.matcher((String) doc.get("username"));
 			if (m.find()) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_USERNAME_CHARACTERS);
 				return;
 			}
 
 			if (((String) doc.get("username")).length() > Settings.MAX_USERNAME_LENGTH) {
-				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+                ctx.result(Utils.USERNAME_TOO_LONG);
 				return;
+			}
+
+			if (((String) doc.get("password_hash")).length() > Settings.MAX_PASSWORD_LENGTH) {
+				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
+				ctx.result(Utils.PASSWORD_TOO_LONG);
 			}
 
 			// Checking if account already exists with that username
 			Document accountDoc = mongoManager.findAccount((String) doc.get("username"), false);
 			if (accountDoc != null) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.DUPLICATE_USERNAME);
 				return;
 			}
 			Account userAccount = new Account();
@@ -641,7 +771,8 @@ public class HttpServer {
 		app.get("/api/account/*/posts", ctx -> {
 			Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0), false);
 			if (existingUserAccountDoc == null) {
-				ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
 				return;
 			}
 
@@ -656,7 +787,8 @@ public class HttpServer {
 		app.get("/api/account/*", ctx -> {
 			Document existingUserAccountDoc = mongoManager.findAccount(ctx.splat(0), false);
 			if (existingUserAccountDoc == null) {
-				ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
 				return;
 			}
 
@@ -674,13 +806,15 @@ public class HttpServer {
 			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			Document accountDoc = mongoManager.findAccountByToken(ctx.header("Authorization"));
 			if (accountDoc == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
@@ -701,18 +835,21 @@ public class HttpServer {
 				doc = Document.parse(ctx.body());
 
 			} catch (Exception e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (!doc.containsKey("username") || !doc.containsKey("password")) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.MISSING_BODY_VALUES);
 				return;
 			}
 
 			Document loginAccountDoc = mongoManager.findAccount(format((String) doc.get("username")), true);
 			if (loginAccountDoc == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.USERNAME_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 			Account loginAccount = Account.fromDoc(loginAccountDoc);
@@ -724,7 +861,8 @@ public class HttpServer {
 				ctx.status(HttpStatus.OK_200);
 
 			} else {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.INCORRECT_PASSWORD);
 			}
 		});
 
@@ -736,22 +874,26 @@ public class HttpServer {
 				Document.parse(ctx.body());
 
 			} catch (Exception e) {
-				ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.result(Utils.INVALID_JSON);
 				return;
 			}
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount != null) {
-				ctx.status(HttpStatus.NO_CONTENT_204);
+                ctx.status(HttpStatus.NO_CONTENT_204);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
-			ctx.status(HttpStatus.FORBIDDEN_403);
+            ctx.status(HttpStatus.FORBIDDEN_403);
+            ctx.result(Utils.INVALID_TOKEN);
 		});
 		// #endregion
 
@@ -760,31 +902,36 @@ public class HttpServer {
 			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION_BANNED);
 				return;
 			}
 
 			Account followAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0), false));
 			if (followAccount == null) {
-				ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.following.contains(ctx.splat(0))) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.ALREADY_FOLLOWING);
 				return;
-			}
+            }
 
 			userAccount.following.add(ctx.splat(0));
 			Document updateDoc = new Document("following", userAccount.following);
@@ -796,29 +943,34 @@ public class HttpServer {
 			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
 			if (!ctx.headerMap().containsKey("Authorization")) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.NO_TOKEN);
 				return;
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.status(HttpStatus.UNAUTHORIZED_401);
+                ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
 			}
 
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NO_PERMISSION_BANNED);
 				return;
 			}
 
 			Account unFollowAccount = Account.fromDoc(mongoManager.findAccount(ctx.splat(0), false));
 			if (unFollowAccount == null) {
-				ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.status(HttpStatus.NOT_FOUND_404);
+                ctx.result(Utils.RESOURCE_DOESNT_EXIST);
 				return;
 			}
 
 			if (!userAccount.following.contains(ctx.splat(0))) {
-				ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.status(HttpStatus.FORBIDDEN_403);
+                ctx.result(Utils.NOT_FOLLOWING);
 				return;
 			}
 

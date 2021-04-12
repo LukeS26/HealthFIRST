@@ -16,7 +16,6 @@ public class Challenge extends DataSchema {
     public Date startDate;
     public Date endDate;
 
-    @Override
     public Document toDoc() {
         return new Document("challenge_id", challengeId).append("title", title).append("body", body).append("start_date", startDate).append("end_date", endDate);
     }

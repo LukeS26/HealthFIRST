@@ -568,3 +568,13 @@ body {
     height: 50px;
     border-radius: 5px;
 }
+
+.passVisibility {
+    width: 20px;
+    background: none;
+    border: none;
+}
+
+.passVisibility img {
+    width: 20px;
+}

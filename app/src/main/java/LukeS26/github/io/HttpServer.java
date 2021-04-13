@@ -877,7 +877,19 @@ public class HttpServer {
 				return;
 			}
 
-			// TODO: Check if length is == 0
+			if (((String) doc.get("username")).length() == 0) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
+				ctx.result(Utils.BLANK_FIELD_SUBMITTED);
+				return;
+			}
+
+			if (((String) doc.get("password_hash")).length() == 0) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
+				ctx.result(Utils.BLANK_FIELD_SUBMITTED);
+				return;
+			}
+
+
 			if (((String) doc.get("username")).length() > Settings.MAX_USERNAME_LENGTH) {
 				ctx.status(HttpStatus.PAYLOAD_TOO_LARGE_413);
 				ctx.result(Utils.USERNAME_TOO_LONG);

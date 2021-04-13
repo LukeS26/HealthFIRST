@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 
+import LukeS26.github.io.dataschema.ConfirmationKey;
 import com.mongodb.client.FindIterable;
 
 import io.javalin.http.util.RateLimit;
@@ -29,6 +30,11 @@ import LukeS26.github.io.dataschema.Account;
 import LukeS26.github.io.dataschema.Comment;
 import LukeS26.github.io.dataschema.Post;
 import io.javalin.Javalin;
+
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
 
 public class HttpServer {
 	private static HttpServer instance;
@@ -926,7 +932,7 @@ public class HttpServer {
 			userAccount.passwordHash = BCrypt.hashpw(receivedHash, salt);
 			userAccount.token = Account.generateToken();
 
-			userAccount.permissionID = Utils.Permissions.USER.ordinal();
+			userAccount.permissionID = Utils.Permissions.UNCONFIRMED.ordinal();
 			userAccount.badgeIDs = new ArrayList<>();
 			userAccount.following = new ArrayList<>();
 
@@ -934,8 +940,35 @@ public class HttpServer {
 
 			mongoManager.writeAccount(userAccount);
 
+
+
+			ConfirmationKey ck = new ConfirmationKey();
+			ck.username = userAccount.username;
+			ck.key = Utils.generateRandomConfirmationKey();
+
+			mongoManager.writeConfirmationKey(ck);
+
+			// Sending confirmation email
+			Properties properties = System.getProperties();
+			properties.setProperty("mail.smtp.host", "smtp.gmail.com");
+			Session session = Session.getDefaultInstance(properties);
+
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("healthfirst4342@gmail.com"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userAccount.email));
+			message.setSubject("Confirm your email for HealthFirst4342.tk!");
+			message.setText("Visit this link to confirm your email: http://healthfirst4342.tk/confirm?key=" + ck.key + "\n\nHealthFirst\n4342 Demon Robotics");
+
+			Transport.send(message);
+
 			ctx.result(new Document("token", userAccount.token).toJson());
 			ctx.status(HttpStatus.CREATED_201);
+		});
+
+		app.post("/api/account/verify", ctx -> {
+			// TODO: Probably don't need to ratelimit this
+			String key = ctx.queryParam("key");
+
 		});
 
 		app.get("/api/account/*/posts", ctx -> {

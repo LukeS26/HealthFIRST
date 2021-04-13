@@ -1,9 +1,6 @@
 package LukeS26.github.io;
 
-import LukeS26.github.io.dataschema.Account;
-import LukeS26.github.io.dataschema.Challenge;
-import LukeS26.github.io.dataschema.Comment;
-import LukeS26.github.io.dataschema.Post;
+import LukeS26.github.io.dataschema.*;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -33,6 +30,17 @@ public class MongoManager {
     private MongoManager() {
         MongoClient mongo = new MongoClient(new MongoClientURI(Settings.MONGO_URI));
         db = mongo.getDatabase(Settings.MONGO_DATABASE_NAME);
+    }
+
+    public void writeConfirmationKey(ConfirmationKey key) {
+        MongoCollection<Document> confirmationKeyCollection = db.getCollection(Settings.CONFIRMATION_KEY_COLLECTION_NAME);
+        Document confirmationKeyDoc = key.toDoc();
+        confirmationKeyCollection.insertOne(confirmationKeyDoc);
+    }
+
+    public Document findConfirmationKey(String username) {
+        MongoCollection<Document> confirmationKeyCollection = db.getCollection(Settings.CONFIRMATION_KEY_COLLECTION_NAME);
+        return confirmationKeyCollection.find(Filters.eq("username", username)).first();
     }
 
     public void editComment(ObjectId originalID, Document bsonUpdate) {

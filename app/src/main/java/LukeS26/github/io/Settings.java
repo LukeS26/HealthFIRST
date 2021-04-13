@@ -13,6 +13,7 @@ public class Settings {
 	public static final String POSTS_COLLECTION_NAME = "";
 	public static final String COMMENTS_COLLECTION_NAME = "";
 	public static final String CHALLENGES_COLLECTION_NAME = "";
+	public static final String CONFIRMATION_KEY_COLLECTION_NAME = "";
 
 	public static final int MAX_USERNAME_LENGTH = 0;
 	public static final int MAX_PASSWORD_LENGTH = 0;

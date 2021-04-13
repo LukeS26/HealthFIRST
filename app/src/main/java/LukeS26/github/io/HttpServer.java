@@ -1203,9 +1203,10 @@ public class HttpServer {
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
 			if (userAccount == null) {
-				ctx.status(HttpStatus.NO_CONTENT_204);
+				ctx.status(HttpStatus.NOT_FOUND_404);
 				ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
+
 			}
 
 			try {
@@ -1218,8 +1219,7 @@ public class HttpServer {
 				}
 			}
 
-			ctx.status(HttpStatus.FORBIDDEN_403);
-			ctx.result(Utils.INVALID_TOKEN);
+			ctx.status(HttpStatus.NO_CONTENT_204);
 		});
 		//endregion
 

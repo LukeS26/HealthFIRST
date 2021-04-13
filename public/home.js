@@ -2,8 +2,7 @@ let postCount = 0;
 let open = [];
 let page = 0;
 let blurOpen = false;
-let bold = false, italics = false, underline = false;
-let prebody = "";
+let newPostBody = "";
 
 function getCookie(name) {
 	let cookieArr = document.cookie.split(";");
@@ -173,6 +172,14 @@ function deleteAccount(username) {
 }
 
 function makePost(title, body) {
+
+	body = body.split("<b>").join("**");
+	body = body.split("</b>").join("");
+	body = body.split("<i>").join("*");
+	body = body.split("</i>").join("");
+	body = body.split("<u>").join("_");
+	body = body.split("</u>").join("");
+
 	fetch("http://157.230.233.218:8080/api/posts", {
 		method: "POST",
 		body: JSON.stringify({ "title": title, "body": body }),
@@ -263,26 +270,21 @@ function formatText(text) {
 		}
 	}
 
+	text = text.join("").split("_");
+
+	for (let i = 0; i < text.length; i++) {
+		if (i % 2 != 0) {
+			text[i] = "<u>" + text[i] + "</u>"
+		}
+	}
+
+	console.log(text); 
 	return text.join("");
 }
 
-function toggleBold() {
-	bold = true;
-	document.getElementById("postBody").innerHTML += "<b>";
-}
-
-function updatePostBodyInput() {
-	/*
-	let postBody = document.getElementById("postBody");
-
-	if (postBody.innerHTML !== prebody) {
-		for (let i = 0; i < postBody.innerHTML.length; i++) {
-			if (postBody.innerHTML[i] !== prebody[i]) {
-				
-			}
-		}
-	}
-	*/
+function format(command) {
+	document.execCommand(command);
+	document.getElementById("postBody").focus();
 }
 
 /*

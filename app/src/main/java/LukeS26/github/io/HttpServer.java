@@ -1,5 +1,23 @@
 package LukeS26.github.io;
 
+import LukeS26.github.io.dataschema.Account;
+import LukeS26.github.io.dataschema.Comment;
+import LukeS26.github.io.dataschema.ConfirmationKey;
+import LukeS26.github.io.dataschema.Post;
+import com.mongodb.client.FindIterable;
+import io.javalin.Javalin;
+import io.javalin.http.util.RateLimit;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.eclipse.jetty.http.HttpStatus;
+import org.mindrot.jbcrypt.BCrypt;
+
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,30 +29,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.servlet.ServletOutputStream;
-
-import LukeS26.github.io.dataschema.ConfirmationKey;
-import com.mongodb.client.FindIterable;
-
-import io.javalin.http.util.RateLimit;
-import org.bson.Document;
-import org.bson.types.ObjectId;
-import org.eclipse.jetty.http.HttpStatus;
-import org.mindrot.jbcrypt.BCrypt;
-
-import LukeS26.github.io.dataschema.Account;
-import LukeS26.github.io.dataschema.Comment;
-import LukeS26.github.io.dataschema.Post;
-import io.javalin.Javalin;
-
-import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
 
 public class HttpServer {
 	private static HttpServer instance;
@@ -56,6 +54,7 @@ public class HttpServer {
 		mongoManager = MongoManager.getInstance();
 		System.out.println("Finished initializing MongoDB.");
 
+		//noinspection SpellCheckingInspection
 		suspiciousEndpoints = new String[]{"client_area", "system_api", "GponForm", "stalker_portal", "manager/html",
 				"stream/rtmp", "getuser?index=0", "jenkins/login", "check.best-proxies.ru", "setup.cgi", "script"};
 
@@ -132,7 +131,7 @@ public class HttpServer {
 			}
 
 			try {
-				/**
+				/*
 				 *  TODO: This is kinda dumb, I'm making database calls to
 				 * 	make check if the requesting user is a moderator, but
 				 * 	that defeats the point of ratelimiting for most endpoints
@@ -975,14 +974,16 @@ public class HttpServer {
 			}
 
 			ConfirmationKey confirmationKey = ConfirmationKey.fromDoc(mongoManager.findConfirmationKey(userAccount.username));
+			if (confirmationKey == null) {
+				ctx.status(HttpStatus.NOT_FOUND_404);
+				ctx.result(Utils.CONFIRMATION_KEY_DOESNT_EXIST);
+			}
+
 			if (key.equals(confirmationKey.key)) {
 				mongoManager.updateAccount(userAccount.username, new Document("permission_id", Utils.Permissions.USER.ordinal()));
 				mongoManager.deleteConfirmationKey(confirmationKey);
-				return;
+				ctx.status(HttpStatus.NO_CONTENT_204);
 			}
-
-			ctx.status(HttpStatus.FORBIDDEN_403);
-			ctx.result(Utils.CONFIRMATION_KEY_DOESNT_EXIST);
 		});
 
 		app.get("/api/account/*/posts", ctx -> {

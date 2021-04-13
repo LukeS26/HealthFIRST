@@ -44,7 +44,7 @@ public class Utils {
 
 			return new String(hashBytes);
 
-		} catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException ignored) {
 
 		}
 

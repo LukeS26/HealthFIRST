@@ -5,6 +5,7 @@ import org.bson.Document;
 public class ConfirmationKey extends DataSchema {
 	public String key;
 	public String username;
+	// TODO: Maybe make each key expire?
 
 	@Override
 	public Document toDoc() {

@@ -32,6 +32,7 @@ public class MongoManager {
         db = mongo.getDatabase(Settings.MONGO_DATABASE_NAME);
     }
 
+    // #region Confirmation Keys
     public void writeConfirmationKey(ConfirmationKey key) {
         MongoCollection<Document> confirmationKeyCollection = db.getCollection(Settings.CONFIRMATION_KEY_COLLECTION_NAME);
         Document confirmationKeyDoc = key.toDoc();
@@ -47,6 +48,7 @@ public class MongoManager {
         MongoCollection<Document> confirmationKeyCollection = db.getCollection(Settings.CONFIRMATION_KEY_COLLECTION_NAME);
         confirmationKeyCollection.deleteOne(Filters.eq("key", ck.key));
     }
+    // #endregion
 
     public void editComment(ObjectId originalID, Document bsonUpdate) {
         bsonUpdate.put("edited", true);
@@ -72,6 +74,7 @@ public class MongoManager {
         return commentsCollection.find(Filters.eq("post_id", new ObjectId(postID)));
     }
 
+    // Unused because the document is created before it is written manually so that the ID can be sent as a response
     public void writeComment(Comment comment) {
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         Document commentDoc = comment.toDoc();

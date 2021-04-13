@@ -44,12 +44,17 @@ public class Utils {
 
 			byte[] hashBytes = md.digest(randomBytes);
 
-			return new String(hashBytes);
+			StringBuilder sb = new StringBuilder(hashBytes.length * 2);
+			for (byte b : hashBytes) {
+				int value = 0xFF & b;
+				String toAppend = Integer.toHexString(value);
+				sb.append(toAppend);
+			}
+			sb.setLength(sb.length() - 1);
+			return sb.toString();
 
 		} catch (NoSuchAlgorithmException ignored) {
-
+			return null;
 		}
-
-		return null;
 	}
 }

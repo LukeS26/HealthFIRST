@@ -12,6 +12,7 @@ public class Utils {
 	public static String TOKEN_ACCOUNT_DOESNT_EXIST = "An account with the supplied token doesn't exist.";
 	public static String USERNAME_ACCOUNT_DOESNT_EXIST = "An account with that username doesn't exist.";
 	public static String RESOURCE_DOESNT_EXIST = "Request resource doesn't exist";
+	public static String CONFIRMATION_KEY_DOESNT_EXIST = "Invalid confirmation key. Try resending the confirmation email.";
 	public static String NO_TOKEN = "No token sent, please make sure you are logged in.";
 	public static String NO_PERMISSION = "You do not have permission to complete that action.";
 	public static String NO_PERMISSION_BANNED = "You do not have permission to complete that action. (You have been banned)";

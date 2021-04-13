@@ -43,6 +43,11 @@ public class MongoManager {
         return confirmationKeyCollection.find(Filters.eq("username", username)).first();
     }
 
+    public void deleteConfirmationKey(ConfirmationKey ck) {
+        MongoCollection<Document> confirmationKeyCollection = db.getCollection(Settings.CONFIRMATION_KEY_COLLECTION_NAME);
+        confirmationKeyCollection.deleteOne(Filters.eq("key", ck.key));
+    }
+
     public void editComment(ObjectId originalID, Document bsonUpdate) {
         bsonUpdate.put("edited", true);
         MongoCollection<Document> commentsCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);

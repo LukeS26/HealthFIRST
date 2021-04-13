@@ -941,7 +941,6 @@ public class HttpServer {
 			mongoManager.writeAccount(userAccount);
 
 
-
 			ConfirmationKey ck = new ConfirmationKey();
 			ck.username = userAccount.username;
 			ck.key = Utils.generateRandomConfirmationKey();
@@ -965,10 +964,25 @@ public class HttpServer {
 			ctx.status(HttpStatus.CREATED_201);
 		});
 
-		app.post("/api/account/verify", ctx -> {
+		app.post("/api/account/confirm", ctx -> {
 			// TODO: Probably don't need to ratelimit this
 			String key = ctx.queryParam("key");
+			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+			if (userAccount == null) {
+				ctx.status(HttpStatus.UNAUTHORIZED_401);
+				ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
+				return;
+			}
 
+			ConfirmationKey confirmationKey = ConfirmationKey.fromDoc(mongoManager.findConfirmationKey(userAccount.username));
+			if (key.equals(confirmationKey.key)) {
+				mongoManager.updateAccount(userAccount.username, new Document("permission_id", Utils.Permissions.USER.ordinal()));
+				mongoManager.deleteConfirmationKey(confirmationKey);
+				return;
+			}
+
+			ctx.status(HttpStatus.FORBIDDEN_403);
+			ctx.result(Utils.CONFIRMATION_KEY_DOESNT_EXIST);
 		});
 
 		app.get("/api/account/*/posts", ctx -> {

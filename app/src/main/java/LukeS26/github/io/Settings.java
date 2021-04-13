@@ -2,8 +2,8 @@ package LukeS26.github.io;
 
 public class Settings {
 	//region Domain Settings
-	public static final String WEBSITE_URL = "";
-	public static final String WEBSITE_IP = "";
+	public static final String WEBSITE_URL = "http://healthfirst4342.tk";
+	public static final String WEBSITE_IP = "157.230.233.218";
 	//endregion
 
 	//region MongoDB
@@ -11,20 +11,20 @@ public class Settings {
 	public static final String MONGO_ADMIN_USERNAME = "";
 	public static final String MONGO_ADMIN_PASSWORD = "";
 	public static final String MONGO_URI = "";
-	public static final String MONGO_DATABASE_NAME = "";
-	public static final String ACCOUNTS_COLLECTION_NAME = "";
-	public static final String POSTS_COLLECTION_NAME = "";
-	public static final String COMMENTS_COLLECTION_NAME = "";
-	public static final String CHALLENGES_COLLECTION_NAME = "";
-	public static final String CONFIRMATION_KEY_COLLECTION_NAME = "";
+	public static final String MONGO_DATABASE_NAME = "InnovationApp";
+	public static final String ACCOUNTS_COLLECTION_NAME = "Accounts";
+	public static final String POSTS_COLLECTION_NAME = "Posts";
+	public static final String COMMENTS_COLLECTION_NAME = "Comments";
+	public static final String CHALLENGES_COLLECTION_NAME = "Challenges";
+	public static final String CONFIRMATION_KEY_COLLECTION_NAME = "ConfirmationKeys";
 	//endregion
 
 	//region Max Character Lengths
-	public static final int MAX_USERNAME_LENGTH = 0;
-	public static final int MAX_PASSWORD_LENGTH = 0;
-	public static final int MAX_POST_TITLE_LENGTH = 0;
-	public static final int MAX_POST_BODY_LENGTH = 0;
-	public static final int MAX_COMMENT_BODY_LENGTH = 0;
+	public static final int MAX_USERNAME_LENGTH = 20;
+	public static final int MAX_PASSWORD_LENGTH = 50;
+	public static final int MAX_POST_TITLE_LENGTH = 40;
+	public static final int MAX_POST_BODY_LENGTH = 3000;
+	public static final int MAX_COMMENT_BODY_LENGTH = 1500;
 	//endregion
 
 	//region Rate Limiting
@@ -55,7 +55,7 @@ public class Settings {
 	//endregion
 
 	//region Misc
-	public static final int HTTP_SERVER_PORT = 0;
+	public static final int HTTP_SERVER_PORT = 8080;
 
 	public static final int BCRYPT_LOG_ROUNDS = 0;
 
@@ -63,8 +63,8 @@ public class Settings {
 	//endregion
 
 	//region Resources per Page
-	public static final int POSTS_PER_PAGE = 0;
-	public static final int CHALLENGES_PER_PAGE = 0;
+	public static final int POSTS_PER_PAGE = 10;
+	public static final int CHALLENGES_PER_PAGE = 5;
 	//endregion
 
 	//region SMTP

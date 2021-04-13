@@ -201,7 +201,7 @@ function makePost(title, body) {
 			displayPost(postData, text, true);
 			togglePostPopup();
 			document.getElementById("postTitle").value = "";
-			document.getElementById("postBody").value = "";
+			document.getElementById("postBody").innerHTML = "";
 		})
 		.catch(err => {
 			console.error(err);

@@ -1,9 +1,6 @@
 package LukeS26.github.io;
 
-import LukeS26.github.io.dataschema.Account;
-import LukeS26.github.io.dataschema.Challenge;
-import LukeS26.github.io.dataschema.Comment;
-import LukeS26.github.io.dataschema.Post;
+import LukeS26.github.io.dataschema.*;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -18,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("ThrowablePrintedToSystemOut")
 public class MongoManager {
     private static MongoManager instance;
     private final MongoDatabase db;
@@ -34,6 +32,24 @@ public class MongoManager {
         MongoClient mongo = new MongoClient(new MongoClientURI(Settings.MONGO_URI));
         db = mongo.getDatabase(Settings.MONGO_DATABASE_NAME);
     }
+
+    // #region Confirmation Keys
+    public void writeConfirmationKey(ConfirmationKey key) {
+        MongoCollection<Document> confirmationKeyCollection = db.getCollection(Settings.CONFIRMATION_KEY_COLLECTION_NAME);
+        Document confirmationKeyDoc = key.toDoc();
+        confirmationKeyCollection.insertOne(confirmationKeyDoc);
+    }
+
+    public Document findConfirmationKey(String username) {
+        MongoCollection<Document> confirmationKeyCollection = db.getCollection(Settings.CONFIRMATION_KEY_COLLECTION_NAME);
+        return confirmationKeyCollection.find(Filters.eq("username", username)).first();
+    }
+
+    public void deleteConfirmationKey(ConfirmationKey ck) {
+        MongoCollection<Document> confirmationKeyCollection = db.getCollection(Settings.CONFIRMATION_KEY_COLLECTION_NAME);
+        confirmationKeyCollection.deleteOne(Filters.eq("key", ck.key));
+    }
+    // #endregion
 
     public void editComment(ObjectId originalID, Document bsonUpdate) {
         bsonUpdate.put("edited", true);
@@ -59,6 +75,7 @@ public class MongoManager {
         return commentsCollection.find(Filters.eq("post_id", new ObjectId(postID)));
     }
 
+    // Unused because the document is created before it is written manually so that the ID can be sent as a response
     public void writeComment(Comment comment) {
         MongoCollection<Document> commentCollection = db.getCollection(Settings.COMMENTS_COLLECTION_NAME);
         Document commentDoc = comment.toDoc();
@@ -129,7 +146,7 @@ public class MongoManager {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
             FindIterable<Document> posts = postCollection.find(Filters.eq("username", username));
-            if (posts != null) {
+            if (posts.first() != null) {
                 return posts;
             }
 
@@ -145,7 +162,7 @@ public class MongoManager {
         try {
             FindIterable<Document> challengeDocs = challengesCollection.find().sort(Sorts.descending("challenge_id"))
                     .skip(Settings.CHALLENGES_PER_PAGE * pageNumber).limit(Settings.CHALLENGES_PER_PAGE);
-            if (challengeDocs != null) {
+            if (challengeDocs.first() != null) {
                 return challengeDocs;
             }
 
@@ -161,7 +178,7 @@ public class MongoManager {
         try {
             FindIterable<Document> postDocs = postCollection.find(Filters.not(Filters.eq("author", "[Removed]"))).sort(Sorts.descending("date"))
                     .skip(Settings.POSTS_PER_PAGE * pageNumber).limit(Settings.POSTS_PER_PAGE);
-            if (postDocs != null) {
+            if (postDocs.first() != null) {
                 return postDocs;
             }
 

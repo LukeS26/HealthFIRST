@@ -1,5 +1,21 @@
 package LukeS26.github.io;
 
+import LukeS26.github.io.dataschema.Account;
+import LukeS26.github.io.dataschema.Comment;
+import LukeS26.github.io.dataschema.ConfirmationKey;
+import LukeS26.github.io.dataschema.Post;
+import com.mongodb.client.FindIterable;
+import io.javalin.Javalin;
+import io.javalin.http.util.RateLimit;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.eclipse.jetty.http.HttpStatus;
+import org.mindrot.jbcrypt.BCrypt;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,24 +27,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.servlet.ServletOutputStream;
-
-import com.mongodb.client.FindIterable;
-
-import io.javalin.http.util.RateLimit;
-import org.bson.Document;
-import org.bson.types.ObjectId;
-import org.eclipse.jetty.http.HttpStatus;
-import org.mindrot.jbcrypt.BCrypt;
-
-import LukeS26.github.io.dataschema.Account;
-import LukeS26.github.io.dataschema.Comment;
-import LukeS26.github.io.dataschema.Post;
-import io.javalin.Javalin;
 
 public class HttpServer {
 	private static HttpServer instance;
@@ -50,6 +52,7 @@ public class HttpServer {
 		mongoManager = MongoManager.getInstance();
 		System.out.println("Finished initializing MongoDB.");
 
+		//noinspection SpellCheckingInspection
 		suspiciousEndpoints = new String[]{"client_area", "system_api", "GponForm", "stalker_portal", "manager/html",
 				"stream/rtmp", "getuser?index=0", "jenkins/login", "check.best-proxies.ru", "setup.cgi", "script"};
 
@@ -105,7 +108,7 @@ public class HttpServer {
 				}
 			}
 		});
-		// #region Challenges
+		//region Challenges
 		// Complete a challenge
 		app.post("/api/challenges/complete/*", ctx -> {
 			ctx.header("Access-Control-Allow-Headers", "Authorization");
@@ -126,7 +129,7 @@ public class HttpServer {
 			}
 
 			try {
-				/**
+				/*
 				 *  TODO: This is kinda dumb, I'm making database calls to
 				 * 	make check if the requesting user is a moderator, but
 				 * 	that defeats the point of ratelimiting for most endpoints
@@ -145,6 +148,12 @@ public class HttpServer {
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
 				ctx.status(HttpStatus.FORBIDDEN_403);
 				ctx.result(Utils.NO_PERMISSION);
+				return;
+			}
+
+			if (userAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
 				return;
 			}
 
@@ -205,9 +214,9 @@ public class HttpServer {
 			ctx.result(feedDoc.toJson());
 			ctx.status(HttpStatus.OK_200);
 		});
-		// #endregion
+		//endregion
 
-		// #region Comments
+		//region Comments
 		// Edit a comment
 		app.patch("/api/comments/*", ctx -> {
 			ctx.header("Access-Control-Allow-Headers", "Authorization");
@@ -262,6 +271,12 @@ public class HttpServer {
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
 				ctx.status(HttpStatus.FORBIDDEN_403);
 				ctx.result(Utils.NO_PERMISSION_BANNED);
+				return;
+			}
+
+			if (userAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
 				return;
 			}
 
@@ -321,6 +336,12 @@ public class HttpServer {
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
 				ctx.status(HttpStatus.FORBIDDEN_403);
 				ctx.result(Utils.NO_PERMISSION);
+				return;
+			}
+
+			if (userAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
 				return;
 			}
 
@@ -416,6 +437,12 @@ public class HttpServer {
 				return;
 			}
 
+			if (userAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
+				return;
+			}
+
 			Comment comment = new Comment();
 			// only accept ObjectId objects instead of strings to stay consistent, because I
 			// am sending it through GETs in the same format
@@ -459,9 +486,9 @@ public class HttpServer {
 			ctx.result(commentJson);
 			ctx.status(HttpStatus.OK_200);
 		});
-		// #endregion
+		//endregion
 
-		// #region Posts
+		//region Posts
 		// Get a post feed offset by the page number
 		app.get("/api/posts/feed", ctx -> {
 			try {
@@ -549,6 +576,12 @@ public class HttpServer {
 				return;
 			}
 
+			if (userAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
+				return;
+			}
+
 			Document postDoc = mongoManager.findPost(ctx.splat(0));
 			if (!(format((String) postDoc.get("author"))).equals(userAccount.username)
 					&& userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
@@ -632,6 +665,12 @@ public class HttpServer {
 				return;
 			}
 
+			if (userAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
+				return;
+			}
+
 			Post post = new Post(); // Can't use Post.fromDoc because it doesn't contain an ID here
 			post.author = format(userAccount.username);
 			post.title = format((String) doc.get("title"));
@@ -706,6 +745,12 @@ public class HttpServer {
 				return;
 			}
 
+			if (userAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
+				return;
+			}
+
 			Document post = mongoManager.findPost(ctx.splat(0));
 			if (!(format((String) post.get("author"))).equals(userAccount.username)
 					&& userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
@@ -717,9 +762,9 @@ public class HttpServer {
 			mongoManager.deletePost(post);
 			ctx.status(HttpStatus.NO_CONTENT_204);
 		});
-		// #endregion
+		//endregion
 
-		// #region Accounts
+		//region Accounts
 		// Update an account
 		app.patch("/api/account", ctx -> {
 			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
@@ -760,6 +805,12 @@ public class HttpServer {
 			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
 				ctx.status(HttpStatus.FORBIDDEN_403);
 				ctx.result(Utils.NO_PERMISSION_BANNED);
+				return;
+			}
+
+			if (userAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
 				return;
 			}
 
@@ -926,7 +977,7 @@ public class HttpServer {
 			userAccount.passwordHash = BCrypt.hashpw(receivedHash, salt);
 			userAccount.token = Account.generateToken();
 
-			userAccount.permissionID = Utils.Permissions.USER.ordinal();
+			userAccount.permissionID = Utils.Permissions.UNCONFIRMED.ordinal();
 			userAccount.badgeIDs = new ArrayList<>();
 			userAccount.following = new ArrayList<>();
 
@@ -934,8 +985,67 @@ public class HttpServer {
 
 			mongoManager.writeAccount(userAccount);
 
+
+			ConfirmationKey ck = new ConfirmationKey();
+			ck.username = userAccount.username;
+			ck.key = Utils.generateRandomConfirmationKey();
+
+			mongoManager.writeConfirmationKey(ck);
+
+			// Sending confirmation email
+			Properties properties = System.getProperties();
+			properties.put("mail.smtp.host", Settings.SMTP_URL);
+			properties.put("mail.smtp.port", Settings.SMTP_PORT);
+			properties.put("mail.smtp.auth", "true");
+			properties.put("mail.smtp.starttls.enable", "true");
+			Session session = Session.getDefaultInstance(properties, new Authenticator() {
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(Settings.EMAIL, Settings.EMAIL_PASSWORD);
+				}
+			});
+
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(Settings.EMAIL));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userAccount.email));
+			message.setSubject("Confirm your email for HealthFirst4342.tk!");
+			message.setText("Visit this link to confirm your email: http://healthfirst4342.tk/confirm?key=" + ck.key + "\n\nHealthFirst\n4342 Demon Robotics");
+
+			Transport.send(message);
+
 			ctx.result(new Document("token", userAccount.token).toJson());
 			ctx.status(HttpStatus.CREATED_201);
+		});
+
+		app.post("/api/account/confirm", ctx -> {
+			// TODO: Probably don't need to ratelimit this
+			String key = ctx.queryParam("key");
+
+			if (key == null) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
+				ctx.result(Utils.INVALID_URL);
+				return;
+			}
+
+			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
+			if (userAccount == null) {
+				ctx.status(HttpStatus.UNAUTHORIZED_401);
+				ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
+				return;
+			}
+
+			ConfirmationKey confirmationKey = ConfirmationKey.fromDoc(mongoManager.findConfirmationKey(userAccount.username));
+			if (confirmationKey == null) {
+				ctx.status(HttpStatus.NOT_FOUND_404);
+				ctx.result(Utils.CONFIRMATION_KEY_DOESNT_EXIST);
+				return;
+			}
+
+			if (key.equals(confirmationKey.key)) {
+				mongoManager.updateAccount(userAccount.username, new Document("permission_id", Utils.Permissions.USER.ordinal()));
+				mongoManager.deleteConfirmationKey(confirmationKey);
+				ctx.status(HttpStatus.NO_CONTENT_204);
+			}
 		});
 
 		app.get("/api/account/*/posts", ctx -> {
@@ -978,8 +1088,7 @@ public class HttpServer {
 				return;
 			}
 
-			Account userAccount = Account.fromDoc(existingUserAccountDoc);
-			Document userAccountDoc = userAccount.toDoc(false); // False since we are sending it to the client,
+			Document userAccountDoc = Objects.requireNonNull(Account.fromDoc(existingUserAccountDoc)).toDoc(false); // False since we are sending it to the client,
 			// don't want to send pass
 			String accountJson = userAccountDoc.toJson();
 
@@ -1009,6 +1118,7 @@ public class HttpServer {
 				new RateLimit(ctx).requestPerTimeUnit(Settings.GET_ACCOUNT_SENSITIVE_INFORMATION_RATELIMIT, TimeUnit.MINUTES);
 
 			} catch (Exception e) {
+				assert userAccount != null;
 				if (userAccount.permissionID != Utils.Permissions.MODERATOR.ordinal()) {
 					ctx.status(HttpStatus.TOO_MANY_REQUESTS_429);
 					return;
@@ -1059,6 +1169,7 @@ public class HttpServer {
 			}
 			Account loginAccount = Account.fromDoc(loginAccountDoc);
 
+			assert loginAccount != null;
 			if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
 				Document responseDoc = new Document("token", loginAccount.token).append("username",
 						loginAccount.username);
@@ -1091,10 +1202,11 @@ public class HttpServer {
 			}
 
 			Account userAccount = Account.fromDoc(mongoManager.findAccountByToken(ctx.header("Authorization")));
-			if (userAccount != null) {
-				ctx.status(HttpStatus.NO_CONTENT_204);
+			if (userAccount == null) {
+				ctx.status(HttpStatus.NOT_FOUND_404);
 				ctx.result(Utils.TOKEN_ACCOUNT_DOESNT_EXIST);
 				return;
+
 			}
 
 			try {
@@ -1107,12 +1219,11 @@ public class HttpServer {
 				}
 			}
 
-			ctx.status(HttpStatus.FORBIDDEN_403);
-			ctx.result(Utils.INVALID_TOKEN);
+			ctx.status(HttpStatus.NO_CONTENT_204);
 		});
-		// #endregion
+		//endregion
 
-		// #region Followers
+		//region Followers
 		app.post("/api/following/*", ctx -> {
 			ctx.header("Access-Control-Allow-Origin", Settings.WEBSITE_URL);
 
@@ -1214,7 +1325,7 @@ public class HttpServer {
 			mongoManager.updateAccount(userAccount.username, updateDoc);
 			ctx.status(HttpStatus.NO_CONTENT_204);
 		});
-		// #endregion
+		//endregion
 	}
 
 	/**

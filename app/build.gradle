@@ -15,10 +15,10 @@ dependencies {
 }
 
 // The server needs it out here for some reason instead of in application{}
-mainClassName = 'LukeS26.github.io.Driver'
+mainClassName = 'Driver'
 
 /*
 application {
-    mainClass = 'LukeS26.github.io.Driver'
+    mainClass = 'Driver'
 }
 */

@@ -1,6 +1,6 @@
-package LukeS26.github.io.dataschema;
+package HealthFIRST.dataschema;
 
-import LukeS26.github.io.Settings;
+import HealthFIRST.Settings;
 import org.bson.Document;
 import org.mindrot.jbcrypt.BCrypt;
 

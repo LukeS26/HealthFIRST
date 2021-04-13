@@ -1,4 +1,4 @@
-package LukeS26.github.io.dataschema;
+package HealthFIRST.dataschema;
 
 import java.util.Date;
 

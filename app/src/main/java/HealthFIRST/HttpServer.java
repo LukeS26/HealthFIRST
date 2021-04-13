@@ -1,9 +1,9 @@
-package LukeS26.github.io;
+package HealthFIRST;
 
-import LukeS26.github.io.dataschema.Account;
-import LukeS26.github.io.dataschema.Comment;
-import LukeS26.github.io.dataschema.ConfirmationKey;
-import LukeS26.github.io.dataschema.Post;
+import HealthFIRST.dataschema.Comment;
+import HealthFIRST.dataschema.Account;
+import HealthFIRST.dataschema.ConfirmationKey;
+import HealthFIRST.dataschema.Post;
 import com.mongodb.client.FindIterable;
 import io.javalin.Javalin;
 import io.javalin.http.util.RateLimit;

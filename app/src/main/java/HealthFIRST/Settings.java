@@ -1,4 +1,4 @@
-package LukeS26.github.io;
+package HealthFIRST;
 
 public class Settings {
 	//region Domain Settings

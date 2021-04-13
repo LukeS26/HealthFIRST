@@ -1,11 +1,10 @@
-package LukeS26.github.io.dataschema;
+package HealthFIRST.dataschema;
 
 import java.util.UUID;
 
+import HealthFIRST.Settings;
 import org.bson.Document;
 import org.mindrot.jbcrypt.BCrypt;
-
-import LukeS26.github.io.Settings;
 
 public class Token extends DataSchema {
     public String tokenStr;

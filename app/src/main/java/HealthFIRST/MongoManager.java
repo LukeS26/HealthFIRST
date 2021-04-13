@@ -1,6 +1,7 @@
-package LukeS26.github.io;
+package HealthFIRST;
 
-import LukeS26.github.io.dataschema.*;
+import HealthFIRST.dataschema.*;
+import HealthFIRST.dataschema.*;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;

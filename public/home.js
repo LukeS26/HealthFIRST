@@ -3,6 +3,8 @@ let open = [];
 let page = 0;
 let blurOpen = false;
 let newPostBody = "";
+let edit = false;
+let openPostId = "";
 
 function getCookie(name) {
 	let cookieArr = document.cookie.split(";");
@@ -74,7 +76,7 @@ function displayPost(post, id, top) {
 	}
 
 	if (post.author === getCookie("username")) {
-		html += `<span class="postOptions" onclick="editPost('post${postCount}')">`;
+		html += `<span class="postOptions" onclick="openEditPost('post${postCount}', '` + id + `')">`;
 		html += `<div class="postToolTip">Edit</div>`;
 		if (localStorage.getItem("light-mode") === "light") {
 			html += `<img src="pencil.png" width="20px" height="20px">`;
@@ -154,8 +156,13 @@ function collectPostInfo() {
 		canPostBody = true;
 	}
 
-	if (canPost && canPostBody) {
+	if (canPost && canPostBody && !edit) {
 		makePost(document.getElementById("postTitle").value, document.getElementById("postBody").innerHTML.split("<div>").join("").split("</div>").join("<br>").split("<br>").join("\n"));
+	} else if (canPost && canPostBody && edit) {
+		edit = false;
+		editPost(document.getElementById("postTitle").value, document.getElementById("postBody").innerHTML.split("<div>").join("").split("</div>").join("<br>").split("<br>").join("\n"), openPostId);
+	} else {
+		console.error("An error ocurred when collecting new post data from user");
 	}
 }
 
@@ -208,13 +215,35 @@ function makePost(title, body) {
 		})
 }
 
-function editPost(id) {
-	let post = document.getElementById(id);
+function editPost(title, body, id) {
+	body = body.split("<b>").join("**");
+	body = body.split("</b>").join("**");
+	body = body.split("<i>").join("*");
+	body = body.split("</i>").join("*");
+	body = body.split("<u>").join("_");
+	body = body.split("</u>").join("_");
+
+	fetch("http://157.230.233.218:8080/api/post/" + id, {
+		method: "PATCH",
+		body: JSON.stringify({"title": title, "body": body, "author": getCookie("username"), "_id": id}),
+		mode: "cors",
+		headers: {
+			"Content-type": "application/json; charset=UTF-8",
+			"Authorization": getCookie("token"),
+			"Origin": "http://healthfirst4342.tk/"
+		}
+	})
+}
+
+function openEditPost(frontEndId, id) {
+	let post = document.getElementById(frontEndId);
 	let postTitleIn = document.getElementById("postTitle");
 	let postBodyIn = document.getElementById("postBody");
 	
 	postTitleIn.value = post.getElementsByClassName("postOpen")[0].getElementsByClassName("postTitle")[0].textContent;
 	postBodyIn.innerHTML = post.getElementsByClassName("postOpen")[0].getElementsByClassName("postBody")[0].innerHTML;
+	edit = true;
+	openPostId = id;
 
 	togglePostPopup();
 }

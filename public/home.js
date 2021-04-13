@@ -223,7 +223,7 @@ function editPost(title, body, id) {
 	body = body.split("<u>").join("_");
 	body = body.split("</u>").join("_");
 
-	fetch("http://157.230.233.218:8080/api/posts", {
+	fetch("http://157.230.233.218:8080/api/post/" + id, {
 		method: "PATCH",
 		body: JSON.stringify({"title": title, "body": body, "author": getCookie("username"), "_id": id}),
 		mode: "cors",

@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("ThrowablePrintedToSystemOut")
 public class MongoManager {
     private static MongoManager instance;
     private final MongoDatabase db;
@@ -145,7 +146,7 @@ public class MongoManager {
         MongoCollection<Document> postCollection = db.getCollection(Settings.POSTS_COLLECTION_NAME);
         try {
             FindIterable<Document> posts = postCollection.find(Filters.eq("username", username));
-            if (posts != null) {
+            if (posts.first() != null) {
                 return posts;
             }
 
@@ -161,7 +162,7 @@ public class MongoManager {
         try {
             FindIterable<Document> challengeDocs = challengesCollection.find().sort(Sorts.descending("challenge_id"))
                     .skip(Settings.CHALLENGES_PER_PAGE * pageNumber).limit(Settings.CHALLENGES_PER_PAGE);
-            if (challengeDocs != null) {
+            if (challengeDocs.first() != null) {
                 return challengeDocs;
             }
 
@@ -177,7 +178,7 @@ public class MongoManager {
         try {
             FindIterable<Document> postDocs = postCollection.find(Filters.not(Filters.eq("author", "[Removed]"))).sort(Sorts.descending("date"))
                     .skip(Settings.POSTS_PER_PAGE * pageNumber).limit(Settings.POSTS_PER_PAGE);
-            if (postDocs != null) {
+            if (postDocs.first() != null) {
                 return postDocs;
             }
 

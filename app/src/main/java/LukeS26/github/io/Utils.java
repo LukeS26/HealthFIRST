@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class Utils {
 	public enum Permissions {
 		BANNED, UNCONFIRMED, USER, MODERATOR
@@ -31,6 +32,7 @@ public class Utils {
 	public static String INVALID_TOKEN = "Invalid token used.";
 	public static String ALREADY_FOLLOWING = "You are already following this user.";
 	public static String NOT_FOLLOWING = "You are not following this user.";
+	public static String ACCOUNT_NOT_CONFIRMED = "Please confirm your email before trying to complete this action.";
 
 	public static String generateRandomConfirmationKey() {
 		try {

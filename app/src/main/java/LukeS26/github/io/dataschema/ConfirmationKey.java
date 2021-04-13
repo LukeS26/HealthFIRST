@@ -13,10 +13,14 @@ public class ConfirmationKey extends DataSchema {
 	}
 
 	public static ConfirmationKey fromDoc(Document doc) {
-		ConfirmationKey c = new ConfirmationKey();
-		c.key = (String) doc.get("key");
-		c.username = (String) doc.get("username");
+		try {
+			ConfirmationKey c = new ConfirmationKey();
+			c.key = (String) doc.get("key");
+			c.username = (String) doc.get("username");
+			return c;
 
-		return c;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

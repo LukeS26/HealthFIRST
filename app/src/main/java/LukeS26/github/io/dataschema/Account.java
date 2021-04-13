@@ -36,7 +36,7 @@ public class Account extends DataSchema {
 	 * - Send an email automatically to the entered email that has a URL that contains the key as a parameter
 	 * (?key=asdfghjkl)
 	 *
-	 * After the confirmation URL is clicked, it should take you to a page on the front end that makes a request
+	 * After the confirmation URL is clicked, it should take you to a page on the frontend that makes a request
 	 * to the backend using the key passed in the URL.
 	 * This then sets the permission level of the account to User instead of Unconfirmed
 	 *
@@ -95,22 +95,27 @@ public class Account extends DataSchema {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Account fromDoc(Document doc) {
-		Account a = new Account();
-		a.username = (String) doc.get("username");
-		a.email = (String) doc.get("email");
-		a.passwordHash = (String) doc.get("password_hash");
-		a.token = (String) doc.get("token");
-		a.firstName = (String) doc.get("first_name");
-		a.lastName = (String) doc.get("last_name");
-		a.bio = (String) doc.get("biography");
-		a.profilePictureLink = (String) doc.get("profile_picture_link");
-		a.permissionID = (int) doc.get("permission_id");
-		a.badgeIDs = (List<Integer>) doc.get("badge_ids");
-		a.following = (List<String>) doc.get("following");
-		a.signupDate = (Date) doc.get("signup_date");
-		// "Unchecked cast" problem when casting to List
-		// https://stackoverflow.com/questions/1490134/java-type-safety-unchecked-cast
+		try {
+			Account a = new Account();
+			a.username = (String) doc.get("username");
+			a.email = (String) doc.get("email");
+			a.passwordHash = (String) doc.get("password_hash");
+			a.token = (String) doc.get("token");
+			a.firstName = (String) doc.get("first_name");
+			a.lastName = (String) doc.get("last_name");
+			a.bio = (String) doc.get("biography");
+			a.profilePictureLink = (String) doc.get("profile_picture_link");
+			a.permissionID = (int) doc.get("permission_id");
+			a.badgeIDs = (List<Integer>) doc.get("badge_ids");
+			a.following = (List<String>) doc.get("following");
+			a.signupDate = (Date) doc.get("signup_date");
+			// "Unchecked cast" problem when casting to List
+			// https://stackoverflow.com/questions/1490134/java-type-safety-unchecked-cast
 
-		return a;
+			return a;
+
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

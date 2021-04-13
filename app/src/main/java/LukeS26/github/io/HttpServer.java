@@ -12,9 +12,7 @@ import org.bson.types.ObjectId;
 import org.eclipse.jetty.http.HttpStatus;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletOutputStream;
@@ -996,11 +994,19 @@ public class HttpServer {
 
 			// Sending confirmation email
 			Properties properties = System.getProperties();
-			properties.setProperty("mail.smtp.host", "smtp.gmail.com");
-			Session session = Session.getDefaultInstance(properties);
+			properties.put("mail.smtp.host", Settings.SMTP_URL);
+			properties.put("mail.smtp.port", Settings.SMTP_PORT);
+			properties.put("mail.smtp.auth", "true");
+			properties.put("mail.smtp.starttls.enable", "true");
+			Session session = Session.getDefaultInstance(properties, new Authenticator() {
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(Settings.EMAIL, Settings.EMAIL_PASSWORD);
+				}
+			});
 
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("healthfirst4342@gmail.com"));
+			message.setFrom(new InternetAddress(Settings.EMAIL));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userAccount.email));
 			message.setSubject("Confirm your email for HealthFirst4342.tk!");
 			message.setText("Visit this link to confirm your email: http://healthfirst4342.tk/confirm?key=" + ck.key + "\n\nHealthFirst\n4342 Demon Robotics");

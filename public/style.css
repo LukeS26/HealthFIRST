@@ -573,6 +573,7 @@ body {
     width: 20px;
     background: none;
     border: none;
+    position: fixed;
 }
 
 .passVisibility img {

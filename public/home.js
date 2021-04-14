@@ -274,6 +274,7 @@ function toggleCharacterOption(object) {
 
 	if (color === "rgb(75, 75, 75)") {
 		object.style.color = "black";
+		object.style.fontSize = "30px";
 	} else {
 		object.style.color = "rgb(75, 75, 75)";
 	}

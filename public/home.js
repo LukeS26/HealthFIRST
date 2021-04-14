@@ -233,9 +233,9 @@ function editPost(title, body, id) {
 			"Authorization": getCookie("token"),
 			"Origin": "http://healthfirst4342.tk/"
 		}
-		.catch(err => {
-			console.error(err);
-		})
+	})
+	.catch(err => {
+		console.error(err);
 	})
 	document.getElementById("postTitle").value = "";
 	document.getElementById("postBody").innerHTML = "";

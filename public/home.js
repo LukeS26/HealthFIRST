@@ -161,6 +161,7 @@ function collectPostInfo() {
 	} else if (canPost && canPostBody && edit) {
 		edit = false;
 		editPost(document.getElementById("postTitle").value, document.getElementById("postBody").innerHTML.split("<div>").join("").split("</div>").join("<br>").split("<br>").join("\n"), openPostId);
+		togglePostPopup();
 	} else {
 		console.error("An error ocurred when collecting new post data from user");
 	}
@@ -232,7 +233,12 @@ function editPost(title, body, id) {
 			"Authorization": getCookie("token"),
 			"Origin": "http://healthfirst4342.tk/"
 		}
+		.catch(err => {
+			console.error(err);
+		})
 	})
+	document.getElementById("postTitle").value = "";
+	document.getElementById("postBody").innerHTML = "";
 }
 
 function openEditPost(frontEndId, id) {

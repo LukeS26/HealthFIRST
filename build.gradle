@@ -1,0 +1,18 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.7'
+    compile 'io.javalin:javalin:3.13.0'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.0-alpha1'
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+    implementation group: 'javax.mail', name: 'mail', version: '1.5.0-b01'
+}
+
+// The server needs it out here for some reason instead of in application{}
+mainClassName = 'HealthFIRST.Driver'

@@ -1,0 +1,580 @@
+:root {
+    --post-text-color: black;
+    --post-background-color: white;
+    --body-background-color: rgb(226, 226, 226);
+    --body-text-color: black;
+    --header-background-color: #0044CC;
+    --profileHeader-background-color: #0044CC;
+    --navigation-background-color: #0044CC;
+    --darker-text: #2F2F2F;
+    --finished-challenge-background-color: #cfcfcf;
+    --profile-header-hover: #003CB3;
+}
+
+.coolForm{
+    text-align: center;
+    justify-content: center;
+}
+.coolForm div{
+    margin: auto;
+}
+.coolForm input {
+    border: none;
+    border-bottom: 2px solid lightgray;
+    width: 250px;
+}
+.coolForm input:focus{
+    outline: none;
+}
+.line {
+    height: 2px;
+    width: 0px;
+    background-color: blue;
+    position: relative;
+    top: -2px;
+    transition: width 0.5s ease-in-out;
+}
+.coolForm input:focus ~ .line {
+    width: 254px;
+}
+
+.coolFormCheckBox {
+    width: 400px;
+}
+.coolFormCheckBox * {
+    display: inline-flex;
+    justify-content: center;
+}
+.coolFormCheckBox input {
+    width: 40px;
+}
+
+.formLink {
+    text-align: center;
+    color: gray;
+}
+
+.error {
+    color: red;
+    display: none;
+}
+
+.profileHeader {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.linkHome {color:white}
+.linkHome:visited {color:#ffffff;} /* Visited link    */
+.linkHome:hover {color:#ffffff;}   /* Mouse over link */
+.linkHome:active {color:#ffffff;}
+
+.headerRight {
+    position: absolute;
+}
+
+.headerRight * {
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    padding: 5px;
+    margin-top: 0%;
+}
+
+.titleHome {
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+
+    /*Stack Overflow Prevent Highlighting */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.makePostContainer {
+    /*Stack Overflow Prevent Highlighting */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+    background-color: #003CB3;
+    color:white;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 25px;
+    border: 2px solid #003CB3;
+
+    transition-duration: 0.15s;
+}
+
+.makePostContainer:hover {
+    color: #003cb3;
+    background: white;
+
+    cursor: pointer;
+}
+
+.posts {
+    margin: auto;
+    z-index: 0;
+    width: 600px;
+    padding-top: 45px;
+    color: var(--post-text-color);
+}
+
+.postContainer {
+    border: 2px gray solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: var(--post-background-color)
+}
+.postContainer:hover {
+    cursor: pointer;
+}
+.postContainer:hover span {
+    display: block;
+}
+
+.profileImage {
+    border-radius: 100%;
+    margin-top: 5px;
+}
+
+.popupContainer {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.blur {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 998;
+    background-color: rgba(211, 211, 211, 0);
+    transition: background-color 0.2s ease-in-out;
+    filter: none;
+}
+
+.popup {
+    position: relative;
+    top: 15%; 
+    border: 2px black solid;
+    margin: auto;
+    width: 50%;
+    background-color: white;
+    text-align: center;
+    box-shadow: 8px 8px gray;
+    z-index: 999;
+}
+
+.commentDisplay {
+    border:2px solid black;
+    border-radius: 25px;
+    padding: 10px;
+}
+
+.postAuthor {
+    color: var(--post-text-color);
+    text-decoration: none;
+    display: inline-block;
+    padding-right: 20px;
+}
+
+.postAuthor:hover {
+    text-decoration: underline;
+}
+
+.postOptions {
+    float: right;
+    padding: 10px 5px;
+    position: relative;
+    top: -8px;
+    display: none;
+}
+.postOptions:hover > .postToolTip {
+    opacity: 1;
+}
+
+.postToolTip {
+    background-color: lightgray;
+    border-radius: 10%;
+    font-size: 10px;
+    padding: 5px;
+    position: absolute;
+    left: -6px;
+    top: -15px;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.1s linear 0.5s;
+    color: black;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 17px;
+    top: 2px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: lightgrey;
+    transition: linear 0.2s;
+    border-radius: 30px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 76.47%;
+    width: 43.33%;
+    left: 6.66%;
+    bottom: 11.76%;
+    background-color: white;
+    transition: linear 0.2s;
+    border-radius: 50%;
+}
+
+.switch input:checked ~ .slider {
+    background-color: #2196F3;
+}
+.switch input:checked ~ .slider:before {
+    transform: translateX(100%);
+}
+
+.option * {
+    display: inline-block;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.specialOption {
+    color: rgb(75, 75, 75);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: none;
+    text-align: center;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+.specialOption:hover {
+    background-color: darkgray;
+}
+.specialOption i {
+    position: relative;
+    left: -2px;
+}
+
+#updatePhotoButton {
+    margin: 20px;
+    height: 50px;
+    width: 150px;
+    background-color: blue;
+    color: white;
+    border: 2px blue solid;
+    font-size: 20px;
+    border-radius: 5px;
+}
+#updatePhotoButton:hover {
+    cursor: pointer;
+    background-color: darkblue;
+    border: 2px darkblue solid;
+}
+
+#dropBox {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 300px;
+    background-color: lightgray;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#dropBox div {
+    color: gray;
+    font-size: 200%;
+    padding: 40px;
+}
+
+#imgUrlInput {
+    padding: 5px;
+}
+
+#profileHeader {
+    position: sticky;
+    float: right;
+    color: white;
+    height: 60px;
+    z-index: 2;
+    background-color: var(--profileHeader-background-color);
+}
+#profileHeader img {
+    position: relative;
+    padding-right: 20px;
+}
+#profileHeader h2 {
+    position: relative;
+    bottom: 15px;
+    padding-right: 10px;
+}
+#profileHeader > * {
+    display: inline-block;
+}
+#profileHeader:hover {
+    background-color: var(--profile-header-hover);
+}
+
+#profileHeaderStuff {
+    border: 1.5px black solid;
+    border-radius: 5px;
+    border-top: none;
+    height: 200%;
+    background-color: white;
+    position: absolute;
+    right: 0%;
+    top: -103%;
+    transition: top 0.5s ease-in-out;
+    z-index: 1;
+}
+#profileHeaderStuff div {
+    padding: 10px;
+}
+#profileHeaderStuff a {
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    color: black;
+}
+
+#post-popup input {
+    width: 90%;
+    height: 50px;
+    font-size: 30px;
+    padding: 2px 5px 2px 5px;
+    margin-top: 10px;
+}
+#postBodyContainer {
+    width: 90%;
+    height: 200px;
+    margin-top: 20px;
+    padding: 5px;
+    border-left: 1px gray solid;
+    border-right: 1px gray solid;
+    border-bottom: 1px gray solid;
+    font-family: Tahoma, sans-serif;
+    color: black;
+    text-align: left;
+    border-radius: 0px 0px 2px 2px;
+    z-index: 2;
+}
+#postBodyContainer:focus {
+    outline: none;
+}
+
+
+#postBody:focus {
+    outline: none;
+}
+#postBody:focus:before {
+    display: none;
+}
+#postBody:empty:before {
+    content: attr(data-placeholder);
+    color: gray;
+}
+
+#specialBar {
+    width: 90%;
+    height: 20px;
+    padding: 5px;
+    margin-top: 10px;
+    background-color: rgb(185, 185, 185);
+    position: relative;
+    top: 20px;
+    border-radius: 2px 2px 0px 0px;
+    border-top: 1px gray solid;
+    border-left: 1px gray solid;
+    border-right: 1px gray solid;
+    text-align: left;
+}
+
+#post-popup button {
+    color: white;
+    background-color: blue;
+    height: 30px;
+    width: 30%;
+    border-color: blue;
+    margin: 20px;
+}
+#post-popup button:hover {
+    background-color: darkblue;
+    border-color: darkblue;
+    cursor: pointer;
+}
+
+header {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 60px;
+    background-color: var(--header-background-color);
+    z-index: 998;
+}
+header > *:hover {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .posts {
+        width: 100%;
+    }
+    .popup * {
+        width: 50%;
+        height: 25%;
+    }
+}
+
+body {
+    font-family: Tahoma, sans-serif;
+    overflow-x: clip;
+    overflow-wrap: anywhere;
+    background-color: var(--body-background-color);
+    color: var(--body-text-color);
+}
+
+.challengeButton {
+    color: white;
+    background-color: #04C;
+    border: 2px solid #04C;
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.challengeButton:hover {
+    color:#0044CC;
+    border-color: #0044CC;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.challengeContainer {
+    border: 2px gray solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: var(--post-background-color);
+}
+
+.challengeButtonFinished {
+    color: white;
+    background-color: #4A4A4A;
+    border: 2px solid #4A4A4A;
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.challengeContainerFinished {
+    border: 2px gray solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: var(--finished-challenge-background-color);
+}
+
+.badges {
+    padding: 5px;
+}
+
+.navigation {
+    position: absolute;
+    top: 60px;
+    background: var(--navigation-background-color);
+    width: 100%;
+    left: 0;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navlinks {
+    margin: 50px;
+    color: #FFFFFF;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+    align-self: center;
+    scale: 1.75;
+    text-decoration: none;
+}
+
+.navlinks:hover {
+    cursor: pointer;
+    color: #c7c7c7;
+}
+
+.repo-container {
+    width: 50%;
+    margin-left: 25px;
+}
+
+.commentField {
+    width: 852px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.passVisibility {
+    width: 20px;
+    background: none;
+    border: none;
+}
+
+.passVisibility img {
+    width: 20px;
+}

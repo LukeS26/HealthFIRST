@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>About</title>
+        <link href="style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="manifest" href="favicon/site.webmanifest">
+        <script src="checkUser.js"></script>
+        <script src="lightMode.js"></script>
+    </head>
+    <body>
+        <header>
+          <div class="headerRight">
+            <a href="/"><span class="titleHome">HealthFIRST</span></a>
+          </div>
+          <div id="profileHeader" class="profileHeader" onclick="toggleOptions()">
+            <div class="profileImage" style="height: 50px; width: 50px; overflow: hidden;">
+              <img alt="profile picture" id="headerImage" src="defaultPic.png" height="50px" width="50px"> 
+            </div>
+            <h2 id="usernameOutput"></h2>
+          </div>
+          <div id="profileHeaderStuff">
+            <div>
+              <a id="profileLink" href="user.html?">Profile</a><br><br>
+              <a href="profile.html">Options</a><br><br>
+              <a onclick="logout()">Logout</a><br><br>
+            </div>
+          </div>
+        </header>
+        <br><br><br>
+		<div class="navigation" id="nav">  
+          <a class="navlinks" href="/"> Home </a> 
+          <a class="navlinks" href="/challenges.html">Challenges</a> 
+          <a class="navlinks" href="/about.html">About</a>
+        </div>
+        <br><br>
+		<h2 style="color: var(--darker-text)"> About Us </h2>
+		<p style="color: var(--darker-text); margin-left: 25px;"> HealthFIRST is designed to offer a social media experience more conducive to mental health. We offer a platform to discuss issues and develop healthier habits, while removing many of the chief causes of stress other platforms use. By not including likes, dislikes, and follower counts, we hope to limit the possible stressors our site includes, which helps foster more meaningful content. Our challenges tab shows past, current, and future weekly activities that if completed, will reward the user with a badge to commemerate their achievement.</p>
+
+		<h2 style="color: var(--darker-text);"> View our Code </h2>
+		<div id="repo-container" class="repo-container"> <div class="repo-card" data-repo="LukeS26/HealthFIRST"></div> </div>
+
+        <script src="header.js"></script>
+		<script src="https://tarptaeya.github.io/repo-card/repo-card.js"></script>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+<!-- I like pizza -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Login</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+</head>
+
+<body style="background-color: white;">
+    <div class="coolForm">
+        <h1><u>Login</u></h1>
+        <div id="notFilled" class="error">Please fill out all of the fields</div>
+        <div id="notFound" class="error">Username or Password Incorrect</div><br>
+        <div>
+            <input id="username" placeholder="Username" type="username" required="true" autofocus maxlength="50">
+            <div class="line"></div><br><br>
+        </div>
+        <div>
+            <input id="password" placeholder="Password" type="password" required="true" maxlength="50">
+            <button onclick="toggleVisibility()" class="passVisibility"> <img id="passVis" src="images/eye.svg" alt="Show password"> </button>
+            <div class="line"></div><br><br>
+        </div>
+        <div class="coolFormCheckBox">
+            <input id="keepLoggedIn" type="checkbox" name="keepLoggedIn">
+            <div for="keepLoggedIn">Keep me logged in</div>
+        </div><br><br>
+        <button onclick="checkForm()">Login</button><br><br>
+        <a href="register.html" class="formLink">Don't have an account? Click here to register</a>
+    </div>
+    <script src="login.js"></script>
+</body>
+
+</html>

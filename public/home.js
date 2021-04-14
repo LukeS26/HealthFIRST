@@ -102,6 +102,11 @@ function displayPost(post, id, top) {
 	postCount++;
 }
 
+function refreshPosts() {
+	document.getElementById("posts").innerHTML = "";
+	loadPage(0);
+}
+
 function loadPost(id) {
 	window.location.assign("/post.html?id=" + id);
 }
@@ -233,6 +238,9 @@ function editPost(title, body, id) {
 			"Authorization": getCookie("token"),
 			"Origin": "http://healthfirst4342.tk/"
 		}
+	})
+	.then (res => {
+		refreshPosts();
 	})
 	.catch(err => {
 		console.error(err);

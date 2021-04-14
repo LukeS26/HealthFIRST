@@ -1044,7 +1044,7 @@ public class HttpServer {
 			// Checking for user, moderator, etc.
 			if (userAccount.permissionID >= Utils.Permissions.USER.ordinal()) {
 				ctx.status(HttpStatus.FORBIDDEN_403);
-				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
+				ctx.result(Utils.NO_PERMISSION);
 				return;
 			}
 

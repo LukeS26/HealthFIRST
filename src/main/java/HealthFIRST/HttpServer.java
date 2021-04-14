@@ -1034,6 +1034,20 @@ public class HttpServer {
 				return;
 			}
 
+			// Making sure that users that are banned can't somehow reconfirm themselves to get the "User" permission back
+			if (userAccount.permissionID == Utils.Permissions.BANNED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.NO_PERMISSION_BANNED);
+				return;
+			}
+
+			// Checking for user, moderator, etc.
+			if (userAccount.permissionID >= Utils.Permissions.USER.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
+				return;
+			}
+
 			ConfirmationKey confirmationKey = ConfirmationKey.fromDoc(mongoManager.findConfirmationKey(userAccount.username));
 			if (confirmationKey == null) {
 				ctx.status(HttpStatus.NOT_FOUND_404);
@@ -1042,6 +1056,11 @@ public class HttpServer {
 			}
 
 			if (key.equals(confirmationKey.key)) {
+				// If the given key is associated to a document with the same username as the logged
+				// in user, give the user the User permission and delete the key.
+
+				// If someone were to somehow confirm themselves multiple times, they could reset their permission, which is why I added
+				// Checks if the user is banned or is already confirmed (User permission or higher)
 				mongoManager.updateAccount(userAccount.username, new Document("permission_id", Utils.Permissions.USER.ordinal()));
 				mongoManager.deleteConfirmationKey(confirmationKey);
 				ctx.status(HttpStatus.NO_CONTENT_204);

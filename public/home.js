@@ -64,7 +64,7 @@ function displayPost(post, id, top) {
 	// 			document.getElementById("postImg" + postCount).innerHTML = `<div class="profileImage" style="width: 30px; height: 30px; overflow: hidden; display: inline-block; position: relative; top: 8px;"><img src="${json.profile_picture_link}" height="30px" width="30px"></div>`;
 	// 		});
 	// }
-	if (post.author === getCookie("username") || getCookie("level") > 1) {
+	if (post.author === getCookie("username") || getCookie("level") > 2) {
 		html += `<span onClick='deletePost("${id}", ${postCount})' class="postOptions">`;
 		html += `<div class="postToolTip">Delete</div>`;
 		if (localStorage.getItem("light-mode") === "light") {

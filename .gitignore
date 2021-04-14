@@ -1,4 +1,4 @@
-build/**
+build
 src/main/java/HealthFIRST/Settings.java
 .gradle
 .vscode

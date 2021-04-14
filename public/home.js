@@ -269,14 +269,30 @@ function togglePostPopup() {
 	}
 }
 
-function toggleCharacterOption(object) {
-	let color = object.style.color;
-
-	if (color === "rgb(75, 75, 75)") {
-		object.style.color = "black";
-		object.style.fontSize = "30px";
+function toggleCharacterOption(type) {
+	if (type === "bold") {
+		let color = document.getElementById("specialBar").children[0].style.color;
+		if (color === "rgb(100, 100, 100)") {
+			document.getElementById("specialBar").children[0].style.color = "black";
+		} else {
+			document.getElementById("specialBar").children[0].style.color = "rgb(100, 100, 100)";
+		}
+	} else if (type === "italic") {
+		let color = document.getElementById("specialBar").children[1].style.color;
+		if (color === "rgb(100, 100, 100)") {
+			document.getElementById("specialBar").children[1].style.color = "black";
+		} else {
+			document.getElementById("specialBar").children[1].style.color = "rgb(100, 100, 100)";
+		}
+	} else if (type === "underline") {
+		let color = document.getElementById("specialBar").children[2].style.color;
+		if (color === "rgb(100, 100, 100)") {
+			document.getElementById("specialBar").children[2].style.color = "black";
+		} else {
+			document.getElementById("specialBar").children[2].style.color = "rgb(100, 100, 100)";
+		}
 	} else {
-		object.style.color = "rgb(75, 75, 75)";
+		console.warn("Unknown type " + type);
 	}
 }
 
@@ -323,8 +339,9 @@ function formatText(text) {
 }
 
 function format(command) {
-	document.execCommand(command);
 	document.getElementById("postBody").focus();
+	document.execCommand(command);
+	toggleCharacterOption(command);
 }
 
 /*

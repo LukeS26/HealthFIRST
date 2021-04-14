@@ -1198,6 +1198,13 @@ public class HttpServer {
 			Account loginAccount = Account.fromDoc(loginAccountDoc);
 
 			assert loginAccount != null;
+
+			if (loginAccount.permissionID == Utils.Permissions.UNCONFIRMED.ordinal()) {
+				ctx.status(HttpStatus.FORBIDDEN_403);
+				ctx.result(Utils.ACCOUNT_NOT_CONFIRMED);
+				return;
+			}
+
 			if (BCrypt.checkpw((String) doc.get("password"), loginAccount.passwordHash)) {
 				Document responseDoc = new Document("token", loginAccount.token).append("username",
 						loginAccount.username);

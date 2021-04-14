@@ -2,7 +2,7 @@ function getChallenges(page) {
 	fetch(`http://157.230.233.218:8080/api/challenges/feed?page=${page}`)
 		.then(res => {
 			if (!res.ok) {
-				console.log(`Error status: ${res.status}, message: ${await res.text()}`);
+				console.log(`Error status: ` + res.status + `, message: ` + await res.text());
 			}
 			return res.json();
 

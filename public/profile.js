@@ -93,6 +93,7 @@ function drop(e) {
 	e.preventDefault();
 	let data = e.dataTransfer;
 	let files = data.files;
+	console.log(files);
 	
 	if (files.length) {
 		console.log("Local Files Not Supported Yet");

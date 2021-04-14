@@ -269,6 +269,16 @@ function togglePostPopup() {
 	}
 }
 
+function toggleCharacterOption(object) {
+	let color = object.style.color;
+
+	if (color === "rgb(75, 75, 75)") {
+		object.style.color = "black";
+	} else {
+		object.style.color = "rgb(75, 75, 75)";
+	}
+}
+
 function setBlurColor() {
 	let blur = document.getElementById("popupBlur");
 	blur.style.backgroundColor = blurColor;
